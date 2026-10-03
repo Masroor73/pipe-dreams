@@ -23,6 +23,13 @@ Required columns:
 - `longitude`
 - `geometry_wkt`
 
+Types:
+- `source_segment_ids` is a parquet `list<string>`;
+- `latitude` / `longitude` / `geometry_wkt` are WGS84 (EPSG:4326).
+
+Physical columns (must be identical for the same `asset_id` in V1 and V2):
+`asset_id`, `source_segment_ids`, `length_m`, `consequence_tier`, `evidence_confidence`, `association_quality`, `rank_stability`, `evidence_basis`, `latitude`, `longitude`, `geometry_wkt`.
+
 Integrity:
 - unique ranks 1..N;
 - selected state derives from frozen capacity;
@@ -74,16 +81,25 @@ Events may include:
 - `PLAN_V2`
 - `ESCALATE`
 
-Every candidate decision must include:
-- candidate ID;
-- origin wins;
-- pooled V1 score;
-- pooled candidate score;
-- difference;
-- bootstrap SE;
-- required delta;
-- decision;
-- reason.
+Every line is one JSON object with:
+- `seq` (int, unique, ascending order of events);
+- `event_type` (one of the events above);
+- `timestamp` (ISO 8601 string);
+- `summary` (short human-readable string);
+- `candidate` (object, or `null`);
+- `details` (object; free-form extras, may be `{}`).
+
+`candidate` is required (non-null) on `TEST_CANDIDATE`, `ACCEPT` and `REJECT` events and must contain:
+- `candidate_id`;
+- `origin_wins`;
+- `n_origins`;
+- `pooled_v1_score`;
+- `pooled_candidate_score`;
+- `difference`;
+- `bootstrap_se`;
+- `required_delta`;
+- `decision` (`ACCEPT` | `REJECT`);
+- `reason`.
 
 ## `audit_summary.json`
 
@@ -95,8 +111,10 @@ Required:
 - `data_checksums`
 - `selected_policy_id`
 - `v1_policy_id`
-- `revision_gate`
-- `final_test`
+- `v2_equals_v1` (bool)
+- `budgets_pct` (list of int, e.g. `[1, 2, 5, 10]`)
+- `revision_gate` — object with `min_origin_wins`, `n_origins`, `min_improvement_in_se`, `bootstrap_block_km`
+- `final_test` — object with `cutoff_year`, `outcome_years`, `previously_viewed` (bool)
 - `data_quality`
 
 ## `rank_changes.csv`
@@ -143,6 +161,8 @@ Required:
 
 ## `data_quality.json`
 
+Keys must be spelled exactly as in `API_CONTRACT.md` under `GET /api/data-quality`.
+
 Required:
 - rows dropped for missing coordinates;
 - match rate by origin;
@@ -154,3 +174,9 @@ Required:
 - inactive sensitivity;
 - retired-status reporting strata;
 - notes.
+
+---
+
+## Validation
+
+Run `scripts/validate_artifacts.py artifacts/<run>` before pointing the API at a new run. It uses the same checks as the API loader; see `docs/ENGINE_HANDOFF.md`.

@@ -1,0 +1,76 @@
+project:
+  name: "Pipe Dreams"
+  status: "DRAFT_NOT_FROZEN"
+
+planning:
+  planning_unit: "segment"
+  capacity_modes: ["top_n", "network_length_pct"]
+  evaluation_budgets_pct: [1, 2, 5, 10]
+  organizer_top_n: 25
+
+v1_policy:
+  history_window: "full"
+  recency_decay: "none"
+  ranking_normalization: "per_asset"
+
+recency_grid:
+  - "none"
+  - "hl10"
+
+candidate_revisions:
+  - id: "C1_history_2000_plus"
+    history_window: "2000_plus"
+    recency_decay: "none"
+    ranking_normalization: "per_asset"
+
+  - id: "C2_recency_hl10"
+    history_window: "full"
+    recency_decay: "hl10"
+    ranking_normalization: "per_asset"
+
+  - id: "C3_per_meter"
+    history_window: "full"
+    recency_decay: "none"
+    ranking_normalization: "per_meter"
+
+  - id: "C4_joint_2000_plus_hl10"
+    history_window: "2000_plus"
+    recency_decay: "hl10"
+    ranking_normalization: "per_asset"
+
+validation:
+  origins:
+    - cutoff_year: 2013
+      outcome_years: [2014, 2015, 2016]
+    - cutoff_year: 2016
+      outcome_years: [2017, 2018, 2019]
+    - cutoff_year: 2019
+      outcome_years: [2020, 2021, 2022]
+
+  final_test:
+    cutoff_year: 2022
+    outcome_years: [2023, 2024, 2025]
+    previously_viewed: true
+
+bootstrap:
+  projected_crs: "EPSG:3776"
+  grid_cell_size_m: 1000
+  reps: 1000
+
+revision_gate:
+  budgets_pct: [1, 2, 5, 10]
+  minimum_origins_won: 2
+  delta_rule: "one_pooled_spatial_block_bootstrap_se"
+  if_multiple_pass: "highest_pooled_validation_score"
+  if_none_pass: "V2_equals_V1"
+
+evidence_confidence:
+  thresholds: "MUST_BE_DERIVED_FROM_VALIDATION_BEFORE_FINAL_TEST"
+
+final_freeze_requirements:
+  - "confidence thresholds frozen"
+  - "no placeholders"
+  - "config hash recorded"
+  - "git commit recorded"
+  - "git tag recorded"
+
