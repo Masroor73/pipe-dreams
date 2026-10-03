@@ -1,0 +1,66 @@
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-6) var(--space-4);
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-md);
+}
+
+.number {
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.number span {
+  display: inline-block;
+  animation: reveal var(--duration-slow) var(--ease-out) both;
+}
+
+.copy {
+  max-width: 26ch;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.copy strong {
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .number span {
+    animation: none;
+  }
+}
