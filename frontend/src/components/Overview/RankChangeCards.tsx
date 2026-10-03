@@ -9,7 +9,6 @@ import { formatRankShift } from '../../lib/format';
 import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
 import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
 import type { RankChange } from '../../types/api';
-import { AnimatedValue } from './AnimatedValue';
 import styles from './RankChangeCards.module.css';
 
 /** Arrow slides in (translateX 8px + opacity), staggered per card; from-only so the end state is the DOM state. */
@@ -45,15 +44,8 @@ function RankCard({ c, index, onOpen }: { c: RankChange; index: number; onOpen: 
       <button type="button" className={styles.card} aria-label={`Open asset ${c.asset_id}`} onClick={() => onOpen(c.asset_id)}>
         <span className={styles.asset}>{c.asset_id}</span>
         <span className={styles.ranks}>
-          <AnimatedValue
-            className={styles.rankNum}
-            value={c.rank_v2}
-            from={c.rank_v1}
-            integer
-            durationMs={MOTION.rank.durationMs}
-            delayMs={index * MOTION.rank.staggerMs}
-            format={(n) => `#${c.rank_v1} → #${n}`}
-          />
+          {/* Ranks are ordinal: no count-up through ranks that never existed; the arrow carries the motion. */}
+          <span className={styles.rankNum}>{`#${c.rank_v1} → #${c.rank_v2}`}</span>
           <span
             ref={arrowRef}
             className={`${styles.delta} ${rose ? styles.rose : styles.fell}`}

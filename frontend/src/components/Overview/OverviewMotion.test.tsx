@@ -143,4 +143,27 @@ describe('RankChangeCards end state', () => {
     );
     expect(await screen.findByText('#40 → #3')).toBeInTheDocument();
   });
+
+  it('shows the real V2 rank with motion enabled even before the card scrolls into view', async () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn().mockReturnValue({ matches: false, addEventListener: () => undefined, removeEventListener: () => undefined }),
+    );
+    // Observer that never fires: the card is off-screen (or being printed / screenshotted).
+    class IdleIO {
+      observe() {}
+      disconnect() {}
+      unobserve() {}
+    }
+    vi.stubGlobal('IntersectionObserver', IdleIO);
+    render(
+      <MetaProvider>
+        <MemoryRouter>
+          <RankChangeCards />
+        </MemoryRouter>
+      </MetaProvider>,
+    );
+    expect(await screen.findByText('#40 → #3')).toBeInTheDocument();
+    expect(screen.queryByText('#40 → #40')).not.toBeInTheDocument();
+  });
 });
