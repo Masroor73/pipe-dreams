@@ -26,13 +26,15 @@
   box-shadow: var(--shadow-panel);
   overflow-y: auto;
   transform: translateX(100%);
-  transition: transform 220ms var(--ease-out);
+  /* Close snaps (system response); open uses the drawer curve below. */
+  transition: transform 160ms var(--ease-out);
   will-change: transform;
   outline: none;
 }
 
 .panelOpen {
   transform: translateX(0);
+  transition: transform 240ms var(--ease-drawer);
 }
 
 @media (prefers-reduced-motion: reduce) {

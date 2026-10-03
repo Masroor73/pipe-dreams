@@ -33,9 +33,14 @@
   transition: stroke-width var(--duration-fast) var(--ease-out);
 }
 
-.svgLine:hover,
 .svgLine:focus-visible {
   stroke-width: 6px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .svgLine:hover {
+    stroke-width: 6px;
+  }
 }
 
 .svgLineSelected {

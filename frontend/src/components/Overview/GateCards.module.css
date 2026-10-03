@@ -184,9 +184,11 @@
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   text-decoration: none;
-  transition:
-    gap var(--duration-base) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.link svg {
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .link:focus-visible {
@@ -195,9 +197,14 @@
 }
 
 .link:hover {
-  gap: var(--space-3);
   color: var(--color-accent-hover);
   text-decoration: underline;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover svg {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 1000px) {
