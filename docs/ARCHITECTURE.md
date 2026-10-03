@@ -216,7 +216,7 @@ sequenceDiagram
 
 ## 7. Engine and Backend Modules
 
-Engine modules live in top-level `engine/pipe_dreams_engine/` and run offline to produce artifacts. The FastAPI backend reads artifacts through `services/artifact_service.py`. Routes never contain engine logic; services may call small, pure engine functions (e.g. planner/governance re-selection for a new capacity), but heavy matching, training and backtesting never run at request time.
+Engine modules live in top-level `engine/pipe_dreams_engine/` and run offline to produce artifacts. The FastAPI backend reads artifacts through `services/artifact_service.py`. For the core MVP, FastAPI reads precomputed artifacts only and never imports engine code. After the core demo is stable, the optional `POST /api/scenarios/capacity` may call pure planner/governance functions; heavy matching, training and backtesting never run at request time.
 
 ### `engine/pipe_dreams_engine/matching.py`
 Responsibilities:
@@ -291,7 +291,9 @@ Core routes:
 GET /api/health
 GET /api/overview
 GET /api/assets
+GET /api/assets/geojson
 GET /api/assets/{asset_id}
+GET /api/rank-changes
 GET /api/audit
 GET /api/escalations
 GET /api/not-covered
