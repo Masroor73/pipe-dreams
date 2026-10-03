@@ -7,6 +7,7 @@
 
 .card {
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -17,10 +18,16 @@
   box-shadow: var(--shadow-sm);
 }
 
-.selected {
-  border-color: var(--color-accent);
+/* The "selected" emphasis lives in .ring so it can be revealed last (opacity only). */
+.ring {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--color-accent);
+  border-radius: inherit;
   box-shadow: 0 0 0 1px var(--color-accent), var(--shadow-md);
-  background: linear-gradient(180deg, var(--color-accent-soft), var(--color-surface) 40%);
+  background: linear-gradient(180deg, var(--color-accent-soft), transparent 40%);
+  z-index: -1; /* above the card background, below its content */
+  pointer-events: none;
 }
 
 /* Sits on the card's top edge so it never shifts the rows below. */
@@ -72,21 +79,46 @@
   gap: var(--space-2);
 }
 
-.pip,
-.pipOn {
+.pip {
+  position: relative;
   width: 22px;
   height: 8px;
   border-radius: var(--radius-pill);
-}
-
-.pip {
   background: var(--color-surface-sunken);
   border: 1px solid var(--color-border-strong);
 }
 
-.pipOn {
+/* Filled win: covers the outlined pip; animated in with opacity/scaleX. */
+.pipFill {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
   background: var(--color-accent);
   border: 1px solid var(--color-accent);
+  transform-origin: left center;
+}
+
+.verdict {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* "testing…" overlays the verdict slot while the card resolves; invisible at rest. */
+.testing {
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.stamp {
+  display: inline-flex;
 }
 
 .gain {
@@ -123,6 +155,7 @@
   height: 100%;
   background: var(--color-accent);
   border-radius: var(--radius-pill);
+  transform-origin: left center;
 }
 
 .barNeg {

@@ -10,6 +10,8 @@ import {
   SERIES_STYLE,
   type ChartSeriesKey,
 } from '../../config/display';
+import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
+import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
 import { formatPct } from '../../lib/format';
 import type { Resource } from '../../hooks';
 import type { Overview, SeriesRow } from '../../types/api';
@@ -94,6 +96,11 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
   const data = overview.data;
   const options = useMemo(() => (data ? buildOptions(data.series) : []), [data]);
   const [chosen, setChosen] = useState<string | null>(null);
+  const [plotRef, plotInView] = useInViewOnce<HTMLDivElement>({ threshold: 0.3 });
+  // Draw-in plays on first view and on split switch; disabled for reduced motion (lines render complete).
+  const animate = !prefersReducedMotion();
+  const [switched, setSwitched] = useState(false);
+  const drawMs = switched ? MOTION.chart.switchDrawMs : MOTION.chart.firstDrawMs;
   const active = options.find((o) => o.key === chosen) ?? options[0];
 
   const lines = useMemo<Line_[]>(() => {
@@ -172,7 +179,10 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                   type="button"
                   className={styles.segment}
                   aria-pressed={o.key === active?.key}
-                  onClick={() => setChosen(o.key)}
+                  onClick={() => {
+                    setChosen(o.key);
+                    setSwitched(true);
+                  }}
                 >
                   {o.label}
                 </button>
@@ -199,7 +209,7 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
             ))}
           </ul>
 
-          <div className={styles.plot} role="img" aria-label="Line chart of capture by length budget">
+          <div ref={plotRef} className={styles.plot} role="img" aria-label="Line chart of capture by length budget">
             <ResponsiveContainer width="100%" height={CHART_HEIGHT} initialDimension={{ width: 900, height: CHART_HEIGHT }}>
               <LineChart data={points} margin={{ top: 16, right: 24, bottom: 8, left: 8 }}>
                 <CartesianGrid stroke="#d9e0e8" vertical={false} />
@@ -222,9 +232,14 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                   allowDecimals
                 />
                 <Tooltip content={<ChartTooltip lines={visibleLines} />} cursor={{ stroke: '#b6c2cf' }} />
-                {[...visibleLines].reverse().map((l) => (
+                {[...visibleLines].reverse().map((l, i) => (
                   <Line
-                    key={l.key}
+                    // Re-keyed per split (and once when first in view) so the draw-in replays; old lines unmount instantly.
+                    key={`${active?.key}:${plotInView}:${l.key}`}
+                    isAnimationActive={animate}
+                    animationBegin={i * MOTION.chart.seriesStaggerMs}
+                    animationDuration={drawMs}
+                    animationEasing={EASE_OUT_CSS}
                     type="monotone"
                     dataKey={l.key}
                     name={l.label}
@@ -235,7 +250,12 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                     activeDot={{ r: 6 }}
                     connectNulls={false}
                   >
-                    <ErrorBar dataKey={`${l.key}_err`} width={6} strokeWidth={2} stroke={SERIES_STYLE[l.key].color} opacity={0.85} />
+                    <ErrorBar
+                      isAnimationActive={animate}
+                      animationBegin={i * MOTION.chart.seriesStaggerMs + drawMs}
+                      animationDuration={MOTION.chart.whiskerFadeMs}
+                      animationEasing={EASE_OUT_CSS}
+                      dataKey={`${l.key}_err`} width={6} strokeWidth={2} stroke={SERIES_STYLE[l.key].color} opacity={0.85} />
                   </Line>
                 ))}
               </LineChart>

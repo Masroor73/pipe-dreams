@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight } from '@phosphor-icons/react';
 import { DataState } from '../DataState/DataState';
@@ -8,6 +9,8 @@ import { useAudit } from '../../hooks';
 import type { Resource } from '../../hooks';
 import { formatSigned } from '../../lib/format';
 import type { Audit, CandidateResult, Overview, PolicyId } from '../../types/api';
+import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
+import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
 import styles from './GateCards.module.css';
 
 /** Select the recorded result for a candidate: last ACCEPT/REJECT event, else last TEST_CANDIDATE. */
@@ -28,13 +31,23 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
   return (
     <article className={`${styles.card} ${selected ? styles.selected : ''}`} data-candidate={c.candidate_id}>
       {selected && (
-        <span className={styles.ribbon}>
-          <Pill tone="accent">Selected as V2</Pill>
-        </span>
+        <>
+          <span className={styles.ring} data-anim="ring" aria-hidden="true" />
+          <span className={styles.ribbon} data-anim="ribbon">
+            <Pill tone="accent">Selected as V2</Pill>
+          </span>
+        </>
       )}
       <header className={styles.cardHead}>
         <h3>{c.candidate_id}</h3>
-        <DecisionPill decision={c.decision} />
+        <span className={styles.verdict}>
+          <span className={styles.testing} data-anim="testing" aria-hidden="true">
+            testing…
+          </span>
+          <span className={styles.stamp} data-anim="stamp">
+            <DecisionPill decision={c.decision} />
+          </span>
+        </span>
       </header>
       <p className={styles.desc}>{CANDIDATE_DESCRIPTIONS[c.candidate_id] ?? ''}</p>
 
@@ -47,7 +60,9 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
         </span>
         <span className={styles.pips} aria-hidden="true">
           {Array.from({ length: c.n_origins }, (_, i) => (
-            <span key={i} className={i < c.origin_wins ? styles.pipOn : styles.pip} />
+            <span key={i} className={styles.pip}>
+              {i < c.origin_wins && <span className={styles.pipFill} data-anim="pip" />}
+            </span>
           ))}
         </span>
       </div>
@@ -58,7 +73,11 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
           <strong className={negative ? styles.neg : undefined}>{formatSigned(c.difference)}</strong>
         </div>
         <div className={styles.track} aria-hidden="true">
-          <span className={`${styles.bar} ${negative ? styles.barNeg : ''}`} style={{ width: `${gainPct}%` }} />
+          <span
+            className={`${styles.bar} ${negative ? styles.barNeg : ''}`}
+            data-anim="bar"
+            style={{ width: `${gainPct}%` }}
+          />
         </div>
         <div className={styles.gainRow}>
           <span className={styles.label}>Required</span>
@@ -74,12 +93,101 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
   );
 }
 
+/**
+ * "The agent deciding": cards resolve in the order given (audit order), 400 ms apart.
+ * from-only WAAPI (fill: backwards) so the DOM is always the end state; returns the
+ * animations so click / Esc can finish() them.
+ */
+function playGateSequence(row: HTMLElement): Animation[] {
+  const g = MOTION.gate;
+  const anims: Animation[] = [];
+  const opts = (delay: number, duration: number): KeyframeAnimationOptions => ({
+    delay,
+    duration,
+    easing: EASE_OUT_CSS,
+    fill: 'backwards',
+  });
+  const cards = Array.from(row.querySelectorAll<HTMLElement>('[data-candidate]'));
+  cards.forEach((card, i) => {
+    const base = i * g.cardStaggerMs;
+    const q = (name: string) => Array.from(card.querySelectorAll<HTMLElement>(`[data-anim="${name}"]`));
+    q('testing').forEach((el) =>
+      anims.push(
+        el.animate(
+          [{ opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 1, offset: 0.9 }, { opacity: 0 }],
+          { ...opts(base, g.testingEndMs), fill: 'none' },
+        ),
+      ),
+    );
+    q('pip').forEach((el, j) =>
+      anims.push(
+        el.animate(
+          [{ opacity: 0, transform: 'scaleX(0.4)' }, { opacity: 1, transform: 'none' }],
+          opts(base + g.dotsStartMs + j * g.dotStaggerMs, g.dotDurationMs),
+        ),
+      ),
+    );
+    q('bar').forEach((el) =>
+      anims.push(
+        el.animate([{ transform: 'scaleX(0)' }, { transform: 'none' }], opts(base + g.barStartMs, g.barDurationMs)),
+      ),
+    );
+    q('stamp').forEach((el) =>
+      anims.push(
+        el.animate(
+          [{ opacity: 0, transform: 'scale(1.12)' }, { opacity: 1, transform: 'none' }],
+          opts(base + g.stampStartMs, g.stampDurationMs),
+        ),
+      ),
+    );
+  });
+  // Emphasis on the card selected as V2 comes last.
+  row.querySelectorAll<HTMLElement>('[data-anim="ring"],[data-anim="ribbon"]').forEach((el) =>
+    anims.push(el.animate([{ opacity: 0 }, { opacity: 1 }], opts(g.emphasisStartMs, g.emphasisDurationMs))),
+  );
+  return anims;
+}
+
 export function GateCards({ overview }: { overview: Resource<Overview> }) {
   const audit = useAudit();
   const status = overview.status === 'error' || audit.status === 'error' ? 'error' : overview.status === 'loading' || audit.status === 'loading' ? 'loading' : 'success';
   const gate = overview.data?.revision_gate;
   const candidates = audit.data ? CANDIDATE_IDS.flatMap((id) => findCandidate(audit.data!, id) ?? []) : [];
   const selectedId = overview.data && !overview.data.v2_equals_v1 ? overview.data.selected_policy_id : null;
+
+  // The wrapper is always mounted (DataState swaps its children), so the observer can attach immediately.
+  const [wrapRef, inView] = useInViewOnce<HTMLDivElement>({ threshold: MOTION.gate.inViewThreshold });
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  const playedRef = useRef(false);
+  const animsRef = useRef<Animation[]>([]);
+  const hasCards = candidates.length > 0 && status === 'success';
+
+  useLayoutEffect(() => {
+    const row = rowRef.current;
+    if (!inView || !hasCards || playedRef.current || !row) return;
+    playedRef.current = true;
+    if (prefersReducedMotion() || typeof row.animate !== 'function') return;
+    animsRef.current = playGateSequence(row);
+  }, [inView, hasCards]);
+
+  const skip = () => {
+    for (const a of animsRef.current) {
+      if (a.playState === 'running') a.finish();
+    }
+    animsRef.current = [];
+  };
+
+  // Esc skips the sequence; a click anywhere in the section (below) does too. Neither blocks interaction.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') skip();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      skip();
+    };
+  }, []);
 
   return (
     <Section
@@ -92,6 +200,7 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
           : undefined
       }
     >
+      <div ref={wrapRef} onClickCapture={skip}>
       <DataState
         status={status}
         errorMessage={audit.error?.message ?? overview.error?.message}
@@ -104,7 +213,7 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
         loadingLabel="Loading agent decision"
         minHeight={280}
       >
-        <div className={styles.row}>
+        <div className={styles.row} ref={rowRef}>
           {candidates.map((c) => (
             <CandidateCard key={c.candidate_id} c={c} selected={c.candidate_id === selectedId} />
           ))}
@@ -114,6 +223,7 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
           <ArrowRight size={18} weight="bold" aria-hidden="true" />
         </Link>
       </DataState>
+      </div>
     </Section>
   );
 }
