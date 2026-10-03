@@ -136,6 +136,7 @@ pipe-dreams/
 │   ├── RUBRIC_TRACEABILITY.md
 │   ├── BUILD_PLAN.md
 │   └── DATA_SOURCES.md
+├── engine/          # offline Python engine (matching, model, agent) → writes artifacts/
 ├── backend/
 │   ├── app/
 │   ├── tests/
@@ -144,8 +145,9 @@ pipe-dreams/
 │   ├── src/
 │   ├── package.json
 │   └── vite.config.ts
-└── artifacts/
-    └── .gitkeep
+├── artifacts/       # engine output, read by the API (synthetic/ fixtures committed)
+├── data/            # raw downloads (git-ignored)
+└── scripts/
 ```
 
 ---
