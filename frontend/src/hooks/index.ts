@@ -18,7 +18,8 @@ export function useHealth() {
   const report = useReportMeta();
   const synthetic = result.data?.synthetic;
   useEffect(() => {
-    if (synthetic === undefined) return;
+    // null = degraded (unknown); the health gate shows no data, so nothing to report.
+    if (synthetic === undefined || synthetic === null) return;
     report('health', { synthetic, config_hash: '' });
     return () => report('health', null);
   }, [synthetic, report]);

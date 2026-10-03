@@ -93,7 +93,7 @@ Not wrapped in the envelope, so it works even when artifacts are broken.
 }
 ```
 
-`status` is `"ok"` or `"degraded"`. It is `"degraded"`, with `artifacts_loaded: false`, when the artifact loader failed.
+`status` is `"ok"` or `"degraded"`. It is `"degraded"`, with `artifacts_loaded: false` and `synthetic: null`, when the artifact loader failed (synthetic-ness is unknown without loaded artifacts).
 
 ---
 

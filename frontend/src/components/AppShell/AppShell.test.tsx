@@ -33,11 +33,12 @@ describe('AppShell', () => {
   });
 
   it('shows "Artifacts unavailable" instead of routes when health is degraded', async () => {
+    // Exact shape the live API returns when degraded: synthetic is null, not false.
     vi.spyOn(api, 'getHealth').mockResolvedValue({
       status: 'degraded',
       artifacts_loaded: false,
       artifact_dir: 'artifacts/missing',
-      synthetic: false,
+      synthetic: null,
     });
     renderShell('/');
     expect(await screen.findByRole('heading', { name: 'Artifacts unavailable' })).toBeInTheDocument();

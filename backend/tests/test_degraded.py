@@ -9,6 +9,8 @@ def _assert_degraded(client):
     body = health.json()
     assert body["status"] == "degraded"
     assert body["artifacts_loaded"] is False
+    # Contract: synthetic is null (not omitted, not false) when degraded.
+    assert "synthetic" in body and body["synthetic"] is None
     for route in ENVELOPED_ROUTES:
         resp = client.get(route)
         assert resp.status_code == 503, route

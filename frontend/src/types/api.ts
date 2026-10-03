@@ -46,7 +46,8 @@ export interface Health {
   status: 'ok' | 'degraded';
   artifacts_loaded: boolean;
   artifact_dir: string;
-  synthetic: boolean;
+  /** null when degraded (artifacts not loaded, so synthetic-ness is unknown). */
+  synthetic: boolean | null;
 }
 
 // ---- /api/overview ----
