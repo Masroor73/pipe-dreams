@@ -77,6 +77,49 @@ function lengthM(coords) {
   return round(total, 1);
 }
 
+// Compact synthetic street grid (~3 km x 2 km around -114.08, 51.04): 7 x 5
+// junctions, 500 m spacing, jittered; 58 grid edges + 2 diagonals = 60 runs
+// that share endpoints. Separate PRNG so other fixtures are unaffected.
+function makeNetwork() {
+  let st = 777001;
+  const r = () => {
+    st = (st + 0x6d2b79f5) >>> 0;
+    let t = st;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const COLS = 7;
+  const ROWS = 5;
+  const STEP = 500;
+  const toLon = (m) => m / 1000 / KM_LON;
+  const toLat = (m) => m / 1000 / KM_LAT;
+  const lon0 = -114.08 - toLon(((COLS - 1) * STEP) / 2);
+  const lat0 = 51.04 - toLat(((ROWS - 1) * STEP) / 2);
+  const node = [];
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      node.push([x * STEP + (r() - 0.5) * 100, y * STEP + (r() - 0.5) * 100]); // metres
+    }
+  }
+  const at = (x, y) => node[y * COLS + x];
+  const pairs = [];
+  for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS - 1; x++) pairs.push([at(x, y), at(x + 1, y)]);
+  for (let x = 0; x < COLS; x++) for (let y = 0; y < ROWS - 1; y++) pairs.push([at(x, y), at(x, y + 1)]);
+  pairs.push([at(1, 1), at(2, 2)], [at(4, 2), at(5, 3)]);
+  return pairs.map(([a, b]) => {
+    const pts = [a];
+    if (r() < 0.5) {
+      const dx = b[0] - a[0];
+      const dy = b[1] - a[1];
+      const off = (r() - 0.5) * 0.14; // gentle bend as a fraction of run length
+      pts.push([a[0] + dx / 2 - dy * off, a[1] + dy / 2 + dx * off]);
+    }
+    pts.push(b);
+    return pts.map(([mx, my]) => [round(lon0 + toLon(mx), 6), round(lat0 + toLat(my), 6)]);
+  });
+}
+
 // v1 ranking = random permutation of assets
 const v1Order = shuffle(ids); // v1Order[r-1] = asset at v1 rank r
 const v1Rank = Object.fromEntries(v1Order.map((id, i) => [id, i + 1]));
@@ -135,8 +178,12 @@ function priorityFor(rank) {
   return round(0.95 - (0.9 * (rank - 1)) / (N - 1) + between(-0.003, 0.003), 3);
 }
 
-const assets = ids.map((id) => {
-  const coords = makeGeometry();
+// Geometry comes from a separate seeded PRNG (makeNetwork) so the main PRNG
+// sequence, and therefore every other fixture value, is unchanged.
+const NETWORK = makeNetwork();
+const assets = ids.map((id, idx) => {
+  const legacyCoords = makeGeometry(); // consumed only to keep the main PRNG sequence stable
+  const coords = NETWORK[idx];
   const mid = coords[Math.floor(coords.length / 2)];
   const c = conf[id];
   const quality =
@@ -144,7 +191,7 @@ const assets = ids.map((id) => {
   return {
     id,
     coords,
-    length_m: lengthM(coords),
+    length_m: lengthM(legacyCoords),
     tier: pick(TIERS),
     conf: c,
     lat: mid[1],

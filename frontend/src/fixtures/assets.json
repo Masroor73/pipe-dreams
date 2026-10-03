@@ -18,8 +18,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.109311,
-        "longitude": -113.932181
+        "latitude": 51.040355,
+        "longitude": -114.08035
       },
       {
         "asset_id": "seg_000026",
@@ -30,8 +30,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.119759,
-        "longitude": -114.235376
+        "latitude": 51.048892,
+        "longitude": -114.090618
       },
       {
         "asset_id": "seg_000013",
@@ -42,8 +42,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.178848,
-        "longitude": -114.138508
+        "latitude": 51.040055,
+        "longitude": -114.09406
       },
       {
         "asset_id": "seg_000009",
@@ -54,8 +54,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.136209,
-        "longitude": -114.19553
+        "latitude": 51.035547,
+        "longitude": -114.083837
       },
       {
         "asset_id": "seg_000058",
@@ -66,8 +66,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.063097,
-        "longitude": -114.235212
+        "latitude": 51.048569,
+        "longitude": -114.058498
       },
       {
         "asset_id": "seg_000011",
@@ -78,8 +78,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.097624,
-        "longitude": -114.061313
+        "latitude": 51.035792,
+        "longitude": -114.069192
       },
       {
         "asset_id": "seg_000016",
@@ -90,8 +90,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "INSPECT",
-        "latitude": 51.085654,
-        "longitude": -114.164647
+        "latitude": 51.039686,
+        "longitude": -114.072336
       },
       {
         "asset_id": "seg_000028",
@@ -102,8 +102,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.06947,
-        "longitude": -114.235696
+        "latitude": 51.049231,
+        "longitude": -114.072473
       },
       {
         "asset_id": "seg_000040",
@@ -114,8 +114,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 51.032592,
-        "longitude": -114.215342
+        "latitude": 51.037855,
+        "longitude": -114.087308
       },
       {
         "asset_id": "seg_000027",
@@ -126,8 +126,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 50.986001,
-        "longitude": -114.154132
+        "latitude": 51.048984,
+        "longitude": -114.083873
       },
       {
         "asset_id": "seg_000042",
@@ -138,8 +138,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "INSPECT",
-        "latitude": 51.049709,
-        "longitude": -114.203928
+        "latitude": 51.048665,
+        "longitude": -114.087266
       },
       {
         "asset_id": "seg_000043",
@@ -150,8 +150,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "INSPECT",
-        "latitude": 51.100842,
-        "longitude": -114.046664
+        "latitude": 51.035376,
+        "longitude": -114.08055
       },
       {
         "asset_id": "seg_000033",
@@ -162,8 +162,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.058644,
-        "longitude": -114.133267
+        "latitude": 51.044868,
+        "longitude": -114.102031
       },
       {
         "asset_id": "seg_000054",
@@ -174,8 +174,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.038703,
-        "longitude": -113.965026
+        "latitude": 51.047062,
+        "longitude": -114.065915
       },
       {
         "asset_id": "seg_000006",
@@ -186,8 +186,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.111504,
-        "longitude": -114.146135
+        "latitude": 51.031043,
+        "longitude": -114.061711
       },
       {
         "asset_id": "seg_000031",
@@ -198,8 +198,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.068833,
-        "longitude": -113.987471
+        "latitude": 51.033124,
+        "longitude": -114.10126
       },
       {
         "asset_id": "seg_000036",
@@ -210,8 +210,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.15541,
-        "longitude": -114.194611
+        "latitude": 51.040055,
+        "longitude": -114.09406
       },
       {
         "asset_id": "seg_000049",
@@ -222,8 +222,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 50.968301,
-        "longitude": -113.97485
+        "latitude": 51.04467,
+        "longitude": -114.07328
       },
       {
         "asset_id": "seg_000052",
@@ -234,8 +234,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 50.932593,
-        "longitude": -114.18598
+        "latitude": 51.039981,
+        "longitude": -114.065632
       },
       {
         "asset_id": "seg_000004",
@@ -246,8 +246,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.041164,
-        "longitude": -113.969991
+        "latitude": 51.031423,
+        "longitude": -114.072738
       },
       {
         "asset_id": "seg_000032",
@@ -258,8 +258,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 50.980777,
-        "longitude": -114.065487
+        "latitude": 51.037623,
+        "longitude": -114.100918
       },
       {
         "asset_id": "seg_000051",
@@ -270,8 +270,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "INSPECT",
-        "latitude": 50.902642,
-        "longitude": -114.012807
+        "latitude": 51.035545,
+        "longitude": -114.065322
       },
       {
         "asset_id": "seg_000023",
@@ -282,8 +282,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.129616,
-        "longitude": -113.972684
+        "latitude": 51.044924,
+        "longitude": -114.069709
       },
       {
         "asset_id": "seg_000017",
@@ -294,8 +294,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.055503,
-        "longitude": -113.925026
+        "latitude": 51.039981,
+        "longitude": -114.065632
       },
       {
         "asset_id": "seg_000015",
@@ -306,8 +306,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "CONDITION_ASSESS",
-        "latitude": 51.033521,
-        "longitude": -114.235279
+        "latitude": 51.040355,
+        "longitude": -114.08035
       },
       {
         "asset_id": "seg_000045",
@@ -318,8 +318,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.068498,
-        "longitude": -113.921289
+        "latitude": 51.0448,
+        "longitude": -114.080088
       },
       {
         "asset_id": "seg_000059",
@@ -330,8 +330,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.105811,
-        "longitude": -113.957018
+        "latitude": 51.038003,
+        "longitude": -114.090541
       },
       {
         "asset_id": "seg_000053",
@@ -342,8 +342,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.174155,
-        "longitude": -114.224634
+        "latitude": 51.042345,
+        "longitude": -114.066229
       },
       {
         "asset_id": "seg_000056",
@@ -354,8 +354,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.158568,
-        "longitude": -114.009043
+        "latitude": 51.037538,
+        "longitude": -114.058386
       },
       {
         "asset_id": "seg_000021",
@@ -366,8 +366,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.156397,
-        "longitude": -113.954288
+        "latitude": 51.044728,
+        "longitude": -114.08391
       },
       {
         "asset_id": "seg_000001",
@@ -378,8 +378,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 50.914568,
-        "longitude": -114.21588
+        "latitude": 51.030986,
+        "longitude": -114.093922
       },
       {
         "asset_id": "seg_000012",
@@ -390,8 +390,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.116081,
-        "longitude": -113.993895
+        "latitude": 51.035429,
+        "longitude": -114.061944
       },
       {
         "asset_id": "seg_000048",
@@ -402,8 +402,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.013722,
-        "longitude": -114.076211
+        "latitude": 51.039686,
+        "longitude": -114.072336
       },
       {
         "asset_id": "seg_000030",
@@ -414,8 +414,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 50.923843,
-        "longitude": -114.162991
+        "latitude": 51.048569,
+        "longitude": -114.058498
       },
       {
         "asset_id": "seg_000057",
@@ -426,8 +426,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 51.158989,
-        "longitude": -114.115426
+        "latitude": 51.042144,
+        "longitude": -114.058104
       },
       {
         "asset_id": "seg_000055",
@@ -438,8 +438,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.103115,
-        "longitude": -114.145382
+        "latitude": 51.035221,
+        "longitude": -114.058576
       },
       {
         "asset_id": "seg_000046",
@@ -450,8 +450,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 50.99192,
-        "longitude": -114.100532
+        "latitude": 51.046751,
+        "longitude": -114.08045
       },
       {
         "asset_id": "seg_000002",
@@ -462,8 +462,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.020715,
-        "longitude": -114.109783
+        "latitude": 51.031027,
+        "longitude": -114.090771
       },
       {
         "asset_id": "seg_000007",
@@ -474,8 +474,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 50.911335,
-        "longitude": -114.240263
+        "latitude": 51.035826,
+        "longitude": -114.094036
       },
       {
         "asset_id": "seg_000018",
@@ -486,8 +486,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 50.961576,
-        "longitude": -114.013581
+        "latitude": 51.039859,
+        "longitude": -114.058348
       },
       {
         "asset_id": "seg_000005",
@@ -498,8 +498,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 50.994193,
-        "longitude": -113.938977
+        "latitude": 51.031004,
+        "longitude": -114.069028
       },
       {
         "asset_id": "seg_000020",
@@ -510,8 +510,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.093905,
-        "longitude": -114.24322
+        "latitude": 51.044055,
+        "longitude": -114.087581
       },
       {
         "asset_id": "seg_000022",
@@ -522,8 +522,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.09858,
-        "longitude": -114.123805
+        "latitude": 51.044704,
+        "longitude": -114.076686
       },
       {
         "asset_id": "seg_000024",
@@ -534,8 +534,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 50.989446,
-        "longitude": -113.987814
+        "latitude": 51.044589,
+        "longitude": -114.062115
       },
       {
         "asset_id": "seg_000003",
@@ -546,8 +546,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.135119,
-        "longitude": -114.160539
+        "latitude": 51.031229,
+        "longitude": -114.080688
       },
       {
         "asset_id": "seg_000014",
@@ -558,8 +558,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 50.921502,
-        "longitude": -114.167632
+        "latitude": 51.040151,
+        "longitude": -114.087002
       },
       {
         "asset_id": "seg_000025",
@@ -570,8 +570,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 50.922513,
-        "longitude": -114.164012
+        "latitude": 51.048854,
+        "longitude": -114.097772
       },
       {
         "asset_id": "seg_000029",
@@ -582,8 +582,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 50.932182,
-        "longitude": -113.99792
+        "latitude": 51.049522,
+        "longitude": -114.068881
       },
       {
         "asset_id": "seg_000047",
@@ -594,8 +594,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 51.155124,
-        "longitude": -114.081775
+        "latitude": 51.033532,
+        "longitude": -114.072546
       },
       {
         "asset_id": "seg_000060",
@@ -606,8 +606,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.120872,
-        "longitude": -114.043397
+        "latitude": 51.042428,
+        "longitude": -114.069678
       },
       {
         "asset_id": "seg_000019",
@@ -618,8 +618,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.113597,
-        "longitude": -114.113817
+        "latitude": 51.044408,
+        "longitude": -114.09489
       },
       {
         "asset_id": "seg_000010",
@@ -630,8 +630,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.057094,
-        "longitude": -114.1793
+        "latitude": 51.035619,
+        "longitude": -114.073073
       },
       {
         "asset_id": "seg_000037",
@@ -642,8 +642,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.073402,
-        "longitude": -113.945654
+        "latitude": 51.044408,
+        "longitude": -114.09489
       },
       {
         "asset_id": "seg_000035",
@@ -654,8 +654,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.063866,
-        "longitude": -114.200748
+        "latitude": 51.035826,
+        "longitude": -114.094036
       },
       {
         "asset_id": "seg_000008",
@@ -666,8 +666,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.173876,
-        "longitude": -114.078263
+        "latitude": 51.035553,
+        "longitude": -114.087135
       },
       {
         "asset_id": "seg_000041",
@@ -678,8 +678,8 @@
         "consequence_tier": "T2",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 50.936403,
-        "longitude": -114.144414
+        "latitude": 51.044055,
+        "longitude": -114.087581
       },
       {
         "asset_id": "seg_000034",
@@ -690,8 +690,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.083321,
-        "longitude": -113.940756
+        "latitude": 51.048818,
+        "longitude": -114.101665
       },
       {
         "asset_id": "seg_000038",
@@ -702,8 +702,8 @@
         "consequence_tier": "T3",
         "evidence_confidence": "LOW_VERIFY",
         "recommended_action": "VERIFY",
-        "latitude": 51.018795,
-        "longitude": -114.08528
+        "latitude": 51.046805,
+        "longitude": -114.093971
       },
       {
         "asset_id": "seg_000039",
@@ -714,8 +714,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "MEDIUM",
         "recommended_action": "MONITOR",
-        "latitude": 51.150675,
-        "longitude": -114.186468
+        "latitude": 51.035553,
+        "longitude": -114.087135
       },
       {
         "asset_id": "seg_000050",
@@ -726,8 +726,8 @@
         "consequence_tier": "T1",
         "evidence_confidence": "HIGH",
         "recommended_action": "MONITOR",
-        "latitude": 51.021154,
-        "longitude": -114.078107
+        "latitude": 51.049231,
+        "longitude": -114.072473
       }
     ]
   }

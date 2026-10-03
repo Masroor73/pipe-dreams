@@ -16,19 +16,21 @@ function renderPanel(assetId: string, onClose = vi.fn()) {
   return onClose;
 }
 
+const TABLE = { name: 'V1 and V2 plan comparison' };
+
 describe('AssetPanel', () => {
-  it('shows V1 and V2 values from the fixture', async () => {
+  it('shows V1 and V2 values from the fixture in a comparison table', async () => {
     renderPanel('seg_000001');
-    const v1 = await screen.findByRole('region', { name: 'V1 plan' });
-    const v2 = screen.getByRole('region', { name: 'V2 plan' });
-    expect(within(v1).getByText('5')).toBeInTheDocument();
-    expect(within(v1).getByText('0.892')).toBeInTheDocument();
-    expect(within(v1).getByText('0.870')).toBeInTheDocument();
-    expect(within(v1).getByText('INSPECT')).toBeInTheDocument();
-    expect(within(v2).getByText('31')).toBeInTheDocument();
-    expect(within(v2).getByText('0.495')).toBeInTheDocument();
-    expect(within(v2).getByText('MONITOR')).toBeInTheDocument();
-    expect(within(v2).getByText('older breaks down-weighted')).toBeInTheDocument();
+    const table = await screen.findByRole('table', TABLE);
+    const cells = (label: string) =>
+      within(within(table).getByRole('rowheader', { name: label }).closest('tr')!)
+        .getAllByRole('cell')
+        .map((c) => c.textContent);
+    expect(cells('Rank')).toEqual(['5', '31']);
+    expect(cells('Priority score')).toEqual(['0.892', '0.495']);
+    expect(cells('Likelihood score')[0]).toBe('0.870');
+    expect(cells('Recommended action')).toEqual(['INSPECT', 'MONITOR']);
+    expect(cells('Revision reason')[1]).toBe('older breaks down-weighted');
     expect(screen.getByText(/↓ 26/)).toBeInTheDocument();
     expect(screen.getByText(/Neither is a failure probability/)).toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: 'Asset seg_000001' })).toBeInTheDocument();
@@ -41,7 +43,7 @@ describe('AssetPanel', () => {
 
   it('closes on Escape, the X button and the scrim', async () => {
     const onClose = renderPanel('seg_000001');
-    await screen.findByRole('region', { name: 'V1 plan' });
+    await screen.findByRole('table', TABLE);
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByRole('button', { name: 'Close asset panel' }));

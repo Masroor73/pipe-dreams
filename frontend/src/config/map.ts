@@ -22,6 +22,19 @@ export const SELECTED_OUTLINE = '#14202e'; // --color-text
 /** Calgary, used before data arrives and when there are no features. */
 export const INITIAL_VIEW = { longitude: -114.0719, latitude: 51.0447, zoom: 10 };
 
-export const LINE_WIDTH = { base: 3.5, hover: 6, selected: 6 };
+/** Line widths in px as [zoom, width] stops, interpolated linearly by MapLibre. >= 3px at the fitted view (~z14). */
+export const LINE_WIDTH_STOPS = {
+  base: [[11, 2], [13, 3.5], [15, 6], [17, 10]],
+  hover: [[11, 4], [13, 6], [15, 9], [17, 14]],
+  selected: [[11, 4], [13, 6.5], [15, 10], [17, 15]],
+} as const;
+export const CASING_EXTRA = 2; // white casing is this many px wider than the line
+export const HALO_EXTRA = 8; // accent halo extra width around the selected line
+export const CASING_COLOR = '#ffffff'; // --color-surface
+export const HALO_COLOR = '#0b6e99'; // --color-accent
+export const SVG_LINE_WIDTH = { base: 3.5, hover: 6, selected: 7 };
+
+/** Where MapLibre's worker files are served (see vite.config.ts). */
+export const MAPLIBRE_WORKER_PATH = 'maplibre/maplibre-gl-worker.mjs';
 export const FIT_PADDING = 64;
 export const FIT_MAX_ZOOM = 14;

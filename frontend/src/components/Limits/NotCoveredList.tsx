@@ -15,9 +15,11 @@ export function NotCoveredList({ items }: { items: NotCoveredItem[] }) {
       {items.map((it) => (
         <li key={it.coverage_issue_id} className={styles.card}>
           <div className={styles.cardHead}>
-            <h3 className={styles.cardTitle}>{it.scope}</h3>
+            <div className={styles.cardHeadText}>
+              <h3 className={styles.cardTitle}>{it.scope}</h3>
+              <span className={styles.issueId}>{it.coverage_issue_id}</span>
+            </div>
             <SeverityPill severity={it.ui_severity} />
-            <span className={styles.issueId}>{it.coverage_issue_id}</span>
           </div>
           <p className={styles.desc}>{it.description}</p>
           <p className={styles.why}>{it.why_not_covered}</p>

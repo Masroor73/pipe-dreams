@@ -1,5 +1,6 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useMemo, useState } from 'react';
+import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import {
@@ -7,8 +8,12 @@ import {
   FIT_MAX_ZOOM,
   FIT_PADDING,
   INITIAL_VIEW,
-  LINE_WIDTH,
-  SELECTED_OUTLINE,
+  CASING_COLOR,
+  CASING_EXTRA,
+  HALO_COLOR,
+  HALO_EXTRA,
+  LINE_WIDTH_STOPS,
+  MAPLIBRE_WORKER_PATH,
 } from '../../config/map';
 import type { AssetFeatureCollection, AssetFeatureProperties } from '../../types/api';
 import { featureBounds } from './geo';
@@ -27,6 +32,13 @@ const LINE_COLOR = [
   CONFIDENCE_COLORS.LOW_VERIFY,
   CONFIDENCE_COLORS.HIGH,
 ] as unknown as string;
+
+// Vite bundles/pre-bundles maplibre, which breaks its default worker URL; use the fixed copy.
+setWorkerUrl(new URL(`${import.meta.env.BASE_URL}${MAPLIBRE_WORKER_PATH}`, window.location.href).href);
+
+type Stops = readonly (readonly [number, number])[];
+const widthExpr = (stops: Stops, extra = 0) =>
+  ['interpolate', ['linear'], ['zoom'], ...stops.flatMap(([z, w]) => [z, w + extra])] as never;
 
 const LINE_LAYOUT = { 'line-cap': 'round' as const, 'line-join': 'round' as const };
 
@@ -74,22 +86,51 @@ export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }
             type="line"
             filter={idFilter(selectedId)}
             layout={LINE_LAYOUT}
-            paint={{ 'line-color': SELECTED_OUTLINE, 'line-width': LINE_WIDTH.selected + 4 }}
+            paint={{
+              'line-color': HALO_COLOR,
+              'line-opacity': 0.35,
+              'line-width': widthExpr(LINE_WIDTH_STOPS.selected, HALO_EXTRA),
+            }}
           />
-          <Layer id="lines" type="line" layout={LINE_LAYOUT} paint={{ 'line-color': LINE_COLOR, 'line-width': LINE_WIDTH.base }} />
+          <Layer
+            id="lines-casing"
+            type="line"
+            layout={LINE_LAYOUT}
+            paint={{ 'line-color': CASING_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base, CASING_EXTRA) }}
+          />
+          <Layer
+            id="lines-hover-casing"
+            type="line"
+            filter={idFilter(hoverId)}
+            layout={LINE_LAYOUT}
+            paint={{ 'line-color': CASING_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.hover, CASING_EXTRA) }}
+          />
+          <Layer
+            id="lines-selected-casing"
+            type="line"
+            filter={idFilter(selectedId)}
+            layout={LINE_LAYOUT}
+            paint={{ 'line-color': CASING_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.selected, CASING_EXTRA) }}
+          />
+          <Layer
+            id="lines"
+            type="line"
+            layout={LINE_LAYOUT}
+            paint={{ 'line-color': LINE_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base) }}
+          />
           <Layer
             id="lines-hover"
             type="line"
             filter={idFilter(hoverId)}
             layout={LINE_LAYOUT}
-            paint={{ 'line-color': LINE_COLOR, 'line-width': LINE_WIDTH.hover }}
+            paint={{ 'line-color': LINE_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.hover) }}
           />
           <Layer
             id="lines-selected"
             type="line"
             filter={idFilter(selectedId)}
             layout={LINE_LAYOUT}
-            paint={{ 'line-color': LINE_COLOR, 'line-width': LINE_WIDTH.selected }}
+            paint={{ 'line-color': LINE_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.selected) }}
           />
         </Source>
       </Map>

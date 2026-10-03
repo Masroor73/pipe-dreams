@@ -85,7 +85,7 @@ export function EscalationTable({ items }: { items: Escalation[] }) {
           {rows.map((r) => (
             <tr key={`${r.asset_id}-${r.priority_rank}`}>
               <td className={styles.numCol}>{r.priority_rank}</td>
-              <td>
+              <td className={styles.nowrap}>
                 <button
                   type="button"
                   className={styles.assetBtn}
@@ -95,15 +95,15 @@ export function EscalationTable({ items }: { items: Escalation[] }) {
                   {r.asset_id}
                 </button>
               </td>
-              <td>{r.consequence_tier}</td>
-              <td>
+              <td className={styles.nowrap}>{r.consequence_tier}</td>
+              <td className={styles.nowrap}>
                 <ConfidencePill confidence={r.evidence_confidence} />
               </td>
               <td className={styles.wide}>{r.escalation_reason}</td>
-              <td>{r.owner}</td>
+              <td className={styles.owner}>{r.owner}</td>
               <td className={styles.wide}>{r.required_action}</td>
               <td className={styles.date}>{formatDate(r.response_deadline)}</td>
-              <td>
+              <td className={styles.nowrap}>
                 <StatusPill status={r.status} />
               </td>
               <td className={styles.date}>{formatDate(r.last_reviewed)}</td>

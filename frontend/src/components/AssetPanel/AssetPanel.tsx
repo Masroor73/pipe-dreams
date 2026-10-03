@@ -14,28 +14,45 @@ export interface AssetPanelProps {
   open?: boolean;
 }
 
-function PlanColumn({ title, fields, other }: { title: string; fields: PlanFields; other: PlanFields }) {
-  const actionDiffers = fields.recommended_action !== other.recommended_action;
+interface CompareRow {
+  label: string;
+  get: (f: PlanFields) => string;
+}
+
+const COMPARE_ROWS: CompareRow[] = [
+  { label: 'Rank', get: (f) => String(f.rank) },
+  { label: 'Selected', get: (f) => (f.selected ? 'Yes' : 'No') },
+  { label: 'Priority score', get: (f) => f.priority_score.toFixed(3) },
+  { label: 'Likelihood score', get: (f) => f.likelihood_score.toFixed(3) },
+  { label: 'Recommended action', get: (f) => f.recommended_action },
+  { label: 'Revision reason', get: (f) => f.revision_reason ?? '—' },
+];
+
+/** V1 vs V2 side by side; the V2 cell is highlighted where it differs from V1. */
+function PlanComparison({ v1, v2 }: { v1: PlanFields; v2: PlanFields }) {
   return (
-    <section className={styles.col} aria-label={`${title} plan`}>
-      <h3>{title}</h3>
-      <dl>
-        <dt>Rank</dt>
-        <dd>{fields.rank}</dd>
-        <dt>Selected</dt>
-        <dd>{fields.selected ? 'Yes' : 'No'}</dd>
-        <dt>Priority score</dt>
-        <dd>{fields.priority_score.toFixed(3)}</dd>
-        <dt>Likelihood score</dt>
-        <dd>{fields.likelihood_score.toFixed(3)}</dd>
-        <dt>Recommended action</dt>
-        <dd>
-          <span className={actionDiffers ? styles.differs : undefined}>{fields.recommended_action}</span>
-        </dd>
-        <dt>Revision reason</dt>
-        <dd>{fields.revision_reason ?? '—'}</dd>
-      </dl>
-    </section>
+    <table className={styles.compare} aria-label="V1 and V2 plan comparison">
+      <thead>
+        <tr>
+          <th scope="col">Field</th>
+          <th scope="col">V1</th>
+          <th scope="col">V2</th>
+        </tr>
+      </thead>
+      <tbody>
+        {COMPARE_ROWS.map((row) => {
+          const a = row.get(v1);
+          const b = row.get(v2);
+          return (
+            <tr key={row.label}>
+              <th scope="row">{row.label}</th>
+              <td>{a}</td>
+              <td className={a !== b ? styles.differs : undefined}>{b}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }
 
@@ -49,11 +66,6 @@ function Detail({ asset }: { asset: AssetDetail }) {
         <span className={styles.length}>{formatNumber(asset.length_m, 1)} m</span>
       </div>
 
-      <div className={styles.cols}>
-        <PlanColumn title="V1" fields={asset.v1} other={asset.v2} />
-        <PlanColumn title="V2" fields={asset.v2} other={asset.v1} />
-      </div>
-
       {rc && (
         <p className={styles.delta}>
           <strong>Rank change {formatDelta(rc.delta_rank)}</strong>
@@ -62,6 +74,8 @@ function Detail({ asset }: { asset: AssetDetail }) {
           ))}
         </p>
       )}
+
+      <PlanComparison v1={asset.v1} v2={asset.v2} />
 
       <section className={styles.evidence} aria-label="Evidence">
         <h3>Evidence</h3>

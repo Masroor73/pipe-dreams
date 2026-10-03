@@ -10,26 +10,18 @@
     "association_quality": 0.94,
     "rank_stability": 0.87,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 16 m",
-    "latitude": 50.914568,
-    "longitude": -114.21588,
+    "latitude": 51.030986,
+    "longitude": -114.093922,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.213221,
-          50.914589
+          -114.102011,
+          51.03082
         ],
         [
-          -114.214547,
-          50.914406
-        ],
-        [
-          -114.21588,
-          50.914568
-        ],
-        [
-          -114.217197,
-          50.914772
+          -114.093922,
+          51.030986
         ]
       ]
     },
@@ -68,18 +60,22 @@
     "association_quality": 0.42,
     "rank_stability": 0.63,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.020715,
-    "longitude": -114.109783,
+    "latitude": 51.031027,
+    "longitude": -114.090771,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.107401,
-          51.017529
+          -114.093922,
+          51.030986
         ],
         [
-          -114.109783,
-          51.020715
+          -114.090771,
+          51.031027
+        ],
+        [
+          -114.087623,
+          51.03092
         ]
       ]
     },
@@ -112,18 +108,18 @@
     "association_quality": 0.46,
     "rank_stability": 0.86,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.135119,
-    "longitude": -114.160539,
+    "latitude": 51.031229,
+    "longitude": -114.080688,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.161777,
-          51.131938
+          -114.087623,
+          51.03092
         ],
         [
-          -114.160539,
-          51.135119
+          -114.080688,
+          51.031229
         ]
       ]
     },
@@ -156,18 +152,18 @@
     "association_quality": 0.7,
     "rank_stability": 0.86,
     "evidence_basis": "2 matched breaks since 2000; match distance about 12 m",
-    "latitude": 51.041164,
-    "longitude": -113.969991,
+    "latitude": 51.031423,
+    "longitude": -114.072738,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.969179,
-          51.039471
+          -114.080688,
+          51.031229
         ],
         [
-          -113.969991,
-          51.041164
+          -114.072738,
+          51.031423
         ]
       ]
     },
@@ -200,30 +196,22 @@
     "association_quality": 0.83,
     "rank_stability": 0.42,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 8 m",
-    "latitude": 50.994193,
-    "longitude": -113.938977,
+    "latitude": 51.031004,
+    "longitude": -114.069028,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.937946,
-          50.992878
+          -114.072738,
+          51.031423
         ],
         [
-          -113.938327,
-          50.993577
+          -114.069028,
+          51.031004
         ],
         [
-          -113.938977,
-          50.994193
-        ],
-        [
-          -113.939226,
-          50.994915
-        ],
-        [
-          -113.939071,
-          50.995647
+          -114.065259,
+          51.030979
         ]
       ]
     },
@@ -257,22 +245,22 @@
     "association_quality": 0.73,
     "rank_stability": 0.51,
     "evidence_basis": "1 matched break since 2000; match distance about 6 m",
-    "latitude": 51.111504,
-    "longitude": -114.146135,
+    "latitude": 51.031043,
+    "longitude": -114.061711,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.146482,
-          51.110555
+          -114.065259,
+          51.030979
         ],
         [
-          -114.146135,
-          51.111504
+          -114.061711,
+          51.031043
         ],
         [
-          -114.146274,
-          51.112474
+          -114.058247,
+          51.030557
         ]
       ]
     },
@@ -306,22 +294,18 @@
     "association_quality": 0.9,
     "rank_stability": 0.58,
     "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 50.911335,
-    "longitude": -114.240263,
+    "latitude": 51.035826,
+    "longitude": -114.094036,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.24092,
-          50.911819
+          -114.100938,
+          51.035466
         ],
         [
-          -114.240263,
-          50.911335
-        ],
-        [
-          -114.239939,
-          50.910733
+          -114.094036,
+          51.035826
         ]
       ]
     },
@@ -355,22 +339,18 @@
     "association_quality": 0.58,
     "rank_stability": 0.48,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.173876,
-    "longitude": -114.078263,
+    "latitude": 51.035553,
+    "longitude": -114.087135,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.076709,
-          51.173561
+          -114.094036,
+          51.035826
         ],
         [
-          -114.078263,
-          51.173876
-        ],
-        [
-          -114.079886,
-          51.173985
+          -114.087135,
+          51.035553
         ]
       ]
     },
@@ -403,30 +383,22 @@
     "association_quality": 0.83,
     "rank_stability": 0.6,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.136209,
-    "longitude": -114.19553,
+    "latitude": 51.035547,
+    "longitude": -114.083837,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.194485,
-          51.136334
+          -114.087135,
+          51.035553
         ],
         [
-          -114.195017,
-          51.136304
+          -114.083837,
+          51.035547
         ],
         [
-          -114.19553,
-          51.136209
-        ],
-        [
-          -114.196032,
-          51.136093
-        ],
-        [
-          -114.19642,
-          51.135862
+          -114.08055,
+          51.035376
         ]
       ]
     },
@@ -460,30 +432,18 @@
     "association_quality": 0.94,
     "rank_stability": 0.66,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 14 m",
-    "latitude": 51.057094,
-    "longitude": -114.1793,
+    "latitude": 51.035619,
+    "longitude": -114.073073,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.178441,
-          51.056659
+          -114.08055,
+          51.035376
         ],
         [
-          -114.178929,
-          51.056831
-        ],
-        [
-          -114.1793,
-          51.057094
-        ],
-        [
-          -114.179759,
-          51.057295
-        ],
-        [
-          -114.180251,
-          51.057463
+          -114.073073,
+          51.035619
         ]
       ]
     },
@@ -517,22 +477,22 @@
     "association_quality": 0.91,
     "rank_stability": 0.57,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 10 m",
-    "latitude": 51.097624,
-    "longitude": -114.061313,
+    "latitude": 51.035792,
+    "longitude": -114.069192,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.061319,
-          51.098468
+          -114.073073,
+          51.035619
         ],
         [
-          -114.061313,
-          51.097624
+          -114.069192,
+          51.035792
         ],
         [
-          -114.061063,
-          51.096794
+          -114.065322,
+          51.035545
         ]
       ]
     },
@@ -565,26 +525,22 @@
     "association_quality": 0.86,
     "rank_stability": 0.75,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
-    "latitude": 51.116081,
-    "longitude": -113.993895,
+    "latitude": 51.035429,
+    "longitude": -114.061944,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.990421,
-          51.116152
+          -114.065322,
+          51.035545
         ],
         [
-          -113.992161,
-          51.116178
+          -114.061944,
+          51.035429
         ],
         [
-          -113.993895,
-          51.116081
-        ],
-        [
-          -113.995507,
-          51.115668
+          -114.058576,
+          51.035221
         ]
       ]
     },
@@ -617,22 +573,18 @@
     "association_quality": 0.89,
     "rank_stability": 0.66,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.178848,
-    "longitude": -114.138508,
+    "latitude": 51.040055,
+    "longitude": -114.09406,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.139251,
-          51.177748
+          -114.100885,
+          51.039781
         ],
         [
-          -114.138508,
-          51.178848
-        ],
-        [
-          -114.137468,
-          51.179848
+          -114.09406,
+          51.040055
         ]
       ]
     },
@@ -671,22 +623,18 @@
     "association_quality": 0.73,
     "rank_stability": 0.56,
     "evidence_basis": "2 matched breaks since 2000; match distance about 11 m",
-    "latitude": 50.921502,
-    "longitude": -114.167632,
+    "latitude": 51.040151,
+    "longitude": -114.087002,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.169139,
-          50.922655
+          -114.09406,
+          51.040055
         ],
         [
-          -114.167632,
-          50.921502
-        ],
-        [
-          -114.165919,
-          50.920468
+          -114.087002,
+          51.040151
         ]
       ]
     },
@@ -720,18 +668,18 @@
     "association_quality": 0.78,
     "rank_stability": 0.5,
     "evidence_basis": "1 matched break since 2000; match distance about 6 m",
-    "latitude": 51.033521,
-    "longitude": -114.235279,
+    "latitude": 51.040355,
+    "longitude": -114.08035,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.232004,
-          51.033195
+          -114.087002,
+          51.040151
         ],
         [
-          -114.235279,
-          51.033521
+          -114.08035,
+          51.040355
         ]
       ]
     },
@@ -764,26 +712,18 @@
     "association_quality": 0.75,
     "rank_stability": 0.77,
     "evidence_basis": "1 matched break since 2000; match distance about 5 m",
-    "latitude": 51.085654,
-    "longitude": -114.164647,
+    "latitude": 51.039686,
+    "longitude": -114.072336,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.163295,
-          51.085736
+          -114.08035,
+          51.040355
         ],
         [
-          -114.163985,
-          51.085792
-        ],
-        [
-          -114.164647,
-          51.085654
-        ],
-        [
-          -114.16534,
-          51.085616
+          -114.072336,
+          51.039686
         ]
       ]
     },
@@ -817,18 +757,18 @@
     "association_quality": 0.93,
     "rank_stability": 0.81,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 15 m",
-    "latitude": 51.055503,
-    "longitude": -113.925026,
+    "latitude": 51.039981,
+    "longitude": -114.065632,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.921051,
-          51.052918
+          -114.072336,
+          51.039686
         ],
         [
-          -113.925026,
-          51.055503
+          -114.065632,
+          51.039981
         ]
       ]
     },
@@ -862,18 +802,18 @@
     "association_quality": 0.64,
     "rank_stability": 0.41,
     "evidence_basis": "2 matched breaks since 2000; match distance about 12 m",
-    "latitude": 50.961576,
-    "longitude": -114.013581,
+    "latitude": 51.039859,
+    "longitude": -114.058348,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.016339,
-          50.962893
+          -114.065632,
+          51.039981
         ],
         [
-          -114.013581,
-          50.961576
+          -114.058348,
+          51.039859
         ]
       ]
     },
@@ -911,26 +851,18 @@
     "association_quality": 0.97,
     "rank_stability": 0.68,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.113597,
-    "longitude": -114.113817,
+    "latitude": 51.044408,
+    "longitude": -114.09489,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.11511,
-          51.113903
+          -114.102031,
+          51.044868
         ],
         [
-          -114.114493,
-          51.113701
-        ],
-        [
-          -114.113817,
-          51.113597
-        ],
-        [
-          -114.113144,
-          51.113708
+          -114.09489,
+          51.044408
         ]
       ]
     },
@@ -963,18 +895,18 @@
     "association_quality": 0.51,
     "rank_stability": 0.47,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.093905,
-    "longitude": -114.24322,
+    "latitude": 51.044055,
+    "longitude": -114.087581,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.247164,
-          51.092616
+          -114.09489,
+          51.044408
         ],
         [
-          -114.24322,
-          51.093905
+          -114.087581,
+          51.044055
         ]
       ]
     },
@@ -1007,22 +939,22 @@
     "association_quality": 0.87,
     "rank_stability": 0.66,
     "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 14 m",
-    "latitude": 51.156397,
-    "longitude": -113.954288,
+    "latitude": 51.044728,
+    "longitude": -114.08391,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.954516,
-          51.157047
+          -114.087581,
+          51.044055
         ],
         [
-          -113.954288,
-          51.156397
+          -114.08391,
+          51.044728
         ],
         [
-          -113.954518,
-          51.155748
+          -114.080088,
+          51.0448
         ]
       ]
     },
@@ -1055,18 +987,22 @@
     "association_quality": 0.51,
     "rank_stability": 0.74,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.09858,
-    "longitude": -114.123805,
+    "latitude": 51.044704,
+    "longitude": -114.076686,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.124841,
-          51.099658
+          -114.080088,
+          51.0448
         ],
         [
-          -114.123805,
-          51.09858
+          -114.076686,
+          51.044704
+        ],
+        [
+          -114.07328,
+          51.04467
         ]
       ]
     },
@@ -1100,30 +1036,22 @@
     "association_quality": 0.79,
     "rank_stability": 0.77,
     "evidence_basis": "1 matched break since 2000; match distance about 6 m",
-    "latitude": 51.129616,
-    "longitude": -113.972684,
+    "latitude": 51.044924,
+    "longitude": -114.069709,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.971342,
-          51.129361
+          -114.07328,
+          51.04467
         ],
         [
-          -113.972016,
-          51.129484
+          -114.069709,
+          51.044924
         ],
         [
-          -113.972684,
-          51.129616
-        ],
-        [
-          -113.973263,
-          51.129865
-        ],
-        [
-          -113.973923,
-          51.130012
+          -114.066128,
+          51.044737
         ]
       ]
     },
@@ -1156,18 +1084,22 @@
     "association_quality": 0.56,
     "rank_stability": 0.82,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 50.989446,
-    "longitude": -113.987814,
+    "latitude": 51.044589,
+    "longitude": -114.062115,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.986481,
-          50.989946
+          -114.066128,
+          51.044737
         ],
         [
-          -113.987814,
-          50.989446
+          -114.062115,
+          51.044589
+        ],
+        [
+          -114.058103,
+          51.044435
         ]
       ]
     },
@@ -1201,26 +1133,22 @@
     "association_quality": 0.74,
     "rank_stability": 0.44,
     "evidence_basis": "1 matched break since 2000; match distance about 10 m",
-    "latitude": 50.922513,
-    "longitude": -114.164012,
+    "latitude": 51.048854,
+    "longitude": -114.097772,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.161836,
-          50.923016
+          -114.101665,
+          51.048818
         ],
         [
-          -114.162925,
-          50.922766
+          -114.097772,
+          51.048854
         ],
         [
-          -114.164012,
-          50.922513
-        ],
-        [
-          -114.165159,
-          50.922615
+          -114.093935,
+          51.049271
         ]
       ]
     },
@@ -1254,22 +1182,22 @@
     "association_quality": 0.98,
     "rank_stability": 0.73,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 12 m",
-    "latitude": 51.119759,
-    "longitude": -114.235376,
+    "latitude": 51.048892,
+    "longitude": -114.090618,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.232645,
-          51.11973
+          -114.093935,
+          51.049271
         ],
         [
-          -114.235376,
-          51.119759
+          -114.090618,
+          51.048892
         ],
         [
-          -114.238027,
-          51.120173
+          -114.087266,
+          51.048665
         ]
       ]
     },
@@ -1303,22 +1231,22 @@
     "association_quality": 0.88,
     "rank_stability": 0.69,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 16 m",
-    "latitude": 50.986001,
-    "longitude": -114.154132,
+    "latitude": 51.048984,
+    "longitude": -114.083873,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.156014,
-          50.984949
+          -114.087266,
+          51.048665
         ],
         [
-          -114.154132,
-          50.986001
+          -114.083873,
+          51.048984
         ],
         [
-          -114.151689,
-          50.986384
+          -114.080468,
+          51.048716
         ]
       ]
     },
@@ -1351,26 +1279,18 @@
     "association_quality": 0.42,
     "rank_stability": 0.55,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.06947,
-    "longitude": -114.235696,
+    "latitude": 51.049231,
+    "longitude": -114.072473,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.235795,
-          51.068626
+          -114.080468,
+          51.048716
         ],
         [
-          -114.235668,
-          51.069045
-        ],
-        [
-          -114.235696,
-          51.06947
-        ],
-        [
-          -114.236005,
-          51.069849
+          -114.072473,
+          51.049231
         ]
       ]
     },
@@ -1403,18 +1323,22 @@
     "association_quality": 0.56,
     "rank_stability": 0.66,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 50.932182,
-    "longitude": -113.99792,
+    "latitude": 51.049522,
+    "longitude": -114.068881,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.999621,
-          50.9325
+          -114.072473,
+          51.049231
         ],
         [
-          -113.99792,
-          50.932182
+          -114.068881,
+          51.049522
+        ],
+        [
+          -114.065268,
+          51.049356
         ]
       ]
     },
@@ -1447,18 +1371,18 @@
     "association_quality": 0.77,
     "rank_stability": 0.78,
     "evidence_basis": "2 matched breaks since 2000; match distance about 16 m",
-    "latitude": 50.923843,
-    "longitude": -114.162991,
+    "latitude": 51.048569,
+    "longitude": -114.058498,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.160477,
-          50.920656
+          -114.065268,
+          51.049356
         ],
         [
-          -114.162991,
-          50.923843
+          -114.058498,
+          51.048569
         ]
       ]
     },
@@ -1492,18 +1416,22 @@
     "association_quality": 0.7,
     "rank_stability": 0.79,
     "evidence_basis": "2 matched breaks since 2000; match distance about 7 m",
-    "latitude": 51.068833,
-    "longitude": -113.987471,
+    "latitude": 51.033124,
+    "longitude": -114.10126,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.988069,
-          51.069706
+          -114.102011,
+          51.03082
         ],
         [
-          -113.987471,
-          51.068833
+          -114.10126,
+          51.033124
+        ],
+        [
+          -114.100938,
+          51.035466
         ]
       ]
     },
@@ -1536,26 +1464,22 @@
     "association_quality": 0.64,
     "rank_stability": 0.85,
     "evidence_basis": "1 matched break since 2000; match distance about 3 m",
-    "latitude": 50.980777,
-    "longitude": -114.065487,
+    "latitude": 51.037623,
+    "longitude": -114.100918,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.063086,
-          50.980603
+          -114.100938,
+          51.035466
         ],
         [
-          -114.064295,
-          50.980645
+          -114.100918,
+          51.037623
         ],
         [
-          -114.065487,
-          50.980777
-        ],
-        [
-          -114.066678,
-          50.980915
+          -114.100885,
+          51.039781
         ]
       ]
     },
@@ -1589,26 +1513,18 @@
     "association_quality": 0.9,
     "rank_stability": 0.75,
     "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 14 m",
-    "latitude": 51.058644,
-    "longitude": -114.133267,
+    "latitude": 51.044868,
+    "longitude": -114.102031,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.135098,
-          51.058675
+          -114.100885,
+          51.039781
         ],
         [
-          -114.134187,
-          51.058551
-        ],
-        [
-          -114.133267,
-          51.058644
-        ],
-        [
-          -114.132342,
-          51.058572
+          -114.102031,
+          51.044868
         ]
       ]
     },
@@ -1641,30 +1557,18 @@
     "association_quality": 0.84,
     "rank_stability": 0.53,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 6 m",
-    "latitude": 51.083321,
-    "longitude": -113.940756,
+    "latitude": 51.048818,
+    "longitude": -114.101665,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.939998,
-          51.082952
+          -114.102031,
+          51.044868
         ],
         [
-          -113.940422,
-          51.0831
-        ],
-        [
-          -113.940756,
-          51.083321
-        ],
-        [
-          -113.941207,
-          51.083434
-        ],
-        [
-          -113.941648,
-          51.083561
+          -114.101665,
+          51.048818
         ]
       ]
     },
@@ -1698,26 +1602,18 @@
     "association_quality": 0.84,
     "rank_stability": 0.81,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.063866,
-    "longitude": -114.200748,
+    "latitude": 51.035826,
+    "longitude": -114.094036,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.202626,
-          51.061955
+          -114.093922,
+          51.030986
         ],
         [
-          -114.201834,
-          51.062968
-        ],
-        [
-          -114.200748,
-          51.063866
-        ],
-        [
-          -114.19931,
-          51.064541
+          -114.094036,
+          51.035826
         ]
       ]
     },
@@ -1750,30 +1646,18 @@
     "association_quality": 0.93,
     "rank_stability": 0.64,
     "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 6 m",
-    "latitude": 51.15541,
-    "longitude": -114.194611,
+    "latitude": 51.040055,
+    "longitude": -114.09406,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.194997,
-          51.154829
+          -114.094036,
+          51.035826
         ],
         [
-          -114.194687,
-          51.155089
-        ],
-        [
-          -114.194611,
-          51.15541
-        ],
-        [
-          -114.194531,
-          51.155731
-        ],
-        [
-          -114.194276,
-          51.156013
+          -114.09406,
+          51.040055
         ]
       ]
     },
@@ -1807,30 +1691,18 @@
     "association_quality": 0.91,
     "rank_stability": 0.56,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
-    "latitude": 51.073402,
-    "longitude": -113.945654,
+    "latitude": 51.044408,
+    "longitude": -114.09489,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.946049,
-          51.072514
+          -114.09406,
+          51.040055
         ],
         [
-          -113.94575,
-          51.07294
-        ],
-        [
-          -113.945654,
-          51.073402
-        ],
-        [
-          -113.945525,
-          51.07386
-        ],
-        [
-          -113.945613,
-          51.074323
+          -114.09489,
+          51.044408
         ]
       ]
     },
@@ -1864,18 +1736,22 @@
     "association_quality": 0.48,
     "rank_stability": 0.5,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.018795,
-    "longitude": -114.08528,
+    "latitude": 51.046805,
+    "longitude": -114.093971,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.089092,
-          51.018667
+          -114.09489,
+          51.044408
         ],
         [
-          -114.08528,
-          51.018795
+          -114.093971,
+          51.046805
+        ],
+        [
+          -114.093935,
+          51.049271
         ]
       ]
     },
@@ -1909,26 +1785,18 @@
     "association_quality": 0.66,
     "rank_stability": 0.89,
     "evidence_basis": "2 matched breaks since 2000; match distance about 14 m",
-    "latitude": 51.150675,
-    "longitude": -114.186468,
+    "latitude": 51.035553,
+    "longitude": -114.087135,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.188519,
-          51.151153
+          -114.087623,
+          51.03092
         ],
         [
-          -114.187535,
-          51.150844
-        ],
-        [
-          -114.186468,
-          51.150675
-        ],
-        [
-          -114.185482,
-          51.150368
+          -114.087135,
+          51.035553
         ]
       ]
     },
@@ -1962,22 +1830,22 @@
     "association_quality": 0.91,
     "rank_stability": 0.79,
     "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 9 m",
-    "latitude": 51.032592,
-    "longitude": -114.215342,
+    "latitude": 51.037855,
+    "longitude": -114.087308,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.215915,
-          51.031324
+          -114.087135,
+          51.035553
         ],
         [
-          -114.215342,
-          51.032592
+          -114.087308,
+          51.037855
         ],
         [
-          -114.214878,
-          51.033877
+          -114.087002,
+          51.040151
         ]
       ]
     },
@@ -2010,26 +1878,18 @@
     "association_quality": 0.54,
     "rank_stability": 0.69,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 50.936403,
-    "longitude": -114.144414,
+    "latitude": 51.044055,
+    "longitude": -114.087581,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.146565,
-          50.936419
+          -114.087002,
+          51.040151
         ],
         [
-          -114.145491,
-          50.936355
-        ],
-        [
-          -114.144414,
-          50.936403
-        ],
-        [
-          -114.143505,
-          50.936768
+          -114.087581,
+          51.044055
         ]
       ]
     },
@@ -2063,26 +1923,18 @@
     "association_quality": 0.75,
     "rank_stability": 0.91,
     "evidence_basis": "1 matched break since 2000; match distance about 12 m",
-    "latitude": 51.049709,
-    "longitude": -114.203928,
+    "latitude": 51.048665,
+    "longitude": -114.087266,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.204669,
-          51.047492
+          -114.087581,
+          51.044055
         ],
         [
-          -114.204184,
-          51.048586
-        ],
-        [
-          -114.203928,
-          51.049709
-        ],
-        [
-          -114.203055,
-          51.050703
+          -114.087266,
+          51.048665
         ]
       ]
     },
@@ -2115,30 +1967,18 @@
     "association_quality": 0.69,
     "rank_stability": 0.94,
     "evidence_basis": "1 matched break since 2000; match distance about 11 m",
-    "latitude": 51.100842,
-    "longitude": -114.046664,
+    "latitude": 51.035376,
+    "longitude": -114.08055,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.04497,
-          51.101805
+          -114.080688,
+          51.031229
         ],
         [
-          -114.04585,
-          51.101346
-        ],
-        [
-          -114.046664,
-          51.100842
-        ],
-        [
-          -114.047743,
-          51.100603
-        ],
-        [
-          -114.048649,
-          51.100165
+          -114.08055,
+          51.035376
         ]
       ]
     },
@@ -2171,30 +2011,18 @@
     "association_quality": 0.89,
     "rank_stability": 0.43,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.109311,
-    "longitude": -113.932181,
+    "latitude": 51.040355,
+    "longitude": -114.08035,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.92974,
-          51.109536
+          -114.08055,
+          51.035376
         ],
         [
-          -113.930985,
-          51.109527
-        ],
-        [
-          -113.932181,
-          51.109311
-        ],
-        [
-          -113.933092,
-          51.108778
-        ],
-        [
-          -113.933674,
-          51.108086
+          -114.08035,
+          51.040355
         ]
       ]
     },
@@ -2227,30 +2055,18 @@
     "association_quality": 0.86,
     "rank_stability": 0.59,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.068498,
-    "longitude": -113.921289,
+    "latitude": 51.0448,
+    "longitude": -114.080088,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.921446,
-          51.070132
+          -114.08035,
+          51.040355
         ],
         [
-          -113.921193,
-          51.069322
-        ],
-        [
-          -113.921289,
-          51.068498
-        ],
-        [
-          -113.92199,
-          51.0678
-        ],
-        [
-          -113.922965,
-          51.067246
+          -114.080088,
+          51.0448
         ]
       ]
     },
@@ -2284,18 +2100,22 @@
     "association_quality": 0.48,
     "rank_stability": 0.55,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 50.99192,
-    "longitude": -114.100532,
+    "latitude": 51.046751,
+    "longitude": -114.08045,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.098184,
-          50.995035
+          -114.080088,
+          51.0448
         ],
         [
-          -114.100532,
-          50.99192
+          -114.08045,
+          51.046751
+        ],
+        [
+          -114.080468,
+          51.048716
         ]
       ]
     },
@@ -2329,22 +2149,22 @@
     "association_quality": 0.73,
     "rank_stability": 0.49,
     "evidence_basis": "1 matched break since 2000; match distance about 4 m",
-    "latitude": 51.155124,
-    "longitude": -114.081775,
+    "latitude": 51.033532,
+    "longitude": -114.072546,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.081564,
-          51.155576
+          -114.072738,
+          51.031423
         ],
         [
-          -114.081775,
-          51.155124
+          -114.072546,
+          51.033532
         ],
         [
-          -114.082037,
-          51.154683
+          -114.073073,
+          51.035619
         ]
       ]
     },
@@ -2377,30 +2197,18 @@
     "association_quality": 0.83,
     "rank_stability": 0.94,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 17 m",
-    "latitude": 51.013722,
-    "longitude": -114.076211,
+    "latitude": 51.039686,
+    "longitude": -114.072336,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.074747,
-          51.013171
+          -114.073073,
+          51.035619
         ],
         [
-          -114.075528,
-          51.013394
-        ],
-        [
-          -114.076211,
-          51.013722
-        ],
-        [
-          -114.076933,
-          51.014013
-        ],
-        [
-          -114.07748,
-          51.014429
+          -114.072336,
+          51.039686
         ]
       ]
     },
@@ -2433,30 +2241,18 @@
     "association_quality": 0.7,
     "rank_stability": 0.81,
     "evidence_basis": "2 matched breaks since 2000; match distance about 3 m",
-    "latitude": 50.968301,
-    "longitude": -113.97485,
+    "latitude": 51.04467,
+    "longitude": -114.07328,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.974229,
-          50.966622
+          -114.072336,
+          51.039686
         ],
         [
-          -113.974743,
-          50.967432
-        ],
-        [
-          -113.97485,
-          50.968301
-        ],
-        [
-          -113.975478,
-          50.969079
-        ],
-        [
-          -113.976369,
-          50.969747
+          -114.07328,
+          51.04467
         ]
       ]
     },
@@ -2490,22 +2286,18 @@
     "association_quality": 0.87,
     "rank_stability": 0.56,
     "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
-    "latitude": 51.021154,
-    "longitude": -114.078107,
+    "latitude": 51.049231,
+    "longitude": -114.072473,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.076389,
-          51.022121
+          -114.07328,
+          51.04467
         ],
         [
-          -114.078107,
-          51.021154
-        ],
-        [
-          -114.079524,
-          51.02001
+          -114.072473,
+          51.049231
         ]
       ]
     },
@@ -2538,30 +2330,18 @@
     "association_quality": 0.93,
     "rank_stability": 0.63,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 13 m",
-    "latitude": 50.902642,
-    "longitude": -114.012807,
+    "latitude": 51.035545,
+    "longitude": -114.065322,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.012165,
-          50.903828
+          -114.065259,
+          51.030979
         ],
         [
-          -114.012337,
-          50.903203
-        ],
-        [
-          -114.012807,
-          50.902642
-        ],
-        [
-          -114.013476,
-          50.902167
-        ],
-        [
-          -114.013904,
-          50.901593
+          -114.065322,
+          51.035545
         ]
       ]
     },
@@ -2600,26 +2380,18 @@
     "association_quality": 0.87,
     "rank_stability": 0.56,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 15 m",
-    "latitude": 50.932593,
-    "longitude": -114.18598,
+    "latitude": 51.039981,
+    "longitude": -114.065632,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.184704,
-          50.933491
+          -114.065322,
+          51.035545
         ],
         [
-          -114.185384,
-          50.933066
-        ],
-        [
-          -114.18598,
-          50.932593
-        ],
-        [
-          -114.186697,
-          50.932192
+          -114.065632,
+          51.039981
         ]
       ]
     },
@@ -2653,18 +2425,22 @@
     "association_quality": 0.89,
     "rank_stability": 0.92,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.174155,
-    "longitude": -114.224634,
+    "latitude": 51.042345,
+    "longitude": -114.066229,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.229969,
-          51.175412
+          -114.065632,
+          51.039981
         ],
         [
-          -114.224634,
-          51.174155
+          -114.066229,
+          51.042345
+        ],
+        [
+          -114.066128,
+          51.044737
         ]
       ]
     },
@@ -2702,18 +2478,22 @@
     "association_quality": 0.7,
     "rank_stability": 0.63,
     "evidence_basis": "2 matched breaks since 2000; match distance about 8 m",
-    "latitude": 51.038703,
-    "longitude": -113.965026,
+    "latitude": 51.047062,
+    "longitude": -114.065915,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.9616,
-          51.037315
+          -114.066128,
+          51.044737
         ],
         [
-          -113.965026,
-          51.038703
+          -114.065915,
+          51.047062
+        ],
+        [
+          -114.065268,
+          51.049356
         ]
       ]
     },
@@ -2747,26 +2527,18 @@
     "association_quality": 0.98,
     "rank_stability": 0.55,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 11 m",
-    "latitude": 51.103115,
-    "longitude": -114.145382,
+    "latitude": 51.035221,
+    "longitude": -114.058576,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.146823,
-          51.102809
+          -114.058247,
+          51.030557
         ],
         [
-          -114.146084,
-          51.102926
-        ],
-        [
-          -114.145382,
-          51.103115
-        ],
-        [
-          -114.144621,
-          51.103138
+          -114.058576,
+          51.035221
         ]
       ]
     },
@@ -2799,18 +2571,22 @@
     "association_quality": 0.84,
     "rank_stability": 0.84,
     "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
-    "latitude": 51.158568,
-    "longitude": -114.009043,
+    "latitude": 51.037538,
+    "longitude": -114.058386,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.010507,
-          51.158721
+          -114.058576,
+          51.035221
         ],
         [
-          -114.009043,
-          51.158568
+          -114.058386,
+          51.037538
+        ],
+        [
+          -114.058348,
+          51.039859
         ]
       ]
     },
@@ -2844,26 +2620,22 @@
     "association_quality": 0.8,
     "rank_stability": 0.93,
     "evidence_basis": "1 matched break since 2000; match distance about 10 m",
-    "latitude": 51.158989,
-    "longitude": -114.115426,
+    "latitude": 51.042144,
+    "longitude": -114.058104,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.116015,
-          51.157839
+          -114.058348,
+          51.039859
         ],
         [
-          -114.115499,
-          51.158369
+          -114.058104,
+          51.042144
         ],
         [
-          -114.115426,
-          51.158989
-        ],
-        [
-          -114.114928,
-          51.159525
+          -114.058103,
+          51.044435
         ]
       ]
     },
@@ -2897,18 +2669,18 @@
     "association_quality": 0.51,
     "rank_stability": 0.89,
     "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
-    "latitude": 51.063097,
-    "longitude": -114.235212,
+    "latitude": 51.048569,
+    "longitude": -114.058498,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.235993,
-          51.066627
+          -114.058103,
+          51.044435
         ],
         [
-          -114.235212,
-          51.063097
+          -114.058498,
+          51.048569
         ]
       ]
     },
@@ -2947,18 +2719,22 @@
     "association_quality": 0.97,
     "rank_stability": 0.88,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 14 m",
-    "latitude": 51.105811,
-    "longitude": -113.957018,
+    "latitude": 51.038003,
+    "longitude": -114.090541,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -113.953133,
-          51.103331
+          -114.094036,
+          51.035826
         ],
         [
-          -113.957018,
-          51.105811
+          -114.090541,
+          51.038003
+        ],
+        [
+          -114.087002,
+          51.040151
         ]
       ]
     },
@@ -2992,30 +2768,22 @@
     "association_quality": 0.95,
     "rank_stability": 0.45,
     "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 13 m",
-    "latitude": 51.120872,
-    "longitude": -114.043397,
+    "latitude": 51.042428,
+    "longitude": -114.069678,
     "geometry": {
       "type": "LineString",
       "coordinates": [
         [
-          -114.046031,
-          51.120793
+          -114.072336,
+          51.039686
         ],
         [
-          -114.0447,
-          51.120648
+          -114.069678,
+          51.042428
         ],
         [
-          -114.043397,
-          51.120872
-        ],
-        [
-          -114.042121,
-          51.121151
-        ],
-        [
-          -114.040772,
-          51.1212
+          -114.066128,
+          51.044737
         ]
       ]
     },

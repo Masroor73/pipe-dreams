@@ -1,9 +1,10 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { maplibreWorker } from './vite-plugins/maplibre-worker.mjs';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), maplibreWorker()],
   server: { port: 5173 },
   test: {
     environment: 'jsdom',
