@@ -37,10 +37,10 @@ Buttons/tabs/toggles: `:active` `scale(0.97)`, 150 ms; hover/focus color changes
 |---|---|---|---|---|---|---|---|
 | Gate sequence (cards, dots, bar, stamp) | Section first in view (once) | opacity, transform (`scaleX` bar, scale stamp) | 600 ms/card; total 2.2 s | ease-out | card 400 ms; dots 40 ms | End state instantly | WAAPI timeline from `useInViewOnce`, `finish()` on skip |
 | "Selected as V2" emphasis | After last card | opacity, ring transform | 400 ms | ease-out | at 1800 ms | Static emphasis | WAAPI |
-| Audit replay | Button press | opacity, translateY 6 px | 200 ms/event, 350 ms step, cap 6 s | ease-out | by `seq` | All events shown, no highlight sweep | rAF/timeout stepper + CSS class; stoppable |
+| Audit "agent run as cinema" (replaces the old replay button) | Play / scrubber / arrow keys / Space | Top 25 FLIP (transform), gate stamp (opacity, scale 1.08), map ring (transform, opacity), timeline dim (opacity) | Dwell 0.9 to 2 s per step by event type; FLIP 560 ms on autoplay, 240 ms on manual steps; stamp 180 ms; ring 700 ms | ease-in-out (0.77,0,0.175,1) for moves; ease-out otherwise | 14 ms per moved row on autoplay | Every step jumps to its end state; no FLIP, no rings, no caption animation | `useCinema` (step state), `frameAt` (pure sequencing), `useFlip` (batched reads, WAAPI writes) |
 | Headline / stat count-up | First view | text only (tabular-nums, fixed width) | 600 ms | ease-out | none | Final value | rAF; last frame sets the exact API string |
 | Capture chart lines | First render; split switch | stroke-dashoffset | 600 ms first, 400 ms switch | ease-out | 60 ms per series | Drawn instantly | `pathLength=1` dash trick; whiskers/points fade in 150 ms after line |
-| Rank-change cards | First view | rank number tick V1->V2, arrow translateX 8 px + opacity | 320 ms | ease-out | 80 ms per card | Final rank + arrow | rAF tick (integer steps, ends on API rank); WAAPI arrow |
+| Rank-change cards | First view | arrow translateX 8 px + opacity (rank count-up removed in review: it showed the V1 rank as V2 before scrolling into view) | 320 ms | ease-out | 80 ms per card | Final rank + arrow | WAAPI arrow |
 | Map changed-segment emphasis | Load; V1/V2 toggle | line-opacity pulse (0.35 -> 1) on changed segment ids | 500 ms | ease-in-out | none | No pulse | MapLibre paint transition; ids from API plan diff, not computed |
 | Tab cross-fade | Nav click | opacity | 200 ms | ease-in-out | none | Instant swap | `startViewTransition` |
 | Asset panel | `?asset=` change | transform | 200 in / 150 out | ease-out | none | Instant | existing CSS |
@@ -55,3 +55,13 @@ Buttons/tabs/toggles: `:active` `scale(0.97)`, 150 ms; hover/focus color changes
 - Chart point/whisker animation beyond a single fade; tooltip animation.
 - Page-load choreography, skeleton shimmer beyond a static placeholder, bounce/spring.
 - Any animation that gates interaction or hides content until finished.
+
+## Agent-run cinema: contract gap
+
+The cinema uses only existing routes: `/api/audit`, `/api/assets?plan=v1|v2&limit=25`, `/api/rank-changes`, `/api/escalations`, and `/api/assets/{id}` for the centroids of escalated assets that are outside both Top 25 lists. The contract has **no per-step or per-candidate rankings** and **no "segments touched" field** on audit events. So:
+
+- the Top 25 changes only once, at `PLAN_V2` (V1 order, then V2 order);
+- `DIAGNOSE`, `TEST_CANDIDATE`, `ACCEPT` and `REJECT` steps highlight no assets, and the map says so;
+- the highlight sets are membership only: the V1 Top 25 (`PLAN_V1`), V1 `selected` (`EVALUATE`), assets new to the V2 Top 25 or in `rank_changes.csv` (`PLAN_V2`), and `escalation.csv` (`ESCALATE`).
+
+Showing candidate-by-candidate reordering would need an engine artifact (for example a per-candidate Top-N list per validation origin) and a contract change. It must not be computed in React.

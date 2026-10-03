@@ -47,9 +47,33 @@ export const CHART_HEIGHT = 360;
 /** Recharts axis text size in px (project floor is 14px). */
 export const CHART_FONT_PX = 15;
 
-/** Audit "Replay agent run" stepper (docs/superpowers/specs/2026-10-03-frontend-motion.md). */
-export const AUDIT_REPLAY = {
-  stepMs: 350,
-  /** Whole replay is capped; the step shortens to fit. */
-  maxTotalMs: 6000,
+/**
+ * Audit "agent run as cinema" scrubber. Presentation timing only.
+ * Dwell is how long autoplay holds each step, by event type; PLAN_V2 holds longest
+ * because the ranked list reorders on it.
+ */
+export const AUDIT_CINEMA = {
+  dwellMs: {
+    PLAN_V1: 1300,
+    EVALUATE: 1100,
+    DIAGNOSE: 1100,
+    TEST_CANDIDATE: 900,
+    ACCEPT: 1300,
+    REJECT: 1100,
+    PLAN_V2: 2000,
+    ESCALATE: 1500,
+  } as Record<string, number>,
+  defaultDwellMs: 1100,
+  /** Ranked list length; mirrors planning.organizer_top_n in config/policy_config.DRAFT.yaml. */
+  topN: 25,
+  /** FLIP move for the ranked list (on-screen movement: strong ease-in-out). */
+  moveMs: 560,
+  /** Keyboard / scrubber stepping: keep it under 300ms so stepping never feels laggy. */
+  manualMoveMs: 240,
+  moveStaggerMs: 14,
+  enterMs: 260,
+  /** Map "touched" ring. */
+  pulseMs: 700,
+  /** Gate row resolve stamp. */
+  stampMs: 180,
 } as const;

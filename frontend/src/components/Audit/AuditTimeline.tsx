@@ -1,6 +1,4 @@
-import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { prefersReducedMotion } from '../../hooks/motion';
 import {
   CheckCircle,
   ChartLine,
@@ -48,8 +46,8 @@ function formatDetailValue(v: unknown): string {
 
 export interface AuditTimelineProps {
   events: AuditEvent[];
-  /** Replay state: number of events revealed in `order`, or null/undefined when not replaying (all visible). */
-  revealed?: number | null;
+  /** Replay step (0-based index into `replayOrder`), or null when the replay is idle (nothing dimmed). */
+  step?: number | null;
   /** seq values in replay order. */
   replayOrder?: number[];
 }
@@ -58,23 +56,14 @@ const sameCandidate = (a?: AuditEvent, b?: AuditEvent) =>
   !!a?.candidate && !!b?.candidate && a.candidate.candidate_id === b.candidate.candidate_id;
 
 /** Events render in the order supplied. Bracketing / compact grouping is presentation only. */
-export function AuditTimeline({ events, revealed = null, replayOrder = [] }: AuditTimelineProps) {
-  const replaying = revealed !== null;
-  const listRef = useRef<HTMLOListElement>(null);
-  const activeSeq = replaying ? replayOrder[revealed - 1] : undefined;
+export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTimelineProps) {
+  const replaying = step !== null;
+  const activeSeq = replaying ? replayOrder[step] : undefined;
   const rankOf = new Map(replayOrder.map((seq, i) => [seq, i]));
 
-  // Keep the current step on screen during a replay (smooth only when motion is allowed).
-  useEffect(() => {
-    if (activeSeq === undefined) return;
-    const el = listRef.current?.querySelector<HTMLElement>(`[data-seq="${activeSeq}"]`);
-    if (el && typeof el.scrollIntoView === 'function') {
-      el.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-    }
-  }, [activeSeq]);
-
+  // No auto-scroll: the replay controls live above the timeline and must stay in view.
   return (
-    <ol ref={listRef} className={`${styles.timeline} ${replaying ? styles.replaying : ''}`}>
+    <ol className={`${styles.timeline} ${replaying ? styles.replaying : ''}`}>
       {events.map((e, i) => {
         const { icon, tone } = eventStyle(e.event_type);
         const prev = events[i - 1];
@@ -89,7 +78,7 @@ export function AuditTimeline({ events, revealed = null, replayOrder = [] }: Aud
           sameCandidate(e, next);
         const detailEntries = Object.entries(e.details ?? {});
         const rank = rankOf.get(e.seq) ?? -1;
-        const replayCls = !replaying ? '' : rank >= revealed ? styles.hidden : e.seq === activeSeq ? styles.active : '';
+        const replayCls = !replaying ? '' : rank > step ? styles.future : e.seq === activeSeq ? styles.active : '';
         const cls = [
           styles.item,
           replayCls,
@@ -100,7 +89,13 @@ export function AuditTimeline({ events, revealed = null, replayOrder = [] }: Aud
           .filter(Boolean)
           .join(' ');
         return (
-          <li key={e.seq} className={cls} data-event-type={e.event_type} data-seq={e.seq}>
+          <li
+            key={e.seq}
+            className={cls}
+            data-event-type={e.event_type}
+            data-seq={e.seq}
+            aria-current={e.seq === activeSeq ? 'step' : undefined}
+          >
             <span className={styles.node} aria-hidden="true">
               {e.seq}
             </span>
