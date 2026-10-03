@@ -28,7 +28,7 @@ function renderPage() {
 describe('OverviewPage', () => {
   it('renders every block from fixtures', async () => {
     renderPage();
-    expect(await screen.findByText(/V2 catches/)).toBeInTheDocument();
+    expect(await screen.findByText(/Share of future breaking assets caught/)).toBeInTheDocument();
     expect(await screen.findByRole('heading', { name: /Capture by length budget/ })).toBeInTheDocument();
     expect(await screen.findByRole('link', { name: /full audit trail/i })).toBeInTheDocument();
     expect(await screen.findByRole('link', { name: /escalation list/i })).toBeInTheDocument();

@@ -36,6 +36,14 @@ describe('AssetPanel', () => {
     expect(screen.getByRole('dialog', { name: 'Asset seg_000001' })).toBeInTheDocument();
   });
 
+  it('labels the consequence tier chip with a tooltip', async () => {
+    renderPanel('seg_000001');
+    await screen.findByRole('table', TABLE);
+    const chip = screen.getByText(/^Consequence tier T\d/);
+    expect(chip).toBeInTheDocument();
+    expect(chip.closest('[title]')).toHaveAttribute('title', expect.stringContaining('pipe diameter'));
+  });
+
   it('shows the not-found message for an unknown id', async () => {
     renderPanel('nope_123');
     expect(await screen.findByText("No asset with id 'nope_123' in plan v2.")).toBeInTheDocument();

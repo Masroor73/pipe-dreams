@@ -14,17 +14,19 @@ function resource(data: Overview): Resource<Overview> {
 describe('Headline', () => {
   it('shows V2 copy with fixture values', () => {
     render(<Headline overview={resource(base)} />);
-    expect(screen.getByText(/V2 catches/)).toHaveTextContent(
-      'V2 catches 24% of future breaking assets at a 5% length budget, vs 18% for count-only.',
-    );
+    expect(screen.getAllByText(/Share of future breaking assets caught/)).toHaveLength(1);
+    expect(screen.getByText('24%')).toBeInTheDocument();
+    expect(screen.getByText('18%')).toBeInTheDocument();
+    expect(screen.queryByText(/V2 catches/)).not.toBeInTheDocument();
     expect(screen.getByText('V2 = C2')).toBeInTheDocument();
     expect(screen.getByText(/95% CI 20%–28%/)).toBeInTheDocument();
   });
 
   it('shows V1-retained copy when v2_equals_v1 is true', () => {
     render(<Headline overview={resource({ ...base, v2_equals_v1: true, selected_policy_id: 'V1' })} />);
-    expect(screen.getByText(/V1 retained — no candidate passed the revision gate/)).toBeInTheDocument();
-    expect(screen.getByText(/V1 catches/)).toHaveTextContent('21%');
+    expect(screen.getByText(/No candidate passed the revision gate/)).toBeInTheDocument();
+    expect(screen.getByText('21%')).toBeInTheDocument();
+    expect(screen.queryByText(/V1 catches/)).not.toBeInTheDocument();
     expect(screen.queryByText(/V2 catches/)).not.toBeInTheDocument();
   });
 

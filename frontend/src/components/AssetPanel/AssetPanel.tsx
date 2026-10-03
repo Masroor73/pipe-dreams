@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { X } from '@phosphor-icons/react';
+import { CONSEQUENCE_TIER_HELP, CONSEQUENCE_TIER_LABEL } from '../../config/display';
 import { useAsset } from '../../hooks';
 import { formatDelta, formatNumber } from '../../lib/format';
 import type { AssetDetail, PlanFields } from '../../types/api';
@@ -61,7 +62,11 @@ function Detail({ asset }: { asset: AssetDetail }) {
   return (
     <>
       <div className={styles.meta}>
-        <Pill tone="neutral">{asset.consequence_tier}</Pill>
+        <span role="group" title={CONSEQUENCE_TIER_HELP} aria-label={`${CONSEQUENCE_TIER_LABEL} ${asset.consequence_tier}. ${CONSEQUENCE_TIER_HELP}`}>
+          <Pill tone="neutral">
+            {CONSEQUENCE_TIER_LABEL} {asset.consequence_tier}
+          </Pill>
+        </span>
         <ConfidencePill confidence={asset.evidence_confidence} />
         <span className={styles.length}>{formatNumber(asset.length_m, 1)} m</span>
       </div>

@@ -4,6 +4,15 @@ import type { BaselineId, PolicyId } from '../types/api';
 /** Budget (percent of network length) used for the headline claim. */
 export const HEADLINE_BUDGET_PCT = 5;
 
+/** The single supporting line under the headline figures (what they measure). */
+export const headlineCaption = (budgetPct: number): string =>
+  `Share of future breaking assets caught at a ${budgetPct}% length budget (final test split)`;
+
+/** Asset panel consequence-tier chip. Meaning of individual tiers is not defined in the docs; do not invent bands. */
+export const CONSEQUENCE_TIER_LABEL = 'Consequence tier';
+export const CONSEQUENCE_TIER_HELP =
+  'Consequence tiers are assigned from pipe diameter and asset class and describe the impact of a failure, not its likelihood.';
+
 /** Number of rank-change cards on the Overview page. */
 export const DEMO_CARD_COUNT = 3;
 

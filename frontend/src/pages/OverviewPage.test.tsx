@@ -30,7 +30,7 @@ function renderPage() {
 describe('OverviewPage', () => {
   it('renders all blocks from fixtures', async () => {
     renderPage();
-    expect(await screen.findByText(/V2 catches/)).toBeInTheDocument();
+    expect(await screen.findByText(/Share of future breaking assets caught/)).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: 'Final test (2023–2025)' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'Validation · origin 2013' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Confirmation' })).toBeInTheDocument();
