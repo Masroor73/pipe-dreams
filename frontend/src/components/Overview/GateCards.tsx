@@ -27,16 +27,16 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
 
   return (
     <article className={`${styles.card} ${selected ? styles.selected : ''}`} data-candidate={c.candidate_id}>
+      {selected && (
+        <span className={styles.ribbon}>
+          <Pill tone="accent">Selected as V2</Pill>
+        </span>
+      )}
       <header className={styles.cardHead}>
         <h3>{c.candidate_id}</h3>
         <DecisionPill decision={c.decision} />
       </header>
       <p className={styles.desc}>{CANDIDATE_DESCRIPTIONS[c.candidate_id] ?? ''}</p>
-      {selected && (
-        <div>
-          <Pill tone="accent">Selected as V2</Pill>
-        </div>
-      )}
 
       <div className={styles.wins}>
         <span className={styles.label}>

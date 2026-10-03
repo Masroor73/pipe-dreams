@@ -51,7 +51,7 @@ export interface AuditTimelineProps {
 const sameCandidate = (a?: AuditEvent, b?: AuditEvent) =>
   !!a?.candidate && !!b?.candidate && a.candidate.candidate_id === b.candidate.candidate_id;
 
-/** Events render in the order supplied. Bracketing is presentation only. */
+/** Events render in the order supplied. Bracketing / compact grouping is presentation only. */
 export function AuditTimeline({ events }: AuditTimelineProps) {
   return (
     <ol className={styles.timeline}>
@@ -87,13 +87,13 @@ export function AuditTimeline({ events }: AuditTimelineProps) {
                   {icon}
                   <span className={styles.typeLabel}>{e.event_type}</span>
                 </span>
-                <span className={styles.seqText}>Step {e.seq}</span>
                 <time className={styles.time} dateTime={e.timestamp}>
                   {formatDate(e.timestamp, true)}
                 </time>
               </div>
               <p className={styles.summary}>{e.summary}</p>
-              {e.candidate && <CandidateGate candidate={e.candidate} />}
+              {/* The full gate table appears once per candidate, on its ACCEPT/REJECT event. */}
+              {e.candidate && !joinsNext && <CandidateGate candidate={e.candidate} />}
               {detailEntries.length > 0 && (
                 <details className={styles.details}>
                   <summary>Details</summary>

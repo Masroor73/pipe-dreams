@@ -9,7 +9,7 @@
   --font-mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Consolas, monospace;
 
   /* ---- Type scale (px floor 14) ---- */
-  --text-sm: 0.875rem; /* 14px: captions, table meta, legend */
+  --text-sm: 0.9375rem; /* 15px: captions, table meta, legend (hard floor is 14px) */
   --text-base: 1rem; /* 16px: body */
   --text-md: 1.125rem; /* 18px: emphasised body, nav */
   --text-lg: 1.375rem; /* 22px: card titles */
@@ -97,16 +97,18 @@
   --shadow-panel: -8px 0 32px rgb(20 32 46 / 14%);
 
   /* ---- Motion ---- */
-  --duration-fast: 120ms;
+  --duration-fast: 150ms;
   --duration-base: 200ms;
   --duration-slow: 320ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ---- Z layers ---- */
+  /* ---- Z layers (banner > panel > scrim > nav > page content) ----
+     The synthetic-data banner must never be covered, including by the asset
+     panel + its scrim (--z-panel - 1), which are position: fixed. */
   --z-nav: 20;
   --z-panel: 40;
-  --z-banner: 50;
+  --z-banner: 60;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -45,7 +45,8 @@
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
 }
 
 .retry:hover {
@@ -54,7 +55,7 @@
 }
 
 .retry:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
 .skeleton {
@@ -65,7 +66,7 @@
 }
 
 .skeleton span {
-  height: 14px;
+  height: 14px; /* skeleton bar, not text */
   border-radius: var(--radius-sm);
   background: linear-gradient(90deg, var(--color-surface-sunken) 25%, var(--color-border) 50%, var(--color-surface-sunken) 75%);
   background-size: 200% 100%;
@@ -86,5 +87,11 @@
   }
   to {
     background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton span {
+    animation: none;
   }
 }

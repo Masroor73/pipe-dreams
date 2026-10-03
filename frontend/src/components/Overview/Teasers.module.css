@@ -63,7 +63,9 @@
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   text-decoration: none;
-  transition: gap var(--duration-base) var(--ease-out);
+  transition:
+    gap var(--duration-base) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .link:hover {

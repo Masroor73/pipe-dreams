@@ -46,9 +46,25 @@ export function Headline({ overview }: { overview: Resource<Overview> }) {
                 <span>Selected by the revision gate</span>
               </p>
             )}
-            <p className={styles.number} aria-hidden="true">
-              <span key={selectedRow.asset_capture}>{formatPct(selectedRow.asset_capture, 0)}</span>
-            </p>
+            {/* Figures are aria-hidden: the sentence below carries the same values for screen readers. */}
+            <div className={styles.figures} aria-hidden="true">
+              <div className={`${styles.figure} ${styles.primary}`}>
+                <span className={styles.number} key={selectedRow.asset_capture}>
+                  {formatPct(selectedRow.asset_capture, 0)}
+                </span>
+                <span className={styles.figureLabel}>
+                  {data.v2_equals_v1 ? 'V1 (retained)' : `V2 (${data.selected_policy_id})`}
+                </span>
+              </div>
+              <span className={styles.versus}>vs</span>
+              <div className={`${styles.figure} ${styles.baseline}`}>
+                <span className={styles.number}>{formatPct(baselineRow.asset_capture, 0)}</span>
+                <span className={styles.figureLabel}>count-only</span>
+              </div>
+              <p className={styles.figureCaption}>
+                Share of future breaking assets caught at a {HEADLINE_BUDGET_PCT}% length budget
+              </p>
+            </div>
             <p className={styles.copy}>
               {data.v2_equals_v1 ? (
                 <>

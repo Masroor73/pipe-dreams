@@ -1,16 +1,11 @@
-import { useState } from 'react';
 import { useAudit } from '../hooks';
 import { DataState } from '../components/DataState/DataState';
 import { AuditTimeline } from '../components/Audit/AuditTimeline';
-import auditStyles from '../components/Audit/Audit.module.css';
 import styles from './AuditPage.module.css';
 
 export default function AuditPage() {
   const { status, data, error, reload } = useAudit();
-  const [filter, setFilter] = useState<string | null>(null);
   const events = data?.events ?? [];
-  const types = Array.from(new Set(events.map((e) => e.event_type)));
-  const visible = filter ? events.filter((e) => e.event_type === filter) : events;
 
   return (
     <div className={styles.page}>
@@ -29,28 +24,7 @@ export default function AuditPage() {
         loadingLabel="Loading audit trail"
         minHeight={320}
       >
-        <div className={auditStyles.filters} role="group" aria-label="Filter by event type">
-          <button
-            type="button"
-            className={`${auditStyles.chip} ${filter === null ? auditStyles.chipOn : ''}`}
-            aria-pressed={filter === null}
-            onClick={() => setFilter(null)}
-          >
-            All
-          </button>
-          {types.map((t) => (
-            <button
-              key={t}
-              type="button"
-              className={`${auditStyles.chip} ${filter === t ? auditStyles.chipOn : ''}`}
-              aria-pressed={filter === t}
-              onClick={() => setFilter(filter === t ? null : t)}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-        <AuditTimeline events={visible} />
+        <AuditTimeline events={events} />
       </DataState>
     </div>
   );

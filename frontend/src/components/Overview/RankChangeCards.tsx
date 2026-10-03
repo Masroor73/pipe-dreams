@@ -4,7 +4,7 @@ import { Section } from '../Section/Section';
 import { DEMO_CARD_COUNT } from '../../config/display';
 import { useRankChanges } from '../../hooks';
 import { useAssetLink } from '../../hooks/useAssetLink';
-import { formatDelta } from '../../lib/format';
+import { formatRankShift } from '../../lib/format';
 import styles from './RankChangeCards.module.css';
 
 export function RankChangeCards() {
@@ -46,10 +46,14 @@ export function RankChangeCards() {
                     <span className={styles.rankNum}>
                       {`#${c.rank_v1} → #${c.rank_v2}`}
                     </span>
-                    <span className={`${styles.delta} ${rose ? styles.rose : styles.fell}`}>
-                      {rose && <ArrowUp size={18} weight="bold" aria-hidden="true" />}
-                      {fell && <ArrowDown size={18} weight="bold" aria-hidden="true" />}
-                      {formatDelta(c.delta_rank)}
+                    <span
+                      className={`${styles.delta} ${rose ? styles.rose : styles.fell}`}
+                      title={rose ? 'Moved up' : fell ? 'Moved down' : 'No change'}
+                    >
+                      {rose && <ArrowUp size={20} weight="bold" aria-label="Moved up" />}
+                      {fell && <ArrowDown size={20} weight="bold" aria-label="Moved down" />}
+                      {!rose && !fell && <ArrowRight size={20} weight="bold" aria-label="No change" />}
+                      {formatRankShift(c.delta_rank)}
                     </span>
                   </span>
                   <span className={`${styles.actions} ${actionChanged ? styles.actionChanged : ''}`}>

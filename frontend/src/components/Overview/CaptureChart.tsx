@@ -3,6 +3,7 @@ import { CartesianGrid, ErrorBar, Line, LineChart, ResponsiveContainer, Tooltip,
 import { DataState } from '../DataState/DataState';
 import { Section } from '../Section/Section';
 import {
+  CHART_FONT_PX,
   CHART_HEIGHT,
   COUNT_ONLY_LABEL,
   ORGANIZER_LABEL,
@@ -132,6 +133,20 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
 
   const visibleLines = lines.filter((l) => points.some((p) => p[l.key] !== null));
 
+  // Axis scaling only: fit the Y axis to the data (incl. whisker tops), rounded up to the next 10%.
+  const yMax = useMemo(() => {
+    let max = 0;
+    for (const p of points) {
+      for (const l of visibleLines) {
+        for (const k of [l.key, `${l.key}_hi`]) {
+          const v = p[k];
+          if (typeof v === 'number' && v > max) max = v;
+        }
+      }
+    }
+    return Math.max(0.1, Math.ceil(max * 10 - 1e-9) / 10);
+  }, [points, visibleLines]);
+
   return (
     <Section
       id="capture"
@@ -190,19 +205,21 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                 <CartesianGrid stroke="#d9e0e8" vertical={false} />
                 <XAxis
                   dataKey="budget"
-                  tick={{ fontSize: 14, fill: '#4a5b6d' }}
+                  tick={{ fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
                   tickLine={false}
                   axisLine={{ stroke: '#b6c2cf' }}
-                  label={{ value: 'Length budget', position: 'insideBottom', offset: -4, fontSize: 14, fill: '#4a5b6d' }}
+                  label={{ value: 'Length budget', position: 'insideBottom', offset: -4, fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
                   height={48}
                 />
                 <YAxis
                   tickFormatter={(v: number) => formatPct(v, 0)}
-                  tick={{ fontSize: 14, fill: '#4a5b6d' }}
+                  tick={{ fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
                   tickLine={false}
                   axisLine={false}
                   width={56}
-                  domain={[0, 'auto']}
+                  domain={[0, yMax]}
+                  tickCount={Math.round(yMax * 10) + 1}
+                  allowDecimals
                 />
                 <Tooltip content={<ChartTooltip lines={visibleLines} />} cursor={{ stroke: '#b6c2cf' }} />
                 {[...visibleLines].reverse().map((l) => (
@@ -218,7 +235,7 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                     activeDot={{ r: 6 }}
                     connectNulls={false}
                   >
-                    <ErrorBar dataKey={`${l.key}_err`} width={5} strokeWidth={1.5} stroke={SERIES_STYLE[l.key].color} opacity={0.55} />
+                    <ErrorBar dataKey={`${l.key}_err`} width={6} strokeWidth={2} stroke={SERIES_STYLE[l.key].color} opacity={0.85} />
                   </Line>
                 ))}
               </LineChart>

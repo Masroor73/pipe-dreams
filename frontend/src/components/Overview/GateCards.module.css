@@ -1,10 +1,12 @@
 .row {
+  padding-top: var(--space-3); /* room for the selected ribbon on the top edge */
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-4);
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -21,6 +23,15 @@
   background: linear-gradient(180deg, var(--color-accent-soft), var(--color-surface) 40%);
 }
 
+/* Sits on the card's top edge so it never shifts the rows below. */
+.ribbon {
+  position: absolute;
+  top: calc(-1 * var(--space-3));
+  left: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
+}
+
 .cardHead {
   display: flex;
   align-items: center;
@@ -35,7 +46,7 @@
 }
 
 .desc {
-  min-height: 3em;
+  min-height: 3em; /* keeps rows aligned across cards */
   color: var(--color-text-muted);
   font-size: var(--text-sm);
 }
@@ -140,7 +151,14 @@
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   text-decoration: none;
-  transition: gap var(--duration-base) var(--ease-out);
+  transition:
+    gap var(--duration-base) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
 }
 
 .link:hover {

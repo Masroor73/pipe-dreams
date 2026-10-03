@@ -35,3 +35,5 @@ export const ORGANIZER_LABEL = 'Organizer cell baseline (event capture)';
 export const COUNT_ONLY_LABEL = 'Count-only baseline';
 
 export const CHART_HEIGHT = 360;
+/** Recharts axis text size in px (project floor is 14px). */
+export const CHART_FONT_PX = 15;

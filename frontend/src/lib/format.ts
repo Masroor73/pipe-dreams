@@ -28,6 +28,11 @@ export function formatDelta(delta: number): string {
   return `${arrow} ${Math.abs(delta)}`;
 }
 
+/** Rank movement magnitude only (the direction is shown by an icon): 37, or 0 when unchanged. */
+export function formatRankShift(delta: number): string {
+  return String(Math.abs(delta));
+}
+
 /** Signed difference, e.g. +0.015. */
 export function formatSigned(value: number, digits = 3): string {
   const s = value.toFixed(digits);

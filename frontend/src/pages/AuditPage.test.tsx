@@ -62,6 +62,32 @@ describe('AuditPage', () => {
     expect(screen.getByText('won all origins')).toBeInTheDocument();
   });
 
+  it('shows the gate table once per candidate when a test is followed by its decision', async () => {
+    const test = audit.data.events[1]!;
+    const grouped: Envelope<Audit> = {
+      meta,
+      data: {
+        events: [
+          test,
+          { ...test, seq: 3, event_type: 'ACCEPT', summary: 'accepted C2' },
+        ],
+      },
+    };
+    vi.spyOn(api, 'getAudit').mockResolvedValue(grouped);
+    renderPage();
+    expect(await screen.findByText('accepted C2')).toBeInTheDocument();
+    expect(screen.getAllByRole('table')).toHaveLength(1);
+    expect(screen.getByText('second thing')).toBeInTheDocument();
+  });
+
+  it('has no event-type filter or redundant step text', async () => {
+    vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
+    renderPage();
+    await screen.findByText('first thing');
+    expect(screen.queryByRole('group', { name: /filter by event type/i })).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Step \d/)).not.toBeInTheDocument();
+  });
+
   it('shows details as key/value pairs', async () => {
     vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
     renderPage();

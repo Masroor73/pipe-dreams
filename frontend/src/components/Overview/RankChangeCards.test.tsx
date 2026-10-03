@@ -29,7 +29,9 @@ describe('RankChangeCards', () => {
     const cards = await screen.findAllByRole('button');
     expect(cards).toHaveLength(3);
     expect(screen.getByText('#40 → #3')).toBeInTheDocument();
-    expect(screen.getByText('↑ 37')).toBeInTheDocument();
+    expect(screen.getByText('37')).toBeInTheDocument();
+    expect(screen.getAllByLabelText('Moved up').length).toBeGreaterThan(0);
+    expect(screen.queryByText(/↑/)).not.toBeInTheDocument();
     await userEvent.click(cards[0]!);
     expect(screen.getByTestId('loc')).toHaveTextContent('?asset=seg_000013');
   });
