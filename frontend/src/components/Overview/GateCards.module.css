@@ -1,0 +1,207 @@
+.row {
+  padding-top: var(--space-3); /* room for the selected ribbon on the top edge */
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* The "selected" emphasis lives in .ring so it can be revealed last (opacity only). */
+.ring {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--color-accent);
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--color-accent), var(--shadow-md);
+  background: linear-gradient(180deg, var(--color-accent-soft), transparent 40%);
+  z-index: -1; /* above the card background, below its content */
+  pointer-events: none;
+}
+
+/* Sits on the card's top edge so it never shifts the rows below. */
+.ribbon {
+  position: absolute;
+  top: calc(-1 * var(--space-3));
+  left: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.cardHead h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+}
+
+.desc {
+  min-height: 3em; /* keeps rows aligned across cards */
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.wins {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.wins strong {
+  color: var(--color-text);
+}
+
+.pips {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pip {
+  position: relative;
+  width: 22px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-strong);
+}
+
+/* Filled win: covers the outlined pip; animated in with opacity/scaleX. */
+.pipFill {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  transform-origin: left center;
+}
+
+.verdict {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* "testing…" overlays the verdict slot while the card resolves; invisible at rest. */
+.testing {
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.stamp {
+  display: inline-flex;
+}
+
+.gain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.gainRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.gainRow strong {
+  font-size: var(--text-md);
+}
+
+.neg {
+  color: var(--color-reject);
+}
+
+.track {
+  height: 8px;
+  margin-bottom: var(--space-2);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+  transform-origin: left center;
+}
+
+.barNeg {
+  background: var(--color-reject);
+}
+
+.barReq {
+  background: var(--color-text-faint);
+}
+
+.reason {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: var(--border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  color: var(--color-accent);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  transition:
+    gap var(--duration-base) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.link:hover {
+  gap: var(--space-3);
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+  .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "status": "ok",
+  "artifacts_loaded": true,
+  "artifact_dir": "artifacts/synthetic",
+  "synthetic": true
+}

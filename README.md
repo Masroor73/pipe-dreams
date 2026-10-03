@@ -113,6 +113,21 @@ FastAPI is the HTTP layer between the browser and the Python artifacts / engine.
 
 See [`docs/TECH_STACK.md`](./docs/TECH_STACK.md) for rationale and constraints.
 
+### Running the frontend
+
+Requires Node.js 20+.
+
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173
+npm test           # Vitest
+npm run typecheck
+npm run build
+```
+
+By default (`frontend/.env.development`) the app runs in fixture mode (`VITE_USE_FIXTURES=true`) with synthetic data and a persistent **SYNTHETIC / PLACEHOLDER DATA** banner. To use the FastAPI backend instead, set `VITE_USE_FIXTURES=false` and `VITE_API_BASE_URL=http://localhost:8000` (e.g. in `frontend/.env.development.local`).
+
 ---
 
 ## Repository Structure

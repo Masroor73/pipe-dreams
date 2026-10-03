@@ -1,0 +1,129 @@
+.wrap {
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  font-size: var(--text-sm);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+  line-height: var(--leading-snug);
+  border-bottom: var(--border);
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0;
+  background: var(--color-surface-sunken);
+  border-bottom: var(--border-strong);
+  vertical-align: bottom;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3);
+  line-height: var(--leading-snug);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+.sortBtn svg {
+  flex: none;
+}
+.sortBtn:focus-visible,
+.assetBtn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+.sortBtn:active {
+  background: var(--color-border-strong);
+}
+.sortBtn:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+th[aria-sort='ascending'] .sortBtn,
+th[aria-sort='descending'] .sortBtn {
+  color: var(--color-accent);
+}
+.numCol .sortBtn {
+  justify-content: flex-end;
+}
+
+.table tbody tr {
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.table tbody tr:hover {
+  background: var(--color-accent-soft);
+}
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.numCol {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.wide {
+  min-width: 170px;
+}
+.owner {
+  min-width: 130px;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.date {
+  min-width: 108px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.assetBtn {
+  padding: var(--space-1) var(--space-2);
+  margin: calc(-1 * var(--space-1)) calc(-1 * var(--space-2));
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+.assetBtn:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-hover);
+}
+.assetBtn:active {
+  transform: scale(0.97);
+}

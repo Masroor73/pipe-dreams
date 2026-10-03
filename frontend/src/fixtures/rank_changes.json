@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "items": [
+      {
+        "asset_id": "seg_000013",
+        "rank_v1": 40,
+        "rank_v2": 3,
+        "delta_rank": -37,
+        "action_v1": "MONITOR",
+        "action_v2": "INSPECT",
+        "reason_1": "recency weighting",
+        "reason_2": "recent breaks weighted under hl10",
+        "show_in_demo": true
+      },
+      {
+        "asset_id": "seg_000001",
+        "rank_v1": 5,
+        "rank_v2": 31,
+        "delta_rank": 26,
+        "action_v1": "INSPECT",
+        "action_v2": "MONITOR",
+        "reason_1": "older breaks down-weighted",
+        "reason_2": null,
+        "show_in_demo": true
+      },
+      {
+        "asset_id": "seg_000051",
+        "rank_v1": 28,
+        "rank_v2": 22,
+        "delta_rank": -6,
+        "action_v1": "MONITOR",
+        "action_v2": "INSPECT",
+        "reason_1": "recent breaks weighted under hl10",
+        "reason_2": "crosses inspection budget cut-off",
+        "show_in_demo": true
+      },
+      {
+        "asset_id": "seg_000018",
+        "rank_v1": 3,
+        "rank_v2": 40,
+        "delta_rank": 37,
+        "action_v1": "INSPECT",
+        "action_v2": "MONITOR",
+        "reason_1": "relative reorder after recency weighting",
+        "reason_2": null,
+        "show_in_demo": false
+      },
+      {
+        "asset_id": "seg_000058",
+        "rank_v1": 31,
+        "rank_v2": 5,
+        "delta_rank": -26,
+        "action_v1": "VERIFY",
+        "action_v2": "VERIFY",
+        "reason_1": "relative reorder after recency weighting",
+        "reason_2": null,
+        "show_in_demo": false
+      },
+      {
+        "asset_id": "seg_000053",
+        "rank_v1": 22,
+        "rank_v2": 28,
+        "delta_rank": 6,
+        "action_v1": "CONDITION_ASSESS",
+        "action_v2": "MONITOR",
+        "reason_1": "relative reorder after recency weighting",
+        "reason_2": null,
+        "show_in_demo": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "items": [
+      {
+        "coverage_issue_id": "NC-01",
+        "scope": "service connections",
+        "description": "Service lines are not in the public pipe layer.",
+        "why_not_covered": "No public geometry or break attribution.",
+        "required_evidence": "Utility service-line registry",
+        "ui_severity": "HIGH",
+        "source_note": "Synthetic placeholder text"
+      },
+      {
+        "coverage_issue_id": "NC-02",
+        "scope": "private-side pipes",
+        "description": "Pipes on private property are outside the public network layer.",
+        "why_not_covered": "Ownership boundary; no break records.",
+        "required_evidence": "Owner-reported leak records",
+        "ui_severity": "HIGH",
+        "source_note": "Synthetic placeholder text"
+      },
+      {
+        "coverage_issue_id": "NC-03",
+        "scope": "non-public facilities",
+        "description": "Pump stations, reservoirs and treatment sites are not modelled as pipe assets.",
+        "why_not_covered": "Different failure modes and no public records.",
+        "required_evidence": "Facility maintenance logs",
+        "ui_severity": "MEDIUM",
+        "source_note": "Synthetic placeholder text"
+      },
+      {
+        "coverage_issue_id": "NC-04",
+        "scope": "pre-2000 unmatched breaks",
+        "description": "Older breaks that cannot be matched to a present-day pipe segment.",
+        "why_not_covered": "Present-day network does not reconstruct all historical assets.",
+        "required_evidence": "Historical asset register or as-built drawings",
+        "ui_severity": "MEDIUM",
+        "source_note": "Synthetic placeholder text"
+      },
+      {
+        "coverage_issue_id": "NC-05",
+        "scope": "pressure and transient data",
+        "description": "No pressure, surge or transient measurements feed the ranking.",
+        "why_not_covered": "Not available in the open data used.",
+        "required_evidence": "SCADA pressure time series",
+        "ui_severity": "LOW",
+        "source_note": "Synthetic placeholder text"
+      }
+    ]
+  }
+}
