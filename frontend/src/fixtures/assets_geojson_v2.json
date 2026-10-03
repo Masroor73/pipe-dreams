@@ -1,0 +1,1847 @@
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "id": "seg_000044",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.92974,
+              51.109536
+            ],
+            [
+              -113.930985,
+              51.109527
+            ],
+            [
+              -113.932181,
+              51.109311
+            ],
+            [
+              -113.933092,
+              51.108778
+            ],
+            [
+              -113.933674,
+              51.108086
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000044",
+          "rank": 1,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000026",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.232645,
+              51.11973
+            ],
+            [
+              -114.235376,
+              51.119759
+            ],
+            [
+              -114.238027,
+              51.120173
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000026",
+          "rank": 2,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000013",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.139251,
+              51.177748
+            ],
+            [
+              -114.138508,
+              51.178848
+            ],
+            [
+              -114.137468,
+              51.179848
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000013",
+          "rank": 3,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000009",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.194485,
+              51.136334
+            ],
+            [
+              -114.195017,
+              51.136304
+            ],
+            [
+              -114.19553,
+              51.136209
+            ],
+            [
+              -114.196032,
+              51.136093
+            ],
+            [
+              -114.19642,
+              51.135862
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000009",
+          "rank": 4,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000058",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.235993,
+              51.066627
+            ],
+            [
+              -114.235212,
+              51.063097
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000058",
+          "rank": 5,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000011",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.061319,
+              51.098468
+            ],
+            [
+              -114.061313,
+              51.097624
+            ],
+            [
+              -114.061063,
+              51.096794
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000011",
+          "rank": 6,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000016",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.163295,
+              51.085736
+            ],
+            [
+              -114.163985,
+              51.085792
+            ],
+            [
+              -114.164647,
+              51.085654
+            ],
+            [
+              -114.16534,
+              51.085616
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000016",
+          "rank": 7,
+          "selected": true,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000028",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.235795,
+              51.068626
+            ],
+            [
+              -114.235668,
+              51.069045
+            ],
+            [
+              -114.235696,
+              51.06947
+            ],
+            [
+              -114.236005,
+              51.069849
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000028",
+          "rank": 8,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000040",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.215915,
+              51.031324
+            ],
+            [
+              -114.215342,
+              51.032592
+            ],
+            [
+              -114.214878,
+              51.033877
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000040",
+          "rank": 9,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000027",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.156014,
+              50.984949
+            ],
+            [
+              -114.154132,
+              50.986001
+            ],
+            [
+              -114.151689,
+              50.986384
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000027",
+          "rank": 10,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000042",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.204669,
+              51.047492
+            ],
+            [
+              -114.204184,
+              51.048586
+            ],
+            [
+              -114.203928,
+              51.049709
+            ],
+            [
+              -114.203055,
+              51.050703
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000042",
+          "rank": 11,
+          "selected": true,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000043",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.04497,
+              51.101805
+            ],
+            [
+              -114.04585,
+              51.101346
+            ],
+            [
+              -114.046664,
+              51.100842
+            ],
+            [
+              -114.047743,
+              51.100603
+            ],
+            [
+              -114.048649,
+              51.100165
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000043",
+          "rank": 12,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000033",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.135098,
+              51.058675
+            ],
+            [
+              -114.134187,
+              51.058551
+            ],
+            [
+              -114.133267,
+              51.058644
+            ],
+            [
+              -114.132342,
+              51.058572
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000033",
+          "rank": 13,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000054",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.9616,
+              51.037315
+            ],
+            [
+              -113.965026,
+              51.038703
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000054",
+          "rank": 14,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000006",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.146482,
+              51.110555
+            ],
+            [
+              -114.146135,
+              51.111504
+            ],
+            [
+              -114.146274,
+              51.112474
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000006",
+          "rank": 15,
+          "selected": true,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000031",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.988069,
+              51.069706
+            ],
+            [
+              -113.987471,
+              51.068833
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000031",
+          "rank": 16,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000036",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.194997,
+              51.154829
+            ],
+            [
+              -114.194687,
+              51.155089
+            ],
+            [
+              -114.194611,
+              51.15541
+            ],
+            [
+              -114.194531,
+              51.155731
+            ],
+            [
+              -114.194276,
+              51.156013
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000036",
+          "rank": 17,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000049",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.974229,
+              50.966622
+            ],
+            [
+              -113.974743,
+              50.967432
+            ],
+            [
+              -113.97485,
+              50.968301
+            ],
+            [
+              -113.975478,
+              50.969079
+            ],
+            [
+              -113.976369,
+              50.969747
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000049",
+          "rank": 18,
+          "selected": true,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000052",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.184704,
+              50.933491
+            ],
+            [
+              -114.185384,
+              50.933066
+            ],
+            [
+              -114.18598,
+              50.932593
+            ],
+            [
+              -114.186697,
+              50.932192
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000052",
+          "rank": 19,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000004",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.969179,
+              51.039471
+            ],
+            [
+              -113.969991,
+              51.041164
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000004",
+          "rank": 20,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000032",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.063086,
+              50.980603
+            ],
+            [
+              -114.064295,
+              50.980645
+            ],
+            [
+              -114.065487,
+              50.980777
+            ],
+            [
+              -114.066678,
+              50.980915
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000032",
+          "rank": 21,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000051",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.012165,
+              50.903828
+            ],
+            [
+              -114.012337,
+              50.903203
+            ],
+            [
+              -114.012807,
+              50.902642
+            ],
+            [
+              -114.013476,
+              50.902167
+            ],
+            [
+              -114.013904,
+              50.901593
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000051",
+          "rank": 22,
+          "selected": true,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "INSPECT"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000023",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.971342,
+              51.129361
+            ],
+            [
+              -113.972016,
+              51.129484
+            ],
+            [
+              -113.972684,
+              51.129616
+            ],
+            [
+              -113.973263,
+              51.129865
+            ],
+            [
+              -113.973923,
+              51.130012
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000023",
+          "rank": 23,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000017",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.921051,
+              51.052918
+            ],
+            [
+              -113.925026,
+              51.055503
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000017",
+          "rank": 24,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000015",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.232004,
+              51.033195
+            ],
+            [
+              -114.235279,
+              51.033521
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000015",
+          "rank": 25,
+          "selected": true,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "CONDITION_ASSESS"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000045",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.921446,
+              51.070132
+            ],
+            [
+              -113.921193,
+              51.069322
+            ],
+            [
+              -113.921289,
+              51.068498
+            ],
+            [
+              -113.92199,
+              51.0678
+            ],
+            [
+              -113.922965,
+              51.067246
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000045",
+          "rank": 26,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000059",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.953133,
+              51.103331
+            ],
+            [
+              -113.957018,
+              51.105811
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000059",
+          "rank": 27,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000053",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.229969,
+              51.175412
+            ],
+            [
+              -114.224634,
+              51.174155
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000053",
+          "rank": 28,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000056",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.010507,
+              51.158721
+            ],
+            [
+              -114.009043,
+              51.158568
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000056",
+          "rank": 29,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000021",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.954516,
+              51.157047
+            ],
+            [
+              -113.954288,
+              51.156397
+            ],
+            [
+              -113.954518,
+              51.155748
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000021",
+          "rank": 30,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000001",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.213221,
+              50.914589
+            ],
+            [
+              -114.214547,
+              50.914406
+            ],
+            [
+              -114.21588,
+              50.914568
+            ],
+            [
+              -114.217197,
+              50.914772
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000001",
+          "rank": 31,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000012",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.990421,
+              51.116152
+            ],
+            [
+              -113.992161,
+              51.116178
+            ],
+            [
+              -113.993895,
+              51.116081
+            ],
+            [
+              -113.995507,
+              51.115668
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000012",
+          "rank": 32,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000048",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.074747,
+              51.013171
+            ],
+            [
+              -114.075528,
+              51.013394
+            ],
+            [
+              -114.076211,
+              51.013722
+            ],
+            [
+              -114.076933,
+              51.014013
+            ],
+            [
+              -114.07748,
+              51.014429
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000048",
+          "rank": 33,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000030",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.160477,
+              50.920656
+            ],
+            [
+              -114.162991,
+              50.923843
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000030",
+          "rank": 34,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000057",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.116015,
+              51.157839
+            ],
+            [
+              -114.115499,
+              51.158369
+            ],
+            [
+              -114.115426,
+              51.158989
+            ],
+            [
+              -114.114928,
+              51.159525
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000057",
+          "rank": 35,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000055",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.146823,
+              51.102809
+            ],
+            [
+              -114.146084,
+              51.102926
+            ],
+            [
+              -114.145382,
+              51.103115
+            ],
+            [
+              -114.144621,
+              51.103138
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000055",
+          "rank": 36,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000046",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.098184,
+              50.995035
+            ],
+            [
+              -114.100532,
+              50.99192
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000046",
+          "rank": 37,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000002",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.107401,
+              51.017529
+            ],
+            [
+              -114.109783,
+              51.020715
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000002",
+          "rank": 38,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000007",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.24092,
+              50.911819
+            ],
+            [
+              -114.240263,
+              50.911335
+            ],
+            [
+              -114.239939,
+              50.910733
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000007",
+          "rank": 39,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000018",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.016339,
+              50.962893
+            ],
+            [
+              -114.013581,
+              50.961576
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000018",
+          "rank": 40,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000005",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.937946,
+              50.992878
+            ],
+            [
+              -113.938327,
+              50.993577
+            ],
+            [
+              -113.938977,
+              50.994193
+            ],
+            [
+              -113.939226,
+              50.994915
+            ],
+            [
+              -113.939071,
+              50.995647
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000005",
+          "rank": 41,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000020",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.247164,
+              51.092616
+            ],
+            [
+              -114.24322,
+              51.093905
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000020",
+          "rank": 42,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000022",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.124841,
+              51.099658
+            ],
+            [
+              -114.123805,
+              51.09858
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000022",
+          "rank": 43,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000024",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.986481,
+              50.989946
+            ],
+            [
+              -113.987814,
+              50.989446
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000024",
+          "rank": 44,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000003",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.161777,
+              51.131938
+            ],
+            [
+              -114.160539,
+              51.135119
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000003",
+          "rank": 45,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000014",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.169139,
+              50.922655
+            ],
+            [
+              -114.167632,
+              50.921502
+            ],
+            [
+              -114.165919,
+              50.920468
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000014",
+          "rank": 46,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000025",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.161836,
+              50.923016
+            ],
+            [
+              -114.162925,
+              50.922766
+            ],
+            [
+              -114.164012,
+              50.922513
+            ],
+            [
+              -114.165159,
+              50.922615
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000025",
+          "rank": 47,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000029",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.999621,
+              50.9325
+            ],
+            [
+              -113.99792,
+              50.932182
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000029",
+          "rank": 48,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000047",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.081564,
+              51.155576
+            ],
+            [
+              -114.081775,
+              51.155124
+            ],
+            [
+              -114.082037,
+              51.154683
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000047",
+          "rank": 49,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000060",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.046031,
+              51.120793
+            ],
+            [
+              -114.0447,
+              51.120648
+            ],
+            [
+              -114.043397,
+              51.120872
+            ],
+            [
+              -114.042121,
+              51.121151
+            ],
+            [
+              -114.040772,
+              51.1212
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000060",
+          "rank": 50,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000019",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.11511,
+              51.113903
+            ],
+            [
+              -114.114493,
+              51.113701
+            ],
+            [
+              -114.113817,
+              51.113597
+            ],
+            [
+              -114.113144,
+              51.113708
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000019",
+          "rank": 51,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000010",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.178441,
+              51.056659
+            ],
+            [
+              -114.178929,
+              51.056831
+            ],
+            [
+              -114.1793,
+              51.057094
+            ],
+            [
+              -114.179759,
+              51.057295
+            ],
+            [
+              -114.180251,
+              51.057463
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000010",
+          "rank": 52,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000037",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.946049,
+              51.072514
+            ],
+            [
+              -113.94575,
+              51.07294
+            ],
+            [
+              -113.945654,
+              51.073402
+            ],
+            [
+              -113.945525,
+              51.07386
+            ],
+            [
+              -113.945613,
+              51.074323
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000037",
+          "rank": 53,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000035",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.202626,
+              51.061955
+            ],
+            [
+              -114.201834,
+              51.062968
+            ],
+            [
+              -114.200748,
+              51.063866
+            ],
+            [
+              -114.19931,
+              51.064541
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000035",
+          "rank": 54,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000008",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.076709,
+              51.173561
+            ],
+            [
+              -114.078263,
+              51.173876
+            ],
+            [
+              -114.079886,
+              51.173985
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000008",
+          "rank": 55,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000041",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.146565,
+              50.936419
+            ],
+            [
+              -114.145491,
+              50.936355
+            ],
+            [
+              -114.144414,
+              50.936403
+            ],
+            [
+              -114.143505,
+              50.936768
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000041",
+          "rank": 56,
+          "selected": false,
+          "consequence_tier": "T2",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000034",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -113.939998,
+              51.082952
+            ],
+            [
+              -113.940422,
+              51.0831
+            ],
+            [
+              -113.940756,
+              51.083321
+            ],
+            [
+              -113.941207,
+              51.083434
+            ],
+            [
+              -113.941648,
+              51.083561
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000034",
+          "rank": 57,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000038",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.089092,
+              51.018667
+            ],
+            [
+              -114.08528,
+              51.018795
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000038",
+          "rank": 58,
+          "selected": false,
+          "consequence_tier": "T3",
+          "evidence_confidence": "LOW_VERIFY",
+          "recommended_action": "VERIFY"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000039",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.188519,
+              51.151153
+            ],
+            [
+              -114.187535,
+              51.150844
+            ],
+            [
+              -114.186468,
+              51.150675
+            ],
+            [
+              -114.185482,
+              51.150368
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000039",
+          "rank": 59,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "MEDIUM",
+          "recommended_action": "MONITOR"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "seg_000050",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -114.076389,
+              51.022121
+            ],
+            [
+              -114.078107,
+              51.021154
+            ],
+            [
+              -114.079524,
+              51.02001
+            ]
+          ]
+        },
+        "properties": {
+          "asset_id": "seg_000050",
+          "rank": 60,
+          "selected": false,
+          "consequence_tier": "T1",
+          "evidence_confidence": "HIGH",
+          "recommended_action": "MONITOR"
+        }
+      }
+    ]
+  }
+}

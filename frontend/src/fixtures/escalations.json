@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "items": [
+      {
+        "asset_id": "seg_000058",
+        "priority_rank": 5,
+        "consequence_tier": "T2",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "top-ranked asset with low evidence confidence",
+        "owner": "Water Integrity Lead",
+        "required_action": "Verify asset record before scheduling",
+        "response_deadline": "2026-10-24",
+        "status": "OPEN",
+        "last_reviewed": "2026-10-03"
+      },
+      {
+        "asset_id": "seg_000028",
+        "priority_rank": 8,
+        "consequence_tier": "T2",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "top-ranked asset with low evidence confidence",
+        "owner": "Asset Data Steward",
+        "required_action": "Confirm break history with field crew",
+        "response_deadline": "2026-11-01",
+        "status": "IN_REVIEW",
+        "last_reviewed": "2026-10-02"
+      },
+      {
+        "asset_id": "seg_000046",
+        "priority_rank": 37,
+        "consequence_tier": "T3",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "top-ranked asset with low evidence confidence",
+        "owner": "Field Inspection Supervisor",
+        "required_action": "Verify asset record before scheduling",
+        "response_deadline": "2026-11-07",
+        "status": "CLOSED",
+        "last_reviewed": "2026-10-02"
+      },
+      {
+        "asset_id": "seg_000002",
+        "priority_rank": 38,
+        "consequence_tier": "T2",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "top-ranked asset with low evidence confidence",
+        "owner": "Water Integrity Lead",
+        "required_action": "Confirm break history with field crew",
+        "response_deadline": "2026-11-15",
+        "status": "OPEN",
+        "last_reviewed": "2026-10-03"
+      },
+      {
+        "asset_id": "seg_000020",
+        "priority_rank": 42,
+        "consequence_tier": "T1",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "high consequence, low evidence confidence",
+        "owner": "Asset Data Steward",
+        "required_action": "Verify asset record before scheduling",
+        "response_deadline": "2026-11-21",
+        "status": "IN_REVIEW",
+        "last_reviewed": "2026-10-02"
+      },
+      {
+        "asset_id": "seg_000022",
+        "priority_rank": 43,
+        "consequence_tier": "T1",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "high consequence, low evidence confidence",
+        "owner": "Field Inspection Supervisor",
+        "required_action": "Confirm break history with field crew",
+        "response_deadline": "2026-12-01",
+        "status": "OPEN",
+        "last_reviewed": "2026-10-02"
+      },
+      {
+        "asset_id": "seg_000024",
+        "priority_rank": 44,
+        "consequence_tier": "T2",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "top-ranked asset with low evidence confidence",
+        "owner": "Water Integrity Lead",
+        "required_action": "Verify asset record before scheduling",
+        "response_deadline": "2026-12-12",
+        "status": "CLOSED",
+        "last_reviewed": "2026-10-03"
+      },
+      {
+        "asset_id": "seg_000003",
+        "priority_rank": 45,
+        "consequence_tier": "T1",
+        "evidence_confidence": "LOW_VERIFY",
+        "escalation_reason": "high consequence, low evidence confidence",
+        "owner": "Asset Data Steward",
+        "required_action": "Confirm break history with field crew",
+        "response_deadline": "2026-12-19",
+        "status": "OPEN",
+        "last_reviewed": "2026-10-02"
+      }
+    ]
+  }
+}

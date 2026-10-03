@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "events": [
+      {
+        "seq": 1,
+        "event_type": "PLAN_V1",
+        "timestamp": "2026-10-03T14:04:56Z",
+        "summary": "Built V1 plan: full history, per-asset ranking, budgets 1/2/5/10%",
+        "candidate": null,
+        "details": {
+          "policy_id": "V1"
+        }
+      },
+      {
+        "seq": 2,
+        "event_type": "EVALUATE",
+        "timestamp": "2026-10-03T14:09:23Z",
+        "summary": "Evaluated V1 on 3 validation origins against count-only and organizer baselines",
+        "candidate": null,
+        "details": {
+          "origins": [
+            "2013-12-31",
+            "2016-12-31",
+            "2019-12-31"
+          ]
+        }
+      },
+      {
+        "seq": 3,
+        "event_type": "DIAGNOSE",
+        "timestamp": "2026-10-03T14:13:58Z",
+        "summary": "Diagnosed V1 weakness: recent breaks under-weighted relative to older history",
+        "candidate": null,
+        "details": {
+          "hypothesis": "recency weighting"
+        }
+      },
+      {
+        "seq": 4,
+        "event_type": "TEST_CANDIDATE",
+        "timestamp": "2026-10-03T14:18:34Z",
+        "summary": "Testing C1 (2000+ history, no decay, per-asset) against V1 on 3 validation origins",
+        "candidate": {
+          "candidate_id": "C1",
+          "origin_wins": 1,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.193,
+          "difference": 0.003,
+          "bootstrap_se": 0.009,
+          "required_delta": 0.009,
+          "decision": "REJECT",
+          "reason": "won only 1/3 origins; pooled gain below 1 SE"
+        },
+        "details": {}
+      },
+      {
+        "seq": 5,
+        "event_type": "REJECT",
+        "timestamp": "2026-10-03T14:22:38Z",
+        "summary": "Rejected C1: won only 1/3 origins; pooled gain below 1 SE",
+        "candidate": {
+          "candidate_id": "C1",
+          "origin_wins": 1,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.193,
+          "difference": 0.003,
+          "bootstrap_se": 0.009,
+          "required_delta": 0.009,
+          "decision": "REJECT",
+          "reason": "won only 1/3 origins; pooled gain below 1 SE"
+        },
+        "details": {}
+      },
+      {
+        "seq": 6,
+        "event_type": "TEST_CANDIDATE",
+        "timestamp": "2026-10-03T14:27:27Z",
+        "summary": "Testing C2 (full history, hl10 recency, per-asset) against V1 on 3 validation origins",
+        "candidate": {
+          "candidate_id": "C2",
+          "origin_wins": 2,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.205,
+          "difference": 0.015,
+          "bootstrap_se": 0.008,
+          "required_delta": 0.008,
+          "decision": "ACCEPT",
+          "reason": "won 2/3 origins and pooled gain >= 1 SE"
+        },
+        "details": {}
+      },
+      {
+        "seq": 7,
+        "event_type": "ACCEPT",
+        "timestamp": "2026-10-03T14:32:43Z",
+        "summary": "Accepted C2: won 2/3 origins and pooled gain >= 1 SE",
+        "candidate": {
+          "candidate_id": "C2",
+          "origin_wins": 2,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.205,
+          "difference": 0.015,
+          "bootstrap_se": 0.008,
+          "required_delta": 0.008,
+          "decision": "ACCEPT",
+          "reason": "won 2/3 origins and pooled gain >= 1 SE"
+        },
+        "details": {}
+      },
+      {
+        "seq": 8,
+        "event_type": "TEST_CANDIDATE",
+        "timestamp": "2026-10-03T14:37:00Z",
+        "summary": "Testing C3 (full history, no decay, per-metre) against V1 on 3 validation origins",
+        "candidate": {
+          "candidate_id": "C3",
+          "origin_wins": 2,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.194,
+          "difference": 0.004,
+          "bootstrap_se": 0.009,
+          "required_delta": 0.009,
+          "decision": "REJECT",
+          "reason": "won 2/3 origins but pooled gain 0.004 is below required 0.009 (1 SE)"
+        },
+        "details": {}
+      },
+      {
+        "seq": 9,
+        "event_type": "REJECT",
+        "timestamp": "2026-10-03T14:42:28Z",
+        "summary": "Rejected C3: won 2/3 origins but pooled gain 0.004 is below required 0.009 (1 SE)",
+        "candidate": {
+          "candidate_id": "C3",
+          "origin_wins": 2,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.194,
+          "difference": 0.004,
+          "bootstrap_se": 0.009,
+          "required_delta": 0.009,
+          "decision": "REJECT",
+          "reason": "won 2/3 origins but pooled gain 0.004 is below required 0.009 (1 SE)"
+        },
+        "details": {}
+      },
+      {
+        "seq": 10,
+        "event_type": "TEST_CANDIDATE",
+        "timestamp": "2026-10-03T14:47:46Z",
+        "summary": "Testing C4 (2000+ history, hl10 recency, per-asset) against V1 on 3 validation origins",
+        "candidate": {
+          "candidate_id": "C4",
+          "origin_wins": 0,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.184,
+          "difference": -0.006,
+          "bootstrap_se": 0.008,
+          "required_delta": 0.008,
+          "decision": "REJECT",
+          "reason": "won 0/3 origins; pooled score below V1"
+        },
+        "details": {}
+      },
+      {
+        "seq": 11,
+        "event_type": "REJECT",
+        "timestamp": "2026-10-03T14:52:24Z",
+        "summary": "Rejected C4: won 0/3 origins; pooled score below V1",
+        "candidate": {
+          "candidate_id": "C4",
+          "origin_wins": 0,
+          "n_origins": 3,
+          "pooled_v1_score": 0.19,
+          "pooled_candidate_score": 0.184,
+          "difference": -0.006,
+          "bootstrap_se": 0.008,
+          "required_delta": 0.008,
+          "decision": "REJECT",
+          "reason": "won 0/3 origins; pooled score below V1"
+        },
+        "details": {}
+      },
+      {
+        "seq": 12,
+        "event_type": "PLAN_V2",
+        "timestamp": "2026-10-03T14:56:41Z",
+        "summary": "Built V2 plan from accepted candidate C2",
+        "candidate": null,
+        "details": {
+          "policy_id": "C2"
+        }
+      },
+      {
+        "seq": 13,
+        "event_type": "ESCALATE",
+        "timestamp": "2026-10-03T15:01:55Z",
+        "summary": "Escalated assets with high consequence and low evidence confidence for verification",
+        "candidate": null,
+        "details": {
+          "count": 8
+        }
+      }
+    ]
+  }
+}
