@@ -40,7 +40,7 @@ Both:
 2. commit documentation + skeleton;
 3. both clone same repo;
 4. install frontend/backend dependencies;
-5. teammate ports existing audit code into backend engine/scripts without rewriting;
+5. teammate ports existing audit code into top-level `engine/` without rewriting;
 6. frontend builds against synthetic/dev artifacts;
 7. teammate runs rolling validation;
 8. confidence thresholds frozen;

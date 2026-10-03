@@ -150,18 +150,21 @@ pipe-dreams/
 │   │   ├── core/
 │   │   │   └── settings.py
 │   │   ├── schemas/
-│   │   ├── services/
-│   │   │   └── artifact_service.py
-│   │   └── engine/
-│   │       ├── matching.py
-│   │       ├── evidence.py
-│   │       ├── model.py
-│   │       ├── planner.py
-│   │       ├── evaluation.py
-│   │       ├── agent.py
-│   │       └── governance.py
+│   │   └── services/
+│   │       └── artifact_service.py
 │   ├── tests/
 │   └── pyproject.toml
+│
+├── engine/                      # offline: writes artifacts; never imported by API routes
+│   ├── pipe_dreams_engine/
+│   │   ├── matching.py
+│   │   ├── evidence.py
+│   │   ├── model.py
+│   │   ├── planner.py
+│   │   ├── evaluation.py
+│   │   ├── agent.py
+│   │   └── governance.py
+│   └── tests/
 │
 ├── frontend/
 │   ├── src/
@@ -175,8 +178,12 @@ pipe-dreams/
 │   ├── tsconfig.json
 │   └── vite.config.ts
 │
-└── artifacts/
-    └── .gitkeep
+├── artifacts/                   # handoff point: engine writes, API reads
+│   ├── .gitkeep
+│   └── synthetic/               # committed fixtures for UI/API dev (synthetic=true)
+│
+├── data/                        # raw downloads, git-ignored
+└── scripts/
 ```
 
 ---
@@ -207,35 +214,37 @@ sequenceDiagram
 
 ---
 
-## 7. Backend Modules
+## 7. Engine and Backend Modules
 
-### `engine/matching.py`
+Engine modules live in top-level `engine/pipe_dreams_engine/` and run offline to produce artifacts. The FastAPI backend only reads artifacts through `services/artifact_service.py`; routes never import engine code.
+
+### `engine/pipe_dreams_engine/matching.py`
 Responsibilities:
 - projected point-to-line matching;
 - distance/gap metadata;
 - temporal attribution safeguards;
 - ambiguity flags.
 
-### `engine/evidence.py`
+### `engine/pipe_dreams_engine/evidence.py`
 Responsibilities:
 - cutoff-safe features;
 - evidence-basis labels;
 - evidence-confidence component values.
 
-### `engine/model.py`
+### `engine/pipe_dreams_engine/model.py`
 Responsibilities:
 - count baseline;
 - logistic regression;
 - comparison model where retained;
 - time-safe training/prediction.
 
-### `engine/planner.py`
+### `engine/pipe_dreams_engine/planner.py`
 Responsibilities:
 - create V1/candidate plans;
 - enforce Top-N or network-length capacity;
 - assign deterministic ranking.
 
-### `engine/evaluation.py`
+### `engine/pipe_dreams_engine/evaluation.py`
 Responsibilities:
 - rolling-origin replay;
 - capture metrics;
@@ -243,7 +252,7 @@ Responsibilities:
 - block bootstrap;
 - candidate-vs-V1 gate inputs.
 
-### `engine/agent.py`
+### `engine/pipe_dreams_engine/agent.py`
 Responsibilities:
 - bounded state machine;
 - test frozen candidates;
@@ -251,7 +260,7 @@ Responsibilities:
 - select best passing V2;
 - produce `agent_log.jsonl`.
 
-### `engine/governance.py`
+### `engine/pipe_dreams_engine/governance.py`
 Responsibilities:
 - evidence-confidence tiers;
 - VERIFY / ESCALATE / DEFER rules;
