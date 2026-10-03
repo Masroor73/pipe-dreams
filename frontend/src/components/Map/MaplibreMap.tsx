@@ -1,14 +1,15 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
+import type { MapRef } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import {
   BASEMAP_OFFLINE_NOTE,
   BASEMAP_STYLE_URL,
   CONFIDENCE_COLORS,
   FIT_MAX_ZOOM,
-  FIT_PADDING,
+  FIT_EASE_MS,
   INITIAL_VIEW,
   CASING_COLOR,
   CHANGED_PULSE,
@@ -20,7 +21,7 @@ import {
 } from '../../config/map';
 import type { AssetFeatureCollection, AssetFeatureProperties } from '../../types/api';
 import { useChangedPulse } from './changedSegments';
-import { featureBounds } from './geo';
+import { featureBounds, fitPadding } from './geo';
 import { OFFLINE_STYLE } from './offlineStyle';
 import { useBasemap } from './useBasemap';
 import type { MapViewProps } from './SvgFallbackMap';
@@ -71,16 +72,41 @@ export function MaplibreMap({ features, selectedId, changedIds, pulseKey, onSele
   } as never;
   const data = useMemo<AssetFeatureCollection>(() => ({ type: 'FeatureCollection', features }), [features]);
   const bounds = useMemo(() => featureBounds(features), [features]);
+  const mapRef = useRef<MapRef>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const fittedBounds = useRef(bounds);
+  const panelOpenRef = useRef(selectedId !== null);
+  panelOpenRef.current = selectedId !== null;
   const initialViewState = bounds
-    ? { bounds, fitBoundsOptions: { padding: FIT_PADDING, maxZoom: FIT_MAX_ZOOM } }
+    ? {
+        bounds,
+        fitBoundsOptions: {
+          padding: fitPadding(typeof window === 'undefined' ? 0 : window.innerWidth, selectedId !== null),
+          maxZoom: FIT_MAX_ZOOM,
+        },
+      }
     : INITIAL_VIEW;
+
+  // Refit when the loaded segments change (e.g. the V1/V2 toggle); the first fit is the initial view state.
+  useEffect(() => {
+    if (!bounds || fittedBounds.current === bounds) return;
+    fittedBounds.current = bounds;
+    const reduced = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const width = wrapRef.current?.clientWidth ?? window.innerWidth;
+    mapRef.current?.fitBounds(bounds, {
+      padding: fitPadding(width, panelOpenRef.current),
+      maxZoom: FIT_MAX_ZOOM,
+      duration: reduced ? 0 : FIT_EASE_MS,
+    });
+  }, [bounds]);
 
   const propsAt = (e: MapLayerMouseEvent): AssetFeatureProperties | null =>
     (e.features?.[0]?.properties as AssetFeatureProperties | undefined) ?? null;
 
   return (
-    <div className={styles.mapFill}>
+    <div className={styles.mapFill} ref={wrapRef}>
       <Map
+        ref={mapRef}
         key={mode}
         initialViewState={initialViewState}
         mapStyle={mode === 'online' ? BASEMAP_STYLE_URL : OFFLINE_STYLE}

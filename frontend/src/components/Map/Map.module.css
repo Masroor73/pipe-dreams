@@ -19,7 +19,7 @@
 }
 
 .svgLine {
-  stroke-width: 3.5px;
+  stroke-width: 5px;
   cursor: pointer;
   transition:
     stroke-width var(--duration-fast) var(--ease-out),
@@ -34,17 +34,17 @@
 }
 
 .svgLine:focus-visible {
-  stroke-width: 6px;
+  stroke-width: 7px;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .svgLine:hover {
-    stroke-width: 6px;
+    stroke-width: 7px;
   }
 }
 
 .svgLineSelected {
-  stroke-width: 7px;
+  stroke-width: 9px;
 }
 
 .basemapNote {
@@ -130,7 +130,59 @@
 .legend {
   left: var(--space-4);
   bottom: var(--space-4);
-  max-width: 340px;
+  max-width: min(340px, calc(100% - 2 * var(--space-4)));
+}
+
+/* Desktop: the heading looks like a plain title; the toggle only works on small screens. */
+.legendToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: default;
+  pointer-events: none;
+}
+
+.caret,
+.caretOpen {
+  display: none;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 640px) {
+  .legendToggle {
+    min-height: 44px;
+    margin-block: calc(-1 * var(--space-3));
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .caret,
+  .caretOpen {
+    display: inline-block;
+  }
+
+  .legendHidden {
+    display: none;
+  }
+
+  .toggleCard {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .segment {
+    min-height: 36px;
+  }
 }
 
 .legendList {

@@ -1,3 +1,10 @@
+import {
+  FIT_COMPACT_BELOW_PX,
+  FIT_MIN_VISIBLE_PX,
+  FIT_PADDING,
+  FIT_PADDING_COMPACT,
+  FIT_PANEL_WIDTH_PX,
+} from '../../config/map';
 import type { AssetFeature } from '../../types/api';
 
 export type Bounds = [[number, number], [number, number]];
@@ -21,6 +28,20 @@ export function featureBounds(features: AssetFeature[]): Bounds | null {
     [minX, minY],
     [maxX, maxY],
   ];
+}
+
+export interface FitPadding {
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+}
+
+/** Camera padding for fitting the lines: compact on narrow maps, and keeps lines clear of the asset panel when it sits beside the map. */
+export function fitPadding(mapWidth: number, panelOpen: boolean): FitPadding {
+  const base = mapWidth > 0 && mapWidth < FIT_COMPACT_BELOW_PX ? FIT_PADDING_COMPACT : FIT_PADDING;
+  const panelBesideMap = panelOpen && mapWidth - FIT_PANEL_WIDTH_PX >= FIT_MIN_VISIBLE_PX;
+  return { top: base, bottom: base, left: base, right: base + (panelBesideMap ? FIT_PANEL_WIDTH_PX : 0) };
 }
 
 export function hasWebGL(): boolean {

@@ -24,20 +24,27 @@ export const INITIAL_VIEW = { longitude: -114.0719, latitude: 51.0447, zoom: 10 
 
 /** Line widths in px as [zoom, width] stops, interpolated linearly by MapLibre. >= 3px at the fitted view (~z14). */
 export const LINE_WIDTH_STOPS = {
-  base: [[11, 2.5], [13, 4.5], [15, 7], [17, 11]],
-  hover: [[11, 4.5], [13, 7], [15, 10], [17, 15]],
-  selected: [[11, 4.5], [13, 7.5], [15, 11], [17, 16]],
+  base: [[9, 4], [11, 5], [13, 6], [15, 8], [17, 12]],
+  hover: [[9, 6], [11, 7], [13, 8.5], [15, 11], [17, 15]],
+  selected: [[9, 7], [11, 8], [13, 9.5], [15, 12], [17, 16]],
 } as const;
 export const CASING_EXTRA = 3; // white casing is this many px wider than the line
 export const HALO_EXTRA = 8; // accent halo extra width around the selected line
 export const CASING_COLOR = '#ffffff'; // --color-surface
 export const HALO_COLOR = '#0b6e99'; // --color-accent
-export const SVG_LINE_WIDTH = { base: 3.5, hover: 6, selected: 7 };
+export const SVG_LINE_WIDTH = { base: 5, hover: 7, selected: 9 }; // mirrored in Map.module.css
 
 /** Where MapLibre's worker files are served (see vite.config.ts). */
 export const MAPLIBRE_WORKER_PATH = 'maplibre/maplibre-gl-worker.mjs';
 export const FIT_PADDING = 64;
+export const FIT_PADDING_COMPACT = 32; // used when the map is narrower than FIT_COMPACT_BELOW_PX
+export const FIT_COMPACT_BELOW_PX = 640;
 export const FIT_MAX_ZOOM = 14;
+export const FIT_EASE_MS = 400; // animated refit when the plan changes; 0 under prefers-reduced-motion
+/** Mirrors --panel-width in tokens.css: the asset panel covers this much of the map's right side. */
+export const FIT_PANEL_WIDTH_PX = 480;
+/** If less than this much map would remain beside the panel, ignore the panel (it is full-width on small screens). */
+export const FIT_MIN_VISIBLE_PX = 300;
 
 /** Online vector basemap (OpenFreeMap Positron: free, no key). Attribution comes from the style's sources. */
 export const BASEMAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
