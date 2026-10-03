@@ -1,0 +1,5 @@
+coverage_issue_id,scope,description,why_not_covered,required_evidence,ui_severity,source_note
+NC-01,service connections,Service lines are not in the public pipe layer.,No public geometry or break attribution.,Utility service-line registry,HIGH,SYNTHETIC placeholder (City of Calgary open data pipe layer)
+NC-02,valves and hydrants,Valves and hydrants are not modelled as assets.,Failures are attributed to mains only.,Valve and hydrant asset inventory,MEDIUM,SYNTHETIC placeholder (City of Calgary open data pipe layer)
+NC-03,private-side infrastructure,Customer-side plumbing is out of scope.,No data on private-side breaks.,Private-side incident reports,LOW,SYNTHETIC placeholder (City of Calgary open data pipe layer)
+NC-04,pressure transients,Surge and transient pressure events are not observed.,No pressure telemetry in the open data.,SCADA pressure time series,MEDIUM,SYNTHETIC placeholder (City of Calgary open data pipe layer)
