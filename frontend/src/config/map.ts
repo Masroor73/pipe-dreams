@@ -24,11 +24,11 @@ export const INITIAL_VIEW = { longitude: -114.0719, latitude: 51.0447, zoom: 10 
 
 /** Line widths in px as [zoom, width] stops, interpolated linearly by MapLibre. >= 3px at the fitted view (~z14). */
 export const LINE_WIDTH_STOPS = {
-  base: [[11, 2], [13, 3.5], [15, 6], [17, 10]],
-  hover: [[11, 4], [13, 6], [15, 9], [17, 14]],
-  selected: [[11, 4], [13, 6.5], [15, 10], [17, 15]],
+  base: [[11, 2.5], [13, 4.5], [15, 7], [17, 11]],
+  hover: [[11, 4.5], [13, 7], [15, 10], [17, 15]],
+  selected: [[11, 4.5], [13, 7.5], [15, 11], [17, 16]],
 } as const;
-export const CASING_EXTRA = 2; // white casing is this many px wider than the line
+export const CASING_EXTRA = 3; // white casing is this many px wider than the line
 export const HALO_EXTRA = 8; // accent halo extra width around the selected line
 export const CASING_COLOR = '#ffffff'; // --color-surface
 export const HALO_COLOR = '#0b6e99'; // --color-accent
@@ -38,3 +38,9 @@ export const SVG_LINE_WIDTH = { base: 3.5, hover: 6, selected: 7 };
 export const MAPLIBRE_WORKER_PATH = 'maplibre/maplibre-gl-worker.mjs';
 export const FIT_PADDING = 64;
 export const FIT_MAX_ZOOM = 14;
+
+/** Online vector basemap (OpenFreeMap Positron: free, no key). Attribution comes from the style's sources. */
+export const BASEMAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';
+/** If the basemap style has not loaded within this long, switch to the offline style. */
+export const BASEMAP_LOAD_TIMEOUT_MS = 4000;
+export const BASEMAP_OFFLINE_NOTE = 'Basemap offline';

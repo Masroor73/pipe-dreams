@@ -4,6 +4,8 @@ import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import {
+  BASEMAP_OFFLINE_NOTE,
+  BASEMAP_STYLE_URL,
   CONFIDENCE_COLORS,
   FIT_MAX_ZOOM,
   FIT_PADDING,
@@ -18,6 +20,7 @@ import {
 import type { AssetFeatureCollection, AssetFeatureProperties } from '../../types/api';
 import { featureBounds } from './geo';
 import { OFFLINE_STYLE } from './offlineStyle';
+import { useBasemap } from './useBasemap';
 import type { MapViewProps } from './SvgFallbackMap';
 import styles from './Map.module.css';
 
@@ -48,6 +51,7 @@ function idFilter(id: string | null) {
 
 export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }: MapViewProps) {
   const [hoverId, setHoverId] = useState<string | null>(null);
+  const { mode, onStyleLoaded, onMapError } = useBasemap();
   const data = useMemo<AssetFeatureCollection>(() => ({ type: 'FeatureCollection', features }), [features]);
   const bounds = useMemo(() => featureBounds(features), [features]);
   const initialViewState = bounds
@@ -60,11 +64,16 @@ export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }
   return (
     <div className={styles.mapFill}>
       <Map
+        key={mode}
         initialViewState={initialViewState}
-        mapStyle={OFFLINE_STYLE}
+        mapStyle={mode === 'online' ? BASEMAP_STYLE_URL : OFFLINE_STYLE}
         interactiveLayerIds={['lines']}
-        attributionControl={false}
-        onError={() => onError?.()}
+        attributionControl={{ compact: true }}
+        onStyleData={onStyleLoaded}
+        onError={(e) => {
+          if (mode === 'offline') onError?.();
+          else onMapError(e as unknown as { sourceId?: string; tile?: unknown });
+        }}
         onMouseMove={(e) => {
           const p = propsAt(e);
           e.target.getCanvas().style.cursor = p ? 'pointer' : '';
@@ -134,6 +143,7 @@ export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }
           />
         </Source>
       </Map>
+      {mode === 'offline' && <p className={`${styles.note} ${styles.basemapNote}`}>{BASEMAP_OFFLINE_NOTE}</p>}
     </div>
   );
 }
