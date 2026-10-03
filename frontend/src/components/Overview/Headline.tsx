@@ -4,6 +4,7 @@ import { HEADLINE_BUDGET_PCT, headlineCaption } from '../../config/display';
 import { formatPct } from '../../lib/format';
 import type { Resource } from '../../hooks';
 import type { Overview, SeriesRow } from '../../types/api';
+import { AnimatedValue } from './AnimatedValue';
 import styles from './Headline.module.css';
 
 /** Final-split row for a policy at the headline budget (selection only). */
@@ -12,6 +13,9 @@ function findFinalRow(series: SeriesRow[], policyId: string): SeriesRow | undefi
     (r) => r.split === 'final' && r.policy_id === policyId && r.budget_pct === HEADLINE_BUDGET_PCT && r.asset_capture !== null,
   );
 }
+
+/** Same formatter as the static values in the meta line. */
+const formatPct0 = (n: number) => formatPct(n, 0);
 
 export function Headline({ overview }: { overview: Resource<Overview> }) {
   const data = overview.data;
@@ -48,16 +52,19 @@ export function Headline({ overview }: { overview: Resource<Overview> }) {
             )}
             <div className={styles.figures}>
               <div className={`${styles.figure} ${styles.primary}`}>
-                <span className={styles.number} key={selectedRow.asset_capture}>
-                  {formatPct(selectedRow.asset_capture, 0)}
-                </span>
+                <AnimatedValue
+                  key={selectedRow.asset_capture}
+                  className={styles.number}
+                  value={selectedRow.asset_capture!}
+                  format={formatPct0}
+                />
                 <span className={styles.figureLabel}>
                   {data.v2_equals_v1 ? 'V1 (retained)' : `V2 (${data.selected_policy_id})`}
                 </span>
               </div>
               <span className={styles.versus}>vs</span>
               <div className={`${styles.figure} ${styles.baseline}`}>
-                <span className={styles.number}>{formatPct(baselineRow.asset_capture, 0)}</span>
+                <AnimatedValue className={styles.number} value={baselineRow.asset_capture!} format={formatPct0} />
                 <span className={styles.figureLabel}>count-only</span>
               </div>
               <p className={styles.figureCaption}>{headlineCaption(HEADLINE_BUDGET_PCT)}</p>

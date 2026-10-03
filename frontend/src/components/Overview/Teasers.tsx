@@ -4,6 +4,7 @@ import { DataState } from '../DataState/DataState';
 import { Section } from '../Section/Section';
 import { ESCALATION_TEASER_COUNT, LIMITS_TEASER_COUNT } from '../../config/display';
 import { useEscalations, useNotCovered } from '../../hooks';
+import { Reveal } from './Reveal';
 import styles from './Teasers.module.css';
 
 function EscalationTeaser() {
@@ -75,11 +76,13 @@ function LimitsTeaser() {
 
 export function Teasers() {
   return (
-    <Section id="teasers" eyebrow="Governance" title="Where a human stays in the loop">
-      <div className={styles.row}>
-        <EscalationTeaser />
-        <LimitsTeaser />
-      </div>
-    </Section>
+    <Reveal>
+      <Section id="teasers" eyebrow="Governance" title="Where a human stays in the loop">
+        <div className={styles.row}>
+          <EscalationTeaser />
+          <LimitsTeaser />
+        </div>
+      </Section>
+    </Reveal>
   );
 }

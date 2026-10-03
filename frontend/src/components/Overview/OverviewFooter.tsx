@@ -1,11 +1,13 @@
 import { DataState } from '../DataState/DataState';
 import type { Resource } from '../../hooks';
 import type { Overview } from '../../types/api';
+import { Reveal } from './Reveal';
 import styles from './OverviewFooter.module.css';
 
 export function OverviewFooter({ overview }: { overview: Resource<Overview> }) {
   const data = overview.data;
   return (
+    <Reveal>
     <footer className={styles.footer}>
       <DataState
         status={overview.status}
@@ -40,5 +42,6 @@ export function OverviewFooter({ overview }: { overview: Resource<Overview> }) {
         )}
       </DataState>
     </footer>
+    </Reveal>
   );
 }
