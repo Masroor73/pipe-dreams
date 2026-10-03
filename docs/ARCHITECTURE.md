@@ -155,7 +155,7 @@ pipe-dreams/
 │   ├── tests/
 │   └── pyproject.toml
 │
-├── engine/                      # offline: writes artifacts; never imported by API routes
+├── engine/                      # offline: writes artifacts; heavy work never runs in API requests
 │   ├── pipe_dreams_engine/
 │   │   ├── matching.py
 │   │   ├── evidence.py
@@ -216,7 +216,7 @@ sequenceDiagram
 
 ## 7. Engine and Backend Modules
 
-Engine modules live in top-level `engine/pipe_dreams_engine/` and run offline to produce artifacts. The FastAPI backend only reads artifacts through `services/artifact_service.py`; routes never import engine code.
+Engine modules live in top-level `engine/pipe_dreams_engine/` and run offline to produce artifacts. The FastAPI backend reads artifacts through `services/artifact_service.py`. Routes never contain engine logic; services may call small, pure engine functions (e.g. planner/governance re-selection for a new capacity), but heavy matching, training and backtesting never run at request time.
 
 ### `engine/pipe_dreams_engine/matching.py`
 Responsibilities:
