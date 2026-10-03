@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Drop } from '@phosphor-icons/react';
-import { NavLink, Route, Routes, useSearchParams } from 'react-router';
+import { NavLink, Route, Routes, useNavigate, useSearchParams } from 'react-router';
+import { canViewTransition, withViewTransition } from '../../hooks/viewTransition';
 import { AssetPanel } from '../AssetPanel/AssetPanel';
 import { useAssetClose } from '../../hooks/useAssetLink';
 import { HealthGate } from './HealthGate';
@@ -29,6 +30,14 @@ const PANEL_EXIT_MS = 220;
 export function AppShell() {
   const [params] = useSearchParams();
   const closeAsset = useAssetClose();
+  const navigate = useNavigate();
+  // Marks the document so the CSS route-in animation yields to the cross-fade.
+  useEffect(() => {
+    if (canViewTransition()) document.documentElement.dataset.vt = '';
+    return () => {
+      delete document.documentElement.dataset.vt;
+    };
+  }, []);
 
   return (
     <div className={styles.shell}>
@@ -45,6 +54,13 @@ export function AppShell() {
                 <NavLink
                   to={r.path}
                   end={r.path === '/'}
+                  onClick={(e) => {
+                    // Plain left-click only; modified clicks keep native behaviour.
+                    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    if (!canViewTransition()) return;
+                    e.preventDefault();
+                    withViewTransition(() => navigate(r.path));
+                  }}
                   className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
                 >
                   {r.label}

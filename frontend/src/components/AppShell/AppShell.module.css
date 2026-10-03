@@ -15,6 +15,7 @@
   position: sticky;
   top: 0;
   z-index: var(--z-banner);
+  view-transition-name: synthetic-banner;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +34,7 @@
   position: sticky;
   top: var(--banner-height);
   z-index: var(--z-nav);
+  view-transition-name: app-nav;
   display: flex;
   align-items: center;
   gap: var(--space-7);
@@ -194,4 +196,10 @@
 
 .gateButton:active {
   transform: scale(0.98);
+}
+
+/* When tab changes cross-fade via View Transitions, the per-route mount animation would double up. */
+:global(:root[data-vt]) .container,
+:global(:root[data-vt]) .fullBleed {
+  animation: none;
 }
