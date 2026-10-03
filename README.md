@@ -198,6 +198,31 @@ Still required before the corrected final test:
 
 ---
 
+## Running the Backend
+
+Python 3.11. Run from the repo root (Windows paths shown; on macOS/Linux use `python3.11` and `backend/.venv/bin/python`).
+
+```bash
+py -3.11 -m venv backend/.venv
+backend/.venv/Scripts/python -m pip install -e "backend[dev]"
+
+# serve the committed synthetic artifacts on http://localhost:8000
+cd backend
+.venv/Scripts/python -m uvicorn app.main:app --reload --port 8000
+
+# tests and lint (from backend/)
+.venv/Scripts/python -m pytest -q
+.venv/Scripts/python -m ruff check . ../scripts
+```
+
+- Settings (environment): `PIPE_DREAMS_ARTIFACT_DIR` (default `artifacts/synthetic`, relative to the repo root) and `PIPE_DREAMS_CORS_ORIGINS` (JSON list, default `["http://localhost:5173"]`).
+- To point the frontend at the live API, set `VITE_API_BASE_URL=http://localhost:8000` and `VITE_USE_FIXTURES=false`.
+- OpenAPI docs: http://localhost:8000/docs. Health: `GET /api/health`.
+- Regenerate synthetic artifacts: `backend/.venv/Scripts/python scripts/make_synthetic_artifacts.py`. Validate any artifact directory: `backend/.venv/Scripts/python scripts/validate_artifacts.py <dir>`.
+- Real engine output: see [`docs/ENGINE_HANDOFF.md`](./docs/ENGINE_HANDOFF.md).
+
+---
+
 ## Documentation
 
 - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — authoritative software design.
@@ -206,6 +231,7 @@ Still required before the corrected final test:
 - [`docs/EXPERIMENT_PROTOCOL.md`](./docs/EXPERIMENT_PROTOCOL.md) — authoritative validation methodology.
 - [`docs/API_CONTRACT.md`](./docs/API_CONTRACT.md) — frontend/backend contract.
 - [`docs/ARTIFACT_SCHEMAS.md`](./docs/ARTIFACT_SCHEMAS.md) — engine-to-API artifact contract.
+- [`docs/ENGINE_HANDOFF.md`](./docs/ENGINE_HANDOFF.md) — how engine artifacts are validated and served by the API.
 - [`docs/RUBRIC_TRACEABILITY.md`](./docs/RUBRIC_TRACEABILITY.md) — rubric and Case 8 coverage.
 - [`docs/BUILD_PLAN.md`](./docs/BUILD_PLAN.md) — work split and definition of done.
 - [`docs/DATA_SOURCES.md`](./docs/DATA_SOURCES.md) — dataset provenance and limitations.
