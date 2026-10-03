@@ -44,6 +44,7 @@
   --nav-height: 64px;
   --banner-height: 40px;
   --panel-width: 480px;
+  --bp-small: 640px; /* documentation only: CSS custom properties cannot be used in media queries */
 
   /* ---- Neutrals (cool, slightly blue-tinted) ---- */
   --color-bg: #f7f9fb;
@@ -110,6 +111,15 @@
   --z-nav: 20;
   --z-panel: 40;
   --z-banner: 60;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: var(--space-4);
+    --text-2xl: 1.75rem;
+    --text-xl: 1.5rem;
+    --text-display: clamp(2.75rem, 15vw, 4.5rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

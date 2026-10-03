@@ -8,6 +8,7 @@
 
 .table {
   width: 100%;
+  min-width: 960px; /* ten columns scroll inside .wrap on narrow screens */
   font-size: var(--text-sm);
   border-collapse: separate;
   border-spacing: 0;

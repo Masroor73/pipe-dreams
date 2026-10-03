@@ -9,7 +9,9 @@ export function SyntheticBanner() {
   return (
     <div className={styles.banner} role="status">
       <Warning size={20} weight="fill" aria-hidden="true" />
-      <span>SYNTHETIC / PLACEHOLDER DATA — not real results</span>
+      <span>
+        SYNTHETIC / PLACEHOLDER DATA<span className={styles.bannerMore}> — not real results</span>
+      </span>
     </div>
   );
 }

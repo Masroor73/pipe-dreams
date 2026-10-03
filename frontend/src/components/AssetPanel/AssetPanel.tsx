@@ -18,6 +18,8 @@ export interface AssetPanelProps {
 interface CompareRow {
   label: string;
   get: (f: PlanFields) => string;
+  /** Free text: may wrap. Numbers and enums never do. */
+  prose?: boolean;
 }
 
 const COMPARE_ROWS: CompareRow[] = [
@@ -26,7 +28,7 @@ const COMPARE_ROWS: CompareRow[] = [
   { label: 'Priority score', get: (f) => f.priority_score.toFixed(3) },
   { label: 'Likelihood score', get: (f) => f.likelihood_score.toFixed(3) },
   { label: 'Recommended action', get: (f) => f.recommended_action },
-  { label: 'Revision reason', get: (f) => f.revision_reason ?? '—' },
+  { label: 'Revision reason', get: (f) => f.revision_reason ?? '—', prose: true },
 ];
 
 /** V1 vs V2 side by side; the V2 cell is highlighted where it differs from V1. */
@@ -47,8 +49,8 @@ function PlanComparison({ v1, v2 }: { v1: PlanFields; v2: PlanFields }) {
           return (
             <tr key={row.label}>
               <th scope="row">{row.label}</th>
-              <td>{a}</td>
-              <td className={a !== b ? styles.differs : undefined}>{b}</td>
+              <td className={row.prose ? styles.prose : undefined}>{a}</td>
+              <td className={[a !== b ? styles.differs : '', row.prose ? styles.prose : ''].join(' ').trim() || undefined}>{b}</td>
             </tr>
           );
         })}

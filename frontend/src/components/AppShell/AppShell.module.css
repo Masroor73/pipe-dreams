@@ -30,6 +30,10 @@
   letter-spacing: 0.04em;
 }
 
+.bannerMore {
+  display: inline;
+}
+
 .nav {
   position: sticky;
   top: var(--banner-height);
@@ -45,6 +49,8 @@
 }
 
 .brand {
+  flex: none;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -71,6 +77,7 @@
 .link {
   position: relative;
   display: flex;
+  white-space: nowrap;
   align-items: center;
   padding-inline: var(--space-4);
   color: var(--color-text-muted);
@@ -202,4 +209,49 @@
 :global(:root[data-vt]) .container,
 :global(:root[data-vt]) .fullBleed {
   animation: none;
+}
+
+/* ---- Small screens: brand + horizontally scrolling tab row; fixed-height banner keeps offsets aligned ---- */
+@media (max-width: 640px) {
+  .banner {
+    padding-inline: var(--space-3);
+    font-size: 0.875rem; /* 14px floor */
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .bannerMore {
+    display: none; /* the short form "SYNTHETIC / PLACEHOLDER DATA" stays, never hidden */
+  }
+
+  .nav {
+    gap: var(--space-3);
+  }
+
+  .brand {
+    font-size: var(--text-base);
+  }
+
+  .links {
+    flex: 1;
+    min-width: 0;
+    gap: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .links li {
+    flex: none;
+  }
+
+  .link {
+    padding-inline: var(--space-3);
+    font-size: var(--text-base);
+  }
 }

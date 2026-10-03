@@ -22,3 +22,10 @@
   font-weight: var(--weight-semibold);
   color: var(--color-text);
 }
+
+@media (max-width: 1000px) {
+  .page {
+    width: auto;
+    margin-inline: 0;
+  }
+}

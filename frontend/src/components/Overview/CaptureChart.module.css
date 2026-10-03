@@ -82,7 +82,7 @@
 }
 
 .tooltip {
-  min-width: 260px;
+  min-width: min(260px, 100%);
   padding: var(--space-3) var(--space-4);
   background: var(--color-surface);
   border: var(--border-strong);
@@ -124,4 +124,10 @@
 .tooltipValue {
   font-variant-numeric: tabular-nums;
   font-weight: var(--weight-semibold);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-4) var(--space-3);
+  }
 }
