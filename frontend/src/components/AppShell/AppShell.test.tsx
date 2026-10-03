@@ -54,6 +54,6 @@ describe('AppShell', () => {
 
   it('opens the asset panel from ?asset= and closes it', async () => {
     renderShell('/?asset=seg_000007');
-    expect(await screen.findByRole('complementary', { name: 'Asset detail' })).toHaveTextContent('seg_000007');
+    expect(await screen.findByRole('dialog', { name: 'Asset seg_000007' })).toHaveTextContent('seg_000007');
   });
 });

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Drop } from '@phosphor-icons/react';
 import { NavLink, Route, Routes, useSearchParams } from 'react-router';
 import { AssetPanel } from '../AssetPanel/AssetPanel';
@@ -9,9 +10,21 @@ import styles from './AppShell.module.css';
 
 /** Mounts the asset side panel whenever `?asset=<id>` is present, over any page. */
 export function AssetPanelSlot({ assetId, onClose }: { assetId: string | null; onClose: () => void }) {
-  if (!assetId) return null;
-  return <AssetPanel assetId={assetId} onClose={onClose} />;
+  // Keep the last id mounted briefly so the panel can slide out.
+  const [shown, setShown] = useState<string | null>(assetId);
+  useEffect(() => {
+    if (assetId) {
+      setShown(assetId);
+      return;
+    }
+    const t = setTimeout(() => setShown(null), PANEL_EXIT_MS);
+    return () => clearTimeout(t);
+  }, [assetId]);
+  if (!shown) return null;
+  return <AssetPanel assetId={shown} onClose={onClose} open={assetId !== null} />;
 }
+
+const PANEL_EXIT_MS = 220;
 
 export function AppShell() {
   const [params] = useSearchParams();
