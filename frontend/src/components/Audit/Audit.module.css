@@ -204,3 +204,18 @@
   font-family: var(--font-mono);
   overflow-wrap: anywhere;
 }
+
+/* ---- Replay agent run (opt-in). Transitions exist only while replaying, so stopping snaps to the final state. ---- */
+.replaying .item {
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.hidden {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.active .card {
+  outline: 2px solid var(--tone);
+  outline-offset: 2px;
+}

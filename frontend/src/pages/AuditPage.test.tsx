@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiError, api } from '../lib/api';
@@ -104,5 +104,72 @@ describe('AuditPage', () => {
     vi.spyOn(api, 'getAudit').mockRejectedValue(new ApiError(500, 'boom', 'Audit exploded'));
     renderPage();
     expect(await screen.findByRole('alert')).toHaveTextContent('Audit exploded');
+  });
+});
+
+describe('AuditPage replay', () => {
+  const hiddenSeqs = () =>
+    screen
+      .getAllByRole('listitem')
+      .filter((li) => li.hasAttribute('data-event-type') && /hidden/.test(li.className))
+      .map((li) => li.getAttribute('data-seq'));
+
+  const motionAllowed = () =>
+    vi.stubGlobal('matchMedia', (q: string) => ({
+      matches: false,
+      media: q,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }));
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('shows the replay button and all events before any replay', async () => {
+    vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
+    renderPage();
+    await screen.findByText('first thing');
+    expect(screen.getByRole('button', { name: 'Replay agent run' })).toBeInTheDocument();
+    expect(hiddenSeqs()).toEqual([]);
+  });
+
+  it('steps events in seq order, then Stop shows everything', async () => {
+    vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
+    renderPage();
+    await screen.findByText('first thing');
+    motionAllowed();
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByRole('button', { name: 'Replay agent run' }));
+    expect(screen.getByRole('button', { name: 'Stop replay' })).toBeInTheDocument();
+    expect(hiddenSeqs()).toEqual(['2', '3']);
+    expect(screen.getByText('Step 1 of 3: PLAN_V1')).toBeInTheDocument();
+    act(() => void vi.advanceTimersByTime(350));
+    expect(hiddenSeqs()).toEqual(['3']);
+    fireEvent.click(screen.getByRole('button', { name: 'Stop replay' }));
+    expect(hiddenSeqs()).toEqual([]);
+    expect(screen.getByRole('button', { name: 'Replay agent run' })).toBeInTheDocument();
+  });
+
+  it('ends with everything shown after the last step', async () => {
+    vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
+    renderPage();
+    await screen.findByText('first thing');
+    motionAllowed();
+    vi.useFakeTimers();
+    fireEvent.click(screen.getByRole('button', { name: 'Replay agent run' }));
+    act(() => void vi.advanceTimersByTime(350 * 3 + 10));
+    expect(hiddenSeqs()).toEqual([]);
+    expect(screen.getByRole('button', { name: 'Replay agent run' })).toBeInTheDocument();
+  });
+
+  it('shows everything immediately under reduced motion (default in jsdom)', async () => {
+    vi.spyOn(api, 'getAudit').mockResolvedValue(audit);
+    renderPage();
+    await screen.findByText('first thing');
+    fireEvent.click(screen.getByRole('button', { name: 'Replay agent run' }));
+    expect(hiddenSeqs()).toEqual([]);
+    expect(screen.getByRole('button', { name: 'Replay agent run' })).toBeInTheDocument();
   });
 });

@@ -46,3 +46,10 @@ export const COUNT_ONLY_LABEL = 'Count-only baseline';
 export const CHART_HEIGHT = 360;
 /** Recharts axis text size in px (project floor is 14px). */
 export const CHART_FONT_PX = 15;
+
+/** Audit "Replay agent run" stepper (docs/superpowers/specs/2026-10-03-frontend-motion.md). */
+export const AUDIT_REPLAY = {
+  stepMs: 350,
+  /** Whole replay is capped; the step shortens to fit. */
+  maxTotalMs: 6000,
+} as const;
