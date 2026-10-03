@@ -11,6 +11,7 @@ import {
   FIT_PADDING,
   INITIAL_VIEW,
   CASING_COLOR,
+  CHANGED_PULSE,
   CASING_EXTRA,
   HALO_COLOR,
   HALO_EXTRA,
@@ -18,6 +19,7 @@ import {
   MAPLIBRE_WORKER_PATH,
 } from '../../config/map';
 import type { AssetFeatureCollection, AssetFeatureProperties } from '../../types/api';
+import { useChangedPulse } from './changedSegments';
 import { featureBounds } from './geo';
 import { OFFLINE_STYLE } from './offlineStyle';
 import { useBasemap } from './useBasemap';
@@ -45,13 +47,28 @@ const widthExpr = (stops: Stops, extra = 0) =>
 
 const LINE_LAYOUT = { 'line-cap': 'round' as const, 'line-join': 'round' as const };
 
+const EMPTY_IDS: ReadonlySet<string> = new Set();
+
 function idFilter(id: string | null) {
   return ['==', ['get', 'asset_id'], id ?? ''] as never;
 }
 
-export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }: MapViewProps) {
+/** line-opacity: full for every segment, or dimmed for ids not in `changed` while the pulse runs. */
+function pulseOpacity(dimmed: boolean, changed: ReadonlySet<string>) {
+  if (!dimmed) return 1;
+  return ['case', ['in', ['get', 'asset_id'], ['literal', [...changed]]], 1, CHANGED_PULSE.dimOpacity] as never;
+}
+
+export function MaplibreMap({ features, selectedId, changedIds, pulseKey, onSelect, onHover, onError }: MapViewProps) {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const { mode, onStyleLoaded, onMapError } = useBasemap();
+  const changed = changedIds ?? EMPTY_IDS;
+  const dimmed = useChangedPulse(pulseKey ?? '', changed.size);
+  // Dim instantly, then ease back to full opacity via MapLibre's paint transition.
+  const opacityPaint = {
+    'line-opacity': pulseOpacity(dimmed, changed),
+    'line-opacity-transition': { duration: dimmed ? 0 : CHANGED_PULSE.returnMs, delay: 0 },
+  } as never;
   const data = useMemo<AssetFeatureCollection>(() => ({ type: 'FeatureCollection', features }), [features]);
   const bounds = useMemo(() => featureBounds(features), [features]);
   const initialViewState = bounds
@@ -105,7 +122,11 @@ export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }
             id="lines-casing"
             type="line"
             layout={LINE_LAYOUT}
-            paint={{ 'line-color': CASING_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base, CASING_EXTRA) }}
+            paint={{
+              'line-color': CASING_COLOR,
+              'line-width': widthExpr(LINE_WIDTH_STOPS.base, CASING_EXTRA),
+              ...(opacityPaint as object),
+            }}
           />
           <Layer
             id="lines-hover-casing"
@@ -125,7 +146,11 @@ export function MaplibreMap({ features, selectedId, onSelect, onHover, onError }
             id="lines"
             type="line"
             layout={LINE_LAYOUT}
-            paint={{ 'line-color': LINE_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base) }}
+            paint={{
+              'line-color': LINE_COLOR,
+              'line-width': widthExpr(LINE_WIDTH_STOPS.base),
+              ...(opacityPaint as object),
+            }}
           />
           <Layer
             id="lines-hover"

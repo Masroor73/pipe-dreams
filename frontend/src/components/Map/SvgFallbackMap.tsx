@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { CONFIDENCE_COLORS, MAP_BACKGROUND } from '../../config/map';
 import type { AssetFeature } from '../../types/api';
+import { useChangedPulse } from './changedSegments';
 import { projectFeatures, SVG_VIEW } from './geo';
 import type { HoverInfo } from './MapTooltip';
 import styles from './Map.module.css';
@@ -8,13 +9,18 @@ import styles from './Map.module.css';
 export interface MapViewProps {
   features: AssetFeature[];
   selectedId: string | null;
+  /** Asset ids that differ from the other plan; unchanged ones dim briefly on load/toggle. */
+  changedIds?: ReadonlySet<string>;
+  /** Changes whenever the pulse should replay (e.g. the plan id). */
+  pulseKey?: string;
   onSelect: (assetId: string) => void;
   onHover: (h: HoverInfo | null) => void;
   onError?: () => void;
 }
 
 /** Plain data drawing of the same lines: used when WebGL or the map fails. */
-export function SvgFallbackMap({ features, selectedId, onSelect, onHover }: MapViewProps) {
+export function SvgFallbackMap({ features, selectedId, changedIds, pulseKey, onSelect, onHover }: MapViewProps) {
+  const dimmed = useChangedPulse(pulseKey ?? '', changedIds?.size ?? 0);
   const lines = useMemo(() => projectFeatures(features), [features]);
   const byId = useMemo(() => new Map(features.map((f) => [f.properties.asset_id, f.properties])), [features]);
 
@@ -33,7 +39,7 @@ export function SvgFallbackMap({ features, selectedId, onSelect, onHover }: MapV
             <path
               key={l.asset_id}
               d={l.d}
-              className={`${styles.svgLine} ${selected ? styles.svgLineSelected : ''}`}
+              className={`${styles.svgLine} ${selected ? styles.svgLineSelected : ''} ${dimmed && !changedIds?.has(l.asset_id) ? styles.svgDim : ''}`}
               stroke={CONFIDENCE_COLORS[p.evidence_confidence]}
               fill="none"
               vectorEffect="non-scaling-stroke"

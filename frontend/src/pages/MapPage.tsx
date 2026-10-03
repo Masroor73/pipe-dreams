@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 import { DataState } from '../components/DataState/DataState';
 import { MapLegend } from '../components/Map/MapLegend';
 import { NetworkMap } from '../components/Map/NetworkMap';
 import { PlanToggle } from '../components/Map/PlanToggle';
+import { changedAssetIds } from '../components/Map/changedSegments';
 import { useAssetsGeoJson } from '../hooks';
 import { useAssetLink } from '../hooks/useAssetLink';
 import type { PlanId } from '../types/api';
@@ -13,7 +15,10 @@ export default function MapPage() {
   const plan: PlanId = params.get('plan') === 'v1' ? 'v1' : 'v2';
   const selectedId = params.get('asset');
   const openAsset = useAssetLink();
-  const geo = useAssetsGeoJson({ plan, selected_only: true });
+  const geoV1 = useAssetsGeoJson({ plan: 'v1', selected_only: true });
+  const geoV2 = useAssetsGeoJson({ plan: 'v2', selected_only: true });
+  const geo = plan === 'v1' ? geoV1 : geoV2;
+  const other = plan === 'v1' ? geoV2 : geoV1;
 
   const setPlan = (next: PlanId) =>
     setParams((prev) => {
@@ -23,12 +28,22 @@ export default function MapPage() {
     });
 
   const features = geo.data?.features ?? [];
+  // Presentation only: segments in this plan that the other plan does not select.
+  const changedIds = useMemo(
+    () => changedAssetIds(features, other.status === 'success' ? (other.data?.features ?? []) : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [geo.data, other.data, other.status],
+  );
 
   return (
     <div className={styles.stage}>
       <h1 className={styles.srOnly}>Map</h1>
       {geo.status === 'success' && features.length > 0 && (
-        <NetworkMap features={features} selectedId={selectedId} onSelect={openAsset} />
+        <NetworkMap features={features} selectedId={selectedId}
+          changedIds={changedIds}
+          pulseKey={`${plan}:${changedIds.size}`}
+          onSelect={openAsset}
+        />
       )}
       {geo.status !== 'success' || features.length === 0 ? (
         <div className={styles.overlay}>

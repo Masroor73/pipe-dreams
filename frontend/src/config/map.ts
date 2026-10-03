@@ -44,3 +44,12 @@ export const BASEMAP_STYLE_URL = 'https://tiles.openfreemap.org/styles/positron'
 /** If the basemap style has not loaded within this long, switch to the offline style. */
 export const BASEMAP_LOAD_TIMEOUT_MS = 4000;
 export const BASEMAP_OFFLINE_NOTE = 'Basemap offline';
+
+/** Changed-segment emphasis (V1/V2 plan difference). Unchanged segments dim, hold, then return to full opacity. */
+export const CHANGED_PULSE = {
+  dimOpacity: 0.35,
+  /** Time unchanged segments stay dimmed before returning. */
+  holdMs: 250,
+  /** MapLibre paint transition back to full opacity (linear; MapLibre has no easing option). */
+  returnMs: 500,
+} as const;
