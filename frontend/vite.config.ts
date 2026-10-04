@@ -10,7 +10,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
-    css: false,
+    // Only the two global stylesheets are processed in tests (read raw by the reduced-motion policy test).
+    css: { include: [/src[\\/]styles[\\/](global|tokens)\.css/] },
     env: { VITE_USE_FIXTURES: 'true' },
   },
 });

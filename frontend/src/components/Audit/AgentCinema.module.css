@@ -585,6 +585,17 @@
 
 /* ---------------- reduced motion: end states only, colour changes stay ---------------- */
 
+/* Reduced motion: the caption cross-fades (opacity only) on each step. WAAPI-free so it is
+   a plain CSS transition from @starting-style, which the global reduced rule allows. */
+.nowFade {
+  transition: opacity 120ms linear;
+}
+@starting-style {
+  .nowFade {
+    opacity: 0.25;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nowAnimated {
     animation: none;

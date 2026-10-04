@@ -122,10 +122,14 @@
   }
 }
 
+/* Reduced motion: transitions become short cross-fades (see global.css), never movement. */
+:root {
+  --reduced-fade-ms: 120ms;
+}
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --duration-fast: 0.01ms;
-    --duration-base: 0.01ms;
-    --duration-slow: 0.01ms;
+    --duration-fast: var(--reduced-fade-ms);
+    --duration-base: var(--reduced-fade-ms);
+    --duration-slow: var(--reduced-fade-ms);
   }
 }

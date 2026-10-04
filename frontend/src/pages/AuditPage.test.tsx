@@ -285,14 +285,20 @@ describe('AuditPage cinema: Top 25 reorder and reduced motion', () => {
     }
   });
 
-  it('under reduced motion: jumps straight to the V2 end state with no animation', async () => {
+  it('under reduced motion: jumps to the V2 end state; changed rows only cross-fade (no movement)', async () => {
     // jsdom has no matchMedia, which the app treats as reduced motion.
     const { slider, v2Step } = await openBeforePlanV2();
     animate.mockClear();
     fireEvent.change(slider, { target: { value: String(v2Step) } });
     expect(region().getAttribute('data-plan')).toBe('v2');
     expect(listIds().length).toBeGreaterThan(0);
-    expect(animate).not.toHaveBeenCalled();
+    // A gentle fade still marks the change...
+    expect(animate).toHaveBeenCalled();
+    for (const [kf, opts] of animate.mock.calls as unknown as [Keyframe[], KeyframeAnimationOptions][]) {
+      // ...but only opacity, and short.
+      for (const frame of kf) expect(Object.keys(frame).filter((k) => k !== 'offset')).toEqual(['opacity']);
+      expect(Number(opts.duration)).toBeLessThanOrEqual(150);
+    }
     expect(region().querySelectorAll('[data-ring]')).toHaveLength(0);
   });
 });

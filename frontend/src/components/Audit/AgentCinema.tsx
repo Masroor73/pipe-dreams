@@ -10,6 +10,7 @@ import { api } from '../../lib/api';
 import { formatSigned } from '../../lib/format';
 import type { AssetListItem, AuditEvent } from '../../types/api';
 import { DecisionPill } from '../Pill/Pill';
+import { Term } from '../Term/Term';
 import type { CandidateFrame, Frame, Highlight } from './replayFrames';
 import { frameAt } from './replayFrames';
 import type { Cinema } from './useCinema';
@@ -381,6 +382,7 @@ export function AgentCinema({ sorted, cinema }: AgentCinemaProps) {
     moveMs: cinema.playing ? AUDIT_CINEMA.moveMs : AUDIT_CINEMA.manualMoveMs,
     staggerMs: cinema.playing ? AUDIT_CINEMA.moveStaggerMs : 0,
     enterMs: AUDIT_CINEMA.enterMs,
+    fadeMs: AUDIT_CINEMA.reducedFadeMs,
     easing: EASE_MOVE,
   });
 
@@ -406,7 +408,10 @@ export function AgentCinema({ sorted, cinema }: AgentCinemaProps) {
       data-playing={cinema.playing || undefined}
     >
       <Transport sorted={sorted} frame={frame} cinema={cinema} />
-      <p className={`${styles.now} ${styles[`now_${tone}`]} ${cinema.playing ? styles.nowAnimated : ''}`} key={frame.step}>
+      <p
+        className={`${styles.now} ${styles[`now_${tone}`]} ${cinema.playing && !reduced ? styles.nowAnimated : ''} ${reduced && cinema.engaged ? styles.nowFade : ''}`}
+        key={frame.step}
+      >
         <span className={styles.nowType}>{frame.event.event_type}</span>
         <span className={styles.nowText}>{frame.event.summary}</span>
       </p>
@@ -418,7 +423,9 @@ export function AgentCinema({ sorted, cinema }: AgentCinemaProps) {
       <div className={styles.stage}>
         <div className={styles.side}>
           <div className={styles.panel}>
-            <h2 className={styles.panelTitle}>Revision gate</h2>
+            <h2 className={styles.panelTitle}>
+              <Term id="revision_gate">Revision gate</Term>
+            </h2>
             <ol className={styles.gates}>
               {frame.candidates.map((c) => (
                 <GateRow key={c.id} c={c} />

@@ -88,13 +88,17 @@ table {
   min-height: 100vh;
 }
 
+/* Reduced motion = no movement, not no feedback. Keyframe animations (all of which
+   move or loop) are removed; transitions are limited to short opacity and colour
+   cross-fades, so state changes still read without anything sliding, scaling or growing. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition-property: opacity, color, background-color, border-color, fill, stroke, visibility !important;
+    transition-duration: var(--reduced-fade-ms) !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

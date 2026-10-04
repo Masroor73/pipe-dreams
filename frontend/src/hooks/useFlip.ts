@@ -5,8 +5,10 @@ import { useLayoutEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
 export interface FlipOptions {
-  /** False under reduced motion: positions are tracked but nothing animates. */
+  /** False under reduced motion: nothing moves; changed rows only cross-fade (fadeMs). */
   enabled: boolean;
+  /** Reduced-motion cross-fade for rows that moved or entered; 0 disables. */
+  fadeMs?: number;
   moveMs: number;
   staggerMs: number;
   enterMs: number;
@@ -46,7 +48,20 @@ export function useFlip(containerRef: RefObject<HTMLElement | null>, signature: 
 
     const before = prev.current;
     prev.current = next;
-    if (!before || !opts.enabled || typeof root.animate !== 'function') return;
+    if (!before || typeof root.animate !== 'function') return;
+
+    if (!opts.enabled) {
+      // Reduced motion: rows jump to their new place; the ones that changed fade in gently.
+      if (!opts.fadeMs) return;
+      for (const { el, box } of measured) {
+        const from = before.get(el.dataset.flipKey!);
+        if (from && Math.abs(from.x - box.x) < 0.5 && Math.abs(from.y - box.y) < 0.5) continue;
+        running.current.push(
+          el.animate([{ opacity: 0.25 }, { opacity: 1 }], { duration: opts.fadeMs, easing: 'linear' }),
+        );
+      }
+      return;
+    }
 
     // WRITE: start animations.
     let moved = 0;
