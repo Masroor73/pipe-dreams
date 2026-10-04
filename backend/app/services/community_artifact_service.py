@@ -72,46 +72,76 @@ class CommunityArtifactsUnavailableError(Exception):
 class CommunityCutoffNotFoundError(Exception):
     """Raised when a requested community cutoff is not available."""
 
-    def __init__(self, cutoff_year: int) -> None:
-        super().__init__(str(cutoff_year))
+    def __init__(
+        self,
+        cutoff_year: int,
+    ) -> None:
+        super().__init__(
+            str(cutoff_year)
+        )
         self.cutoff_year = cutoff_year
 
 
-def _clean(value: Any) -> Any:
+def _clean(
+    value: Any,
+) -> Any:
     """Convert pandas/numpy values to JSON-safe plain Python values."""
 
     if value is None:
         return None
 
-    if isinstance(value, (np.bool_, bool)):
+    if isinstance(
+        value,
+        (np.bool_, bool),
+    ):
         return bool(value)
 
-    if isinstance(value, np.integer):
+    if isinstance(
+        value,
+        np.integer,
+    ):
         return int(value)
 
-    if isinstance(value, (np.floating, float)):
+    if isinstance(
+        value,
+        (np.floating, float),
+    ):
         number = float(value)
-        return None if math.isnan(number) else number
+        return (
+            None
+            if math.isnan(number)
+            else number
+        )
 
-    if isinstance(value, str):
+    if isinstance(
+        value,
+        str,
+    ):
         return value
 
     try:
         if pd.isna(value):
             return None
-    except (TypeError, ValueError):
+    except (
+        TypeError,
+        ValueError,
+    ):
         pass
 
     return value
 
 
-def _records(df: pd.DataFrame) -> list[dict[str, Any]]:
+def _records(
+    df: pd.DataFrame,
+) -> list[dict[str, Any]]:
     return [
         {
             str(key): _clean(value)
             for key, value in row.items()
         }
-        for row in df.to_dict(orient="records")
+        for row in df.to_dict(
+            orient="records"
+        )
     ]
 
 
@@ -130,22 +160,39 @@ def _decode_flags(
     value: Any,
 ) -> list[str]:
     if value is None or (
-        isinstance(value, float)
+        isinstance(
+            value,
+            float,
+        )
         and math.isnan(value)
     ):
         return []
 
-    if isinstance(value, list):
-        return [str(item) for item in value]
+    if isinstance(
+        value,
+        list,
+    ):
+        return [
+            str(item)
+            for item in value
+        ]
 
-    if not isinstance(value, str):
+    if not isinstance(
+        value,
+        str,
+    ):
         raise ValueError(
             "data_quality_flags must be a JSON array"
         )
 
-    parsed = json.loads(value)
+    parsed = json.loads(
+        value
+    )
 
-    if not isinstance(parsed, list):
+    if not isinstance(
+        parsed,
+        list,
+    ):
         raise ValueError(
             "data_quality_flags must decode to an array"
         )
@@ -163,13 +210,22 @@ class CommunityArtifactService:
         self,
         artifact_dir: Path,
     ) -> None:
-        self.artifact_dir = Path(artifact_dir)
+        self.artifact_dir = Path(
+            artifact_dir
+        )
         self.loaded = False
         self.errors: list[str] = []
-        self.available_cutoffs: tuple[int, ...] = ()
+        self.available_cutoffs: tuple[
+            int,
+            ...,
+        ] = ()
 
-        self._communities = pd.DataFrame()
-        self._validation = pd.DataFrame()
+        self._communities = (
+            pd.DataFrame()
+        )
+        self._validation = (
+            pd.DataFrame()
+        )
         self._geojson_by_cutoff: dict[
             int,
             dict[str, Any],
@@ -177,7 +233,9 @@ class CommunityArtifactService:
 
         self._load()
 
-    def _load(self) -> None:
+    def _load(
+        self,
+    ) -> None:
         communities_path = (
             self.artifact_dir
             / COMMUNITIES_FILE
@@ -211,8 +269,10 @@ class CommunityArtifactService:
             return
 
         try:
-            communities = pd.read_csv(
-                communities_path
+            communities = (
+                pd.read_csv(
+                    communities_path
+                )
             )
         except Exception as exc:
             self.errors.append(
@@ -221,8 +281,10 @@ class CommunityArtifactService:
             return
 
         try:
-            validation = pd.read_csv(
-                validation_path
+            validation = (
+                pd.read_csv(
+                    validation_path
+                )
             )
         except Exception as exc:
             self.errors.append(
@@ -230,9 +292,11 @@ class CommunityArtifactService:
             )
             return
 
-        missing = _missing_columns(
-            communities,
-            COMMUNITY_COLUMNS,
+        missing = (
+            _missing_columns(
+                communities,
+                COMMUNITY_COLUMNS,
+            )
         )
 
         if missing:
@@ -240,9 +304,11 @@ class CommunityArtifactService:
                 f"{COMMUNITIES_FILE}: missing required columns {missing}"
             )
 
-        missing_validation = _missing_columns(
-            validation,
-            COMMUNITY_VALIDATION_COLUMNS,
+        missing_validation = (
+            _missing_columns(
+                validation,
+                COMMUNITY_VALIDATION_COLUMNS,
+            )
         )
 
         if missing_validation:
@@ -254,9 +320,13 @@ class CommunityArtifactService:
         if self.errors:
             return
 
-        cutoff_numeric = pd.to_numeric(
-            communities["cutoff_year"],
-            errors="coerce",
+        cutoff_numeric = (
+            pd.to_numeric(
+                communities[
+                    "cutoff_year"
+                ],
+                errors="coerce",
+            )
         )
 
         if cutoff_numeric.isna().any():
@@ -265,17 +335,23 @@ class CommunityArtifactService:
             )
             return
 
-        communities = communities.copy()
-        communities["cutoff_year"] = (
-            cutoff_numeric.astype(int)
+        communities = (
+            communities.copy()
+        )
+        communities[
+            "cutoff_year"
+        ] = cutoff_numeric.astype(
+            int
         )
 
-        duplicate_mask = communities.duplicated(
-            subset=[
-                "community_id",
-                "cutoff_year",
-            ],
-            keep=False,
+        duplicate_mask = (
+            communities.duplicated(
+                subset=[
+                    "community_id",
+                    "cutoff_year",
+                ],
+                keep=False,
+            )
         )
 
         if duplicate_mask.any():
@@ -290,7 +366,9 @@ class CommunityArtifactService:
                 str(value)
                 for value in communities[
                     "equity_geography_status"
-                ].dropna().unique()
+                ]
+                .dropna()
+                .unique()
                 if value
                 not in ALLOWED_EQUITY_GEOGRAPHY_STATUS
             }
@@ -305,10 +383,14 @@ class CommunityArtifactService:
             return
 
         try:
-            communities["data_quality_flags"] = (
+            communities[
+                "data_quality_flags"
+            ] = (
                 communities[
                     "data_quality_flags"
-                ].map(_decode_flags)
+                ].map(
+                    _decode_flags
+                )
             )
         except Exception as exc:
             self.errors.append(
@@ -356,23 +438,36 @@ class CommunityArtifactService:
                 )
                 continue
 
-            if not isinstance(obj, dict):
+            if not isinstance(
+                obj,
+                dict,
+            ):
                 self.errors.append(
                     f"{path.name}: "
                     "top-level JSON value must be an object"
                 )
                 continue
 
-            if obj.get("type") != "FeatureCollection":
+            if (
+                obj.get("type")
+                != "FeatureCollection"
+            ):
                 self.errors.append(
                     f"{path.name}: "
                     "type must be FeatureCollection"
                 )
                 continue
 
-            features = obj.get("features")
+            features = (
+                obj.get(
+                    "features"
+                )
+            )
 
-            if not isinstance(features, list):
+            if not isinstance(
+                features,
+                list,
+            ):
                 self.errors.append(
                     f"{path.name}: "
                     "features must be an array"
@@ -380,18 +475,26 @@ class CommunityArtifactService:
                 continue
 
             geojson_by_cutoff[
-                int(cutoff_year)
+                int(
+                    cutoff_year
+                )
             ] = obj
 
         if self.errors:
             return
 
-        self._communities = communities
-        self._validation = validation
+        self._communities = (
+            communities
+        )
+        self._validation = (
+            validation
+        )
         self._geojson_by_cutoff = (
             geojson_by_cutoff
         )
-        self.available_cutoffs = cutoffs
+        self.available_cutoffs = (
+            cutoffs
+        )
         self.loaded = True
 
     def _resolve_cutoff(
@@ -409,11 +512,20 @@ class CommunityArtifactService:
             )
 
         if cutoff_year is None:
-            return self.available_cutoffs[-1]
+            return (
+                self.available_cutoffs[
+                    -1
+                ]
+            )
 
-        if cutoff_year not in self.available_cutoffs:
-            raise CommunityCutoffNotFoundError(
-                cutoff_year
+        if (
+            cutoff_year
+            not in self.available_cutoffs
+        ):
+            raise (
+                CommunityCutoffNotFoundError(
+                    cutoff_year
+                )
             )
 
         return cutoff_year
@@ -422,46 +534,102 @@ class CommunityArtifactService:
         self,
         cutoff_year: int | None = None,
     ) -> dict[str, Any]:
-        cutoff = self._resolve_cutoff(
-            cutoff_year
+        cutoff = (
+            self._resolve_cutoff(
+                cutoff_year
+            )
         )
 
-        frame = self._communities.loc[
-            self._communities[
-                "cutoff_year"
-            ] == cutoff
-        ].copy()
-
-        frame = frame.sort_values(
-            by=[
-                "historical_breaks_per_km",
-                "historical_break_count",
-                "community_id",
-            ],
-            ascending=[
-                False,
-                False,
-                True,
-            ],
-            na_position="last",
+        frame = (
+            self._communities.loc[
+                self._communities[
+                    "cutoff_year"
+                ]
+                == cutoff
+            ].copy()
         )
+
+        frame = (
+            frame.sort_values(
+                by=[
+                    "historical_breaks_per_km",
+                    "historical_break_count",
+                    "community_id",
+                ],
+                ascending=[
+                    False,
+                    False,
+                    True,
+                ],
+                na_position="last",
+            )
+        )
+
+        item_columns = [
+            "community_id",
+            "community_name",
+            "pipe_length_km",
+            "historical_break_count",
+            "historical_breaks_per_km",
+            "population",
+            "equity_index",
+            "equity_geography_status",
+            "data_quality_flags",
+        ]
 
         return {
             "cutoff_year": cutoff,
-            "items": _records(frame),
+            "items": _records(
+                frame[
+                    item_columns
+                ]
+            ),
         }
 
     def geojson(
         self,
         cutoff_year: int | None = None,
     ) -> dict[str, Any]:
-        cutoff = self._resolve_cutoff(
-            cutoff_year
+        cutoff = (
+            self._resolve_cutoff(
+                cutoff_year
+            )
         )
 
-        return self._geojson_by_cutoff[
-            cutoff
-        ]
+        geojson = (
+            self._geojson_by_cutoff[
+                cutoff
+            ]
+        )
+
+        features = []
+
+        for feature in geojson[
+            "features"
+        ]:
+            properties = dict(
+                feature.get(
+                    "properties",
+                    {}
+                )
+            )
+
+            properties.pop(
+                "cutoff_year",
+                None,
+            )
+
+            features.append(
+                {
+                    **feature,
+                    "properties": properties,
+                }
+            )
+
+        return {
+            "type": "FeatureCollection",
+            "features": features,
+        }
 
     def validation(
         self,
