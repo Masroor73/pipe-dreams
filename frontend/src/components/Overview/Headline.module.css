@@ -144,3 +144,20 @@
     font-size: var(--text-lg);
   }
 }
+
+/* V2 = V1: the agent's logged reasons for keeping V1. */
+.refusals {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.refusalId {
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}

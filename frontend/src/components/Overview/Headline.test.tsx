@@ -66,4 +66,11 @@ describe('Headline', () => {
     renderHeadline(res);
     expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
   });
+
+  it('when V1 is retained, lists each candidate gate result from the log (refused to change)', async () => {
+    renderHeadline(resource({ ...base, v2_equals_v1: true, selected_policy_id: 'V1' }));
+    const list = await screen.findByRole('list', { name: 'Why each candidate was rejected' });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(4);
+    expect(list.textContent).toMatch(/C1\s*won \d\/3 origins/);
+  });
 });

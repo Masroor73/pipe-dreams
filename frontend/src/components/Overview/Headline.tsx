@@ -2,8 +2,10 @@ import type { ReactNode } from 'react';
 import { DataState } from '../DataState/DataState';
 import { Pill } from '../Pill/Pill';
 import { Term } from '../Term/Term';
-import { CANDIDATE_DESCRIPTIONS, HEADLINE_BUDGET_PCT, headlineCaption } from '../../config/display';
-import { formatPct } from '../../lib/format';
+import { CANDIDATE_DESCRIPTIONS, CANDIDATE_IDS, HEADLINE_BUDGET_PCT, headlineCaption } from '../../config/display';
+import { formatPct, formatSigned } from '../../lib/format';
+import { useAudit } from '../../hooks';
+import { findCandidate } from './GateCards';
 import type { Resource } from '../../hooks';
 import type { Overview, SeriesRow } from '../../types/api';
 import { AnimatedValue } from './AnimatedValue';
@@ -96,6 +98,7 @@ export function Headline({ overview }: { overview: Resource<Overview> }) {
                   <p className={styles.decisionTitle}>
                     No candidate passed the <Term id="revision_gate">revision gate</Term>
                   </p>
+                  <RefusalReasons />
                 </>
               ) : (
                 <>
@@ -113,5 +116,29 @@ export function Headline({ overview }: { overview: Resource<Overview> }) {
         )}
       </DataState>
     </div>
+  );
+}
+
+/**
+ * "The agent refused to change": when V2 = V1, list why each candidate failed the gate.
+ * Every value is the logged gate result from /api/audit; nothing is re-evaluated here.
+ */
+function RefusalReasons() {
+  const audit = useAudit();
+  if (!audit.data) return null;
+  const rows = CANDIDATE_IDS.flatMap((id) => {
+    const c = findCandidate(audit.data!, id);
+    return c ? [c] : [];
+  });
+  if (rows.length === 0) return null;
+  return (
+    <ul className={styles.refusals} aria-label="Why each candidate was rejected">
+      {rows.map((c) => (
+        <li key={c.candidate_id}>
+          <span className={styles.refusalId}>{c.candidate_id}</span> won {c.origin_wins}/{c.n_origins} origins · gain{' '}
+          {formatSigned(c.difference)} (needs {formatSigned(c.required_delta)}) · {c.reason}
+        </li>
+      ))}
+    </ul>
   );
 }
