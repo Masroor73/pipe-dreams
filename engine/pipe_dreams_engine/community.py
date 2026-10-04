@@ -76,17 +76,29 @@ def _eligible_pipes(
         errors="coerce",
     )
 
-    eligible_mask = (
-        install_year.notna()
-        & (install_year <= cutoff_year)
-    )
+    eligible_mask = install_year.notna() & (install_year <= cutoff_year)
 
     eligible = pipes.loc[eligible_mask].copy()
+    eligible["install_year"] = install_year.loc[eligible.index].astype(int)
 
-    eligible["install_year"] = (
-        install_year.loc[eligible.index]
-        .astype(int)
+    return eligible
+
+
+def _eligible_breaks(
+    breaks: gpd.GeoDataFrame,
+    cutoff_year: int,
+) -> gpd.GeoDataFrame:
+    """Return historical break events on or before the cutoff."""
+
+    break_year = pd.to_numeric(
+        breaks["break_year"],
+        errors="coerce",
     )
+
+    eligible_mask = break_year.notna() & (break_year <= cutoff_year)
+
+    eligible = breaks.loc[eligible_mask].copy()
+    eligible["break_year"] = break_year.loc[eligible.index].astype(int)
 
     return eligible
 
@@ -144,14 +156,10 @@ def _pipe_length_by_community(
         .sum()
     )
 
-    lengths["pipe_length_km"] = (
-        lengths["length_m"] / 1000.0
-    )
+    lengths["pipe_length_km"] = lengths["length_m"] / 1000.0
 
     result = result.merge(
-        lengths[
-            ["community_id", "pipe_length_km"]
-        ],
+        lengths[["community_id", "pipe_length_km"]],
         on="community_id",
         how="left",
         suffixes=("", "_calculated"),
@@ -165,6 +173,70 @@ def _pipe_length_by_community(
 
     result = result.drop(
         columns=["pipe_length_km_calculated"]
+    )
+
+    return result
+
+
+def _break_count_by_community(
+    communities: gpd.GeoDataFrame,
+    breaks: gpd.GeoDataFrame,
+    cutoff_year: int,
+) -> pd.DataFrame:
+    """Assign historical break points to communities and count them once."""
+
+    eligible = _eligible_breaks(
+        breaks=breaks,
+        cutoff_year=cutoff_year,
+    )
+
+    result = communities[
+        ["community_id"]
+    ].copy()
+
+    result["historical_break_count"] = 0
+
+    if eligible.empty:
+        return result
+
+    joined = gpd.sjoin(
+        eligible[["geometry"]],
+        communities[["community_id", "geometry"]],
+        how="left",
+        predicate="within",
+    )
+
+    assigned = joined.loc[
+        joined["community_id"].notna()
+    ].copy()
+
+    if assigned.empty:
+        return result
+
+    counts = (
+        assigned.groupby(
+            "community_id",
+            as_index=False,
+        )
+        .size()
+        .rename(columns={"size": "historical_break_count"})
+    )
+
+    result = result.merge(
+        counts,
+        on="community_id",
+        how="left",
+        suffixes=("", "_calculated"),
+    )
+
+    result["historical_break_count"] = (
+        result["historical_break_count_calculated"]
+        .fillna(result["historical_break_count"])
+        .astype(int)
+    )
+
+    result = result.drop(
+        columns=["historical_break_count_calculated"]
     )
 
     return result
@@ -204,9 +276,31 @@ def build_community_metrics(
         cutoff_year=cutoff_year,
     )
 
+    break_counts = _break_count_by_community(
+        communities=communities,
+        breaks=breaks,
+        cutoff_year=cutoff_year,
+    )
+
+    metrics = metrics.merge(
+        break_counts,
+        on="community_id",
+        how="left",
+    )
+
+    metrics["historical_break_count"] = (
+        metrics["historical_break_count"]
+        .fillna(0)
+        .astype(int)
+    )
+
+    metrics["historical_breaks_per_km"] = (
+        metrics["historical_break_count"]
+        .div(metrics["pipe_length_km"])
+        .where(metrics["pipe_length_km"] > 0)
+    )
+
     metrics["cutoff_year"] = cutoff_year
-    metrics["historical_break_count"] = 0
-    metrics["historical_breaks_per_km"] = pd.NA
     metrics["data_quality_flags"] = [
         tuple()
         for _ in range(len(metrics))

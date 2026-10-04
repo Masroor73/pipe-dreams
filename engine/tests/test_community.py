@@ -257,5 +257,155 @@ class CommunityPipeLengthTests(unittest.TestCase):
         )
 
 
+class CommunityBreakMetricTests(unittest.TestCase):
+    def test_counts_historical_break_inside_community(self):
+        communities, pipes, breaks = make_valid_inputs()
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result.loc[0, "historical_break_count"],
+            1,
+        )
+
+    def test_excludes_break_after_cutoff(self):
+        communities, pipes, breaks = make_valid_inputs()
+        breaks.loc[0, "break_year"] = 2025
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result.loc[0, "historical_break_count"],
+            0,
+        )
+
+    def test_break_outside_all_communities_is_not_counted(self):
+        communities, pipes, breaks = make_valid_inputs()
+        breaks.loc[0, "geometry"] = Point(500, 500)
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result.loc[0, "historical_break_count"],
+            0,
+        )
+
+    def test_calculates_historical_breaks_per_km(self):
+        communities, pipes, breaks = make_valid_inputs()
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertAlmostEqual(
+            result.loc[0, "historical_breaks_per_km"],
+            12.5,
+            places=6,
+        )
+
+    def test_breaks_per_km_is_missing_when_pipe_length_is_zero(self):
+        communities, pipes, breaks = make_valid_inputs()
+        pipes.loc[0, "install_year"] = 2025
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertTrue(
+            result.loc[0, "historical_breaks_per_km"]
+            is None
+            or gpd.pd.isna(
+                result.loc[0, "historical_breaks_per_km"]
+            )
+        )
+
+    def test_break_on_shared_boundary_is_not_double_counted(self):
+        communities = gpd.GeoDataFrame(
+            {
+                "community_id": ["C1", "C2"],
+                "community_name": ["West", "East"],
+            },
+            geometry=[
+                Polygon(
+                    [
+                        (0, 0),
+                        (100, 0),
+                        (100, 100),
+                        (0, 100),
+                        (0, 0),
+                    ]
+                ),
+                Polygon(
+                    [
+                        (100, 0),
+                        (200, 0),
+                        (200, 100),
+                        (100, 100),
+                        (100, 0),
+                    ]
+                ),
+            ],
+            crs=CRS,
+        )
+
+        pipes = gpd.GeoDataFrame(
+            {
+                "install_year": [2000],
+            },
+            geometry=[
+                LineString(
+                    [
+                        (0, 50),
+                        (200, 50),
+                    ]
+                )
+            ],
+            crs=CRS,
+        )
+
+        breaks = gpd.GeoDataFrame(
+            {
+                "break_year": [2010],
+            },
+            geometry=[
+                Point(100, 50),
+            ],
+            crs=CRS,
+        )
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result["historical_break_count"].sum(),
+            0,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
