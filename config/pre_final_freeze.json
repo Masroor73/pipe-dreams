@@ -1,0 +1,34 @@
+{
+  "freeze_stage": "pre_final",
+  "final_test_executed": false,
+  "selected_policy_id": "C3",
+  "v1_policy_id": "V1",
+  "v2_equals_v1": false,
+  "validation_origins": [
+    2013,
+    2016,
+    2019
+  ],
+  "final_cutoff_year": 2022,
+  "final_outcome_years": [
+    2023,
+    2024,
+    2025
+  ],
+  "final_previously_viewed": true,
+  "bootstrap_reps": 1000,
+  "bootstrap_seed": 0,
+  "evidence_confidence": {
+    "low_to_medium": 0.879155211367,
+    "medium_to_high": 0.978232477144,
+    "source": "validation_only"
+  },
+  "frozen_methodology_commit": "c45030558d2554b388517fdc38f6810ae1993507",
+  "planned_git_tag": "pre-final-freeze-2026-10-04",
+  "config_sha256": "007ddaed649f4ef36abdd7be0aa04529efae0eca5dedfe61e386f04c86017d81",
+  "data_sha256": {
+    "breaks_raw": "a5e4d85687bf545c7be49387d620af523d8608ffdc32ab70b04d9e5187c01810",
+    "pipes_raw": "d427295fcf3de9aaa6e6b6099c3eef60e0a36144900770e8b36f44900abb1f1d",
+    "community_boundaries": "c5e6cc17ebc2aaa74ea8e29193066e6dfc538d468d4cfc777b68342424bf0fdd"
+  }
+}
