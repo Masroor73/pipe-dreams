@@ -64,3 +64,31 @@ API on http://localhost:8000, app on http://localhost:5173, browser opens by its
 - `delta_rank` in `rank_changes.csv` is `rank_v1 - rank_v2` (positive means improved), while the synthetic fixtures use the opposite sign. The UI ignores the sign and derives direction from `rank_v1` and `rank_v2`.
 - Large rank jumps (thousands of places) reflect per-metre normalization in C3 re-ordering the long tail; they are not predictions of failure.
 - Evidence confidence is not a failure probability. Do not describe it as one, and make no claims about Bearspaw.
+
+## 8. Voice copilot (optional)
+
+"Ask Pipe Dreams" is an ElevenLabs voice agent. It holds no data: it calls five browser-side tools that read the same API as the UI and drive the pages. The button only appears when `VITE_ELEVENLABS_AGENT_ID` is set.
+
+1. In ElevenLabs, create an API key with **ElevenAgents: Write** permission.
+2. Create the agent (PowerShell, from the repo root; add `--dry-run` first to inspect the payload):
+
+```powershell
+$env:ELEVENLABS_API_KEY = "sk_your_key_here"
+python scripts/create_voice_agent.py
+```
+
+3. Put the printed line in `frontend/.env.local` (the agent id is public; never commit the API key):
+
+```
+VITE_ELEVENLABS_AGENT_ID=agent_xxxxxxxx
+```
+
+4. Restart the frontend, allow the microphone, click **Ask Pipe Dreams** (bottom right), and ask:
+   - "Where should we inspect first?"
+   - "Why this pipe?"
+   - "Was that chosen by the original plan or the revision?"
+   - "Which communities should we protect first?"
+
+Fallback if voice fails: use the **Play planner briefing** button on the Overview page.
+
+Note: the top-ranked V2 pipes are very short and LOW_VERIFY (per-metre normalization), so the agent will say their evidence needs verification.

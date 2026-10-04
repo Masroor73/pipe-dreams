@@ -8,6 +8,7 @@ import { HealthGate } from './HealthGate';
 import { SyntheticBanner } from './SyntheticBanner';
 import { useIsSynthetic } from '../../lib/synthetic';
 import { APP_ROUTES } from './routes';
+import { VoiceCopilot } from '../../voice/VoiceCopilot';
 import styles from './AppShell.module.css';
 
 /** Mounts the asset side panel whenever `?asset=<id>` is present, over any page. */
@@ -96,6 +97,7 @@ export function AppShell() {
           <AssetPanelSlot assetId={params.get('asset')} onClose={closeAsset} />
         </HealthGate>
       </main>
+      <VoiceCopilot />
     </div>
   );
 }
