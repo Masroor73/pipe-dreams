@@ -106,7 +106,12 @@ validation_gate_result:
       bootstrap_se: 0.004843
 
 evidence_confidence:
-  thresholds: "MUST_BE_DERIVED_FROM_VALIDATION_BEFORE_FINAL_TEST"
+  source: "validation_only"
+  neutral_evidence_sentinel: 0.5
+  threshold_rule: "terciles over pooled 2013/2016/2019 evidence-quality scores strictly greater than 0.5"
+  low_to_medium: 0.879155211367
+  medium_to_high: 0.978232477144
+  rank_stability_definition: "1 - range of within-snapshot percentile ranks across V1 models trained at 2010, 2013, and 2016"
 
 final_freeze_requirements:
   - "confidence thresholds frozen"

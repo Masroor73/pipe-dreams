@@ -376,3 +376,28 @@ inspection budgets, and acceptance thresholds remain unchanged.
 
 Community analysis must not be adjusted using the previously viewed
 final 2023-2025 outcomes.
+
+## Evidence-confidence freeze
+
+Evidence confidence is governance metadata, not a failure probability.
+
+Rank stability is defined as:
+
+`1 - range(within-snapshot percentile rank)`
+
+across the three frozen historical V1 model fits trained at cutoffs
+2010, 2013, and 2016.
+
+Association quality retains `0.5` as the explicit neutral value for an
+asset with no historically attributed breaks. Because that creates a
+large validation point mass at exactly `0.5`, confidence thresholds are
+derived from pooled 2013/2016/2019 validation evidence-quality scores
+strictly greater than `0.5`.
+
+Frozen validation-only thresholds:
+
+- LOW_VERIFY -> MEDIUM: `0.879155211367`
+- MEDIUM -> HIGH: `0.978232477144`
+
+Assets below the first threshold remain LOW_VERIFY. These thresholds
+were frozen before executing the corrected 2022 -> 2023-2025 final test.
