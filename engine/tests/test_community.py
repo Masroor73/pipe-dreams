@@ -1,9 +1,14 @@
 import unittest
 
 import geopandas as gpd
+import pandas as pd
 from shapely.geometry import LineString, Point, Polygon
 
-from pipe_dreams_engine.community import build_community_metrics
+from pipe_dreams_engine.community import (
+    SMALL_DENOMINATOR,
+    ZERO_ELIGIBLE_PIPE_LENGTH,
+    build_community_metrics,
+)
 
 
 CRS = "EPSG:3776"
@@ -89,7 +94,10 @@ class CommunityValidationTests(unittest.TestCase):
 
     def test_rejects_missing_crs(self):
         communities, pipes, breaks = make_valid_inputs()
-        breaks = breaks.set_crs(None, allow_override=True)
+        breaks = breaks.set_crs(
+            None,
+            allow_override=True,
+        )
 
         with self.assertRaisesRegex(
             ValueError,
@@ -117,6 +125,31 @@ class CommunityValidationTests(unittest.TestCase):
                 cutoff_year=2022,
             )
 
+    def test_rejects_duplicate_community_ids(self):
+        communities, pipes, breaks = make_valid_inputs()
+
+        communities = pd.concat(
+            [communities, communities],
+            ignore_index=True,
+        )
+
+        communities = gpd.GeoDataFrame(
+            communities,
+            geometry="geometry",
+            crs=CRS,
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "communities must have unique community_id values",
+        ):
+            build_community_metrics(
+                communities=communities,
+                pipes=pipes,
+                breaks=breaks,
+                cutoff_year=2022,
+            )
+
 
 class CommunityPipeLengthTests(unittest.TestCase):
     def test_calculates_pipe_length_inside_community(self):
@@ -130,6 +163,7 @@ class CommunityPipeLengthTests(unittest.TestCase):
         )
 
         self.assertEqual(len(result), 1)
+
         self.assertAlmostEqual(
             result.loc[0, "pipe_length_km"],
             0.08,
@@ -333,10 +367,11 @@ class CommunityBreakMetricTests(unittest.TestCase):
         )
 
         self.assertTrue(
-            result.loc[0, "historical_breaks_per_km"]
-            is None
-            or gpd.pd.isna(
-                result.loc[0, "historical_breaks_per_km"]
+            pd.isna(
+                result.loc[
+                    0,
+                    "historical_breaks_per_km",
+                ]
             )
         )
 
@@ -404,6 +439,160 @@ class CommunityBreakMetricTests(unittest.TestCase):
         self.assertEqual(
             result["historical_break_count"].sum(),
             0,
+        )
+
+
+class CommunityDataQualityTests(unittest.TestCase):
+    def test_zero_pipe_length_is_flagged(self):
+        communities, pipes, breaks = make_valid_inputs()
+        pipes.loc[0, "install_year"] = 2025
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result.loc[0, "data_quality_flags"],
+            (ZERO_ELIGIBLE_PIPE_LENGTH,),
+        )
+
+    def test_small_nonzero_pipe_denominator_is_flagged(self):
+        communities, pipes, breaks = make_valid_inputs()
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result.loc[0, "data_quality_flags"],
+            (SMALL_DENOMINATOR,),
+        )
+
+    def test_outside_break_is_reported_as_unassigned(self):
+        communities, pipes, breaks = make_valid_inputs()
+        breaks.loc[0, "geometry"] = Point(500, 500)
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        quality = result.attrs["data_quality"]
+
+        self.assertEqual(
+            quality["eligible_break_count"],
+            1,
+        )
+
+        self.assertEqual(
+            quality["assigned_break_count"],
+            0,
+        )
+
+        self.assertEqual(
+            quality["unassigned_break_count"],
+            1,
+        )
+
+        self.assertEqual(
+            quality["ambiguous_break_count"],
+            0,
+        )
+
+    def test_overlapping_community_match_is_ambiguous_not_double_counted(self):
+        communities = gpd.GeoDataFrame(
+            {
+                "community_id": ["C1", "C2"],
+                "community_name": ["One", "Two"],
+            },
+            geometry=[
+                Polygon(
+                    [
+                        (0, 0),
+                        (100, 0),
+                        (100, 100),
+                        (0, 100),
+                        (0, 0),
+                    ]
+                ),
+                Polygon(
+                    [
+                        (50, 0),
+                        (150, 0),
+                        (150, 100),
+                        (50, 100),
+                        (50, 0),
+                    ]
+                ),
+            ],
+            crs=CRS,
+        )
+
+        pipes = gpd.GeoDataFrame(
+            {
+                "install_year": [2000],
+            },
+            geometry=[
+                LineString(
+                    [
+                        (0, 10),
+                        (150, 10),
+                    ]
+                )
+            ],
+            crs=CRS,
+        )
+
+        breaks = gpd.GeoDataFrame(
+            {
+                "break_year": [2010],
+            },
+            geometry=[
+                Point(75, 50),
+            ],
+            crs=CRS,
+        )
+
+        result = build_community_metrics(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            cutoff_year=2022,
+        )
+
+        self.assertEqual(
+            result["historical_break_count"].sum(),
+            0,
+        )
+
+        quality = result.attrs["data_quality"]
+
+        self.assertEqual(
+            quality["eligible_break_count"],
+            1,
+        )
+
+        self.assertEqual(
+            quality["assigned_break_count"],
+            0,
+        )
+
+        self.assertEqual(
+            quality["unassigned_break_count"],
+            1,
+        )
+
+        self.assertEqual(
+            quality["ambiguous_break_count"],
+            1,
         )
 
 
