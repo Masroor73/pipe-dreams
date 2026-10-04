@@ -58,4 +58,12 @@ describe('MapPage (SVG fallback, no WebGL in jsdom)', () => {
     expect(search).toContain('plan=v1');
     expect(search).toContain('asset=seg_000001');
   });
+
+  it('draws the open asset even when it is outside the plan’s selected segments', async () => {
+    renderMap('/map?asset=seg_000001');
+    await screen.findByText('Basemap: none (offline)');
+    expect(await screen.findByText(`${selectedCount} selected segments · plan V2`)).toBeInTheDocument();
+    await vi.waitFor(() => expect(document.querySelector('svg path[data-asset-id="seg_000001"]')).not.toBeNull());
+    expect(document.querySelectorAll('svg path[data-asset-id]')).toHaveLength(selectedCount + 1);
+  });
 });
