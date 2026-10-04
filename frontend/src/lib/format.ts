@@ -21,16 +21,25 @@ export function formatDate(iso: string | null | undefined, withTime = false): st
   return `${date}, ${time} UTC`;
 }
 
-/** Rank delta as shown to people: negative = rose in the ranking. */
-export function formatDelta(delta: number): string {
-  if (delta === 0) return '→ 0';
-  const arrow = delta < 0 ? '↑' : '↓';
-  return `${arrow} ${Math.abs(delta)}`;
+export type RankDirection = 'up' | 'down' | 'same';
+
+/** Lower rank number = higher priority. Direction comes from the two ranks, never from delta_rank's sign. */
+export function rankDirection(rankV1: number, rankV2: number): RankDirection {
+  if (rankV2 < rankV1) return 'up';
+  if (rankV2 > rankV1) return 'down';
+  return 'same';
 }
 
-/** Rank movement magnitude only (the direction is shown by an icon): 37, or 0 when unchanged. */
-export function formatRankShift(delta: number): string {
-  return String(Math.abs(delta));
+/** Places moved, always non-negative. */
+export function rankShiftMagnitude(rankV1: number, rankV2: number): number {
+  return Math.abs(rankV1 - rankV2);
+}
+
+/** As shown to people: "↑ 7687" when rank went from 7736 to 49. */
+export function formatRankMove(rankV1: number, rankV2: number): string {
+  const dir = rankDirection(rankV1, rankV2);
+  if (dir === 'same') return '→ 0';
+  return `${dir === 'up' ? '↑' : '↓'} ${rankShiftMagnitude(rankV1, rankV2)}`;
 }
 
 /** Signed difference, e.g. +0.015. */

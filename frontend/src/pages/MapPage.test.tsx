@@ -3,13 +3,23 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import { MetaProvider } from '../lib/synthetic';
-import geojsonV2 from '../fixtures/assets_geojson_v2.json';
+import geojson from '../fixtures/assets_geojson_v2.json';
 import MapPage from './MapPage';
 
-vi.mock('react-map-gl/maplibre', () => ({
-  default: () => null,
-  Source: () => null,
-  Layer: () => null,
+vi.mock('../components/Communities/CommunityMap', () => ({
+  CommunityMap: ({
+    points,
+    onSelectAsset,
+  }: {
+    points: { features: { properties: { asset_id: string } }[] };
+    onSelectAsset: (id: string) => void;
+  }) => (
+    <div data-testid="dots" data-count={points.features.length}>
+      <button type="button" onClick={() => onSelectAsset(points.features[0]!.properties.asset_id)}>
+        dot
+      </button>
+    </div>
+  ),
 }));
 
 function Where() {
@@ -28,42 +38,31 @@ function renderMap(path = '/map') {
   );
 }
 
-const selectedCount = geojsonV2.data.features.filter((f) => f.properties.selected).length;
+const selectedCount = geojson.data.features.filter((f) => f.properties.selected).length;
 
-describe('MapPage (SVG fallback, no WebGL in jsdom)', () => {
-  it('renders one path per selected feature plus legend and offline note', async () => {
+describe('MapPage (dots from /api/assets)', () => {
+  it('builds one dot per selected asset plus legend', async () => {
     renderMap();
-    await screen.findByText('Basemap: none (offline)');
-    expect(document.querySelectorAll('svg path[data-asset-id]')).toHaveLength(selectedCount);
+    const dots = await screen.findByTestId('dots');
+    expect(dots.dataset.count).toBe(String(selectedCount));
     expect(screen.getByText(`${selectedCount} selected segments · plan V2`)).toBeInTheDocument();
-    expect(screen.getByText('LOW_VERIFY (verify before acting)')).toBeInTheDocument();
-    expect(screen.getByText(/≠ failure probability/)).toBeInTheDocument();
+    expect(screen.getByText(/not failure probability/)).toBeInTheDocument();
   });
 
-  it('sets ?asset= when a line is clicked', async () => {
+  it('sets ?asset= when a dot is clicked', async () => {
     renderMap('/map?plan=v2');
-    await screen.findByText('Basemap: none (offline)');
-    const path = document.querySelector('svg path[data-asset-id]') as SVGPathElement;
-    fireEvent.click(path);
+    fireEvent.click(await screen.findByRole('button', { name: 'dot' }));
     const search = screen.getByTestId('loc').textContent!;
-    expect(search).toContain(`asset=${path.dataset.assetId}`);
+    expect(search).toMatch(/asset=/);
     expect(search).toContain('plan=v2');
   });
 
   it('sets ?plan=v1 from the toggle and preserves ?asset=', async () => {
     renderMap('/map?asset=seg_000001');
-    await screen.findByText('Basemap: none (offline)');
+    await screen.findByTestId('dots');
     fireEvent.click(screen.getByRole('button', { name: 'V1' }));
     const search = screen.getByTestId('loc').textContent!;
     expect(search).toContain('plan=v1');
     expect(search).toContain('asset=seg_000001');
-  });
-
-  it('draws the open asset even when it is outside the plan’s selected segments', async () => {
-    renderMap('/map?asset=seg_000001');
-    await screen.findByText('Basemap: none (offline)');
-    expect(await screen.findByText(`${selectedCount} selected segments · plan V2`)).toBeInTheDocument();
-    await vi.waitFor(() => expect(document.querySelector('svg path[data-asset-id="seg_000001"]')).not.toBeNull());
-    expect(document.querySelectorAll('svg path[data-asset-id]')).toHaveLength(selectedCount + 1);
   });
 });

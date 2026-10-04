@@ -5,7 +5,7 @@ import { Section } from '../Section/Section';
 import { DEMO_CARD_COUNT } from '../../config/display';
 import { useRankChanges } from '../../hooks';
 import { useAssetLink } from '../../hooks/useAssetLink';
-import { formatRankShift } from '../../lib/format';
+import { rankDirection, rankShiftMagnitude } from '../../lib/format';
 import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
 import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
 import type { RankChange } from '../../types/api';
@@ -36,8 +36,9 @@ function useArrowSlide(index: number) {
 
 function RankCard({ c, index, onOpen }: { c: RankChange; index: number; onOpen: (id: string) => void }) {
   const { ref, arrowRef } = useArrowSlide(index);
-  const rose = c.delta_rank < 0;
-  const fell = c.delta_rank > 0;
+  const dir = rankDirection(c.rank_v1, c.rank_v2);
+  const rose = dir === 'up';
+  const fell = dir === 'down';
   const actionChanged = c.action_v1 !== c.action_v2;
   return (
     <li ref={ref}>
@@ -54,7 +55,7 @@ function RankCard({ c, index, onOpen }: { c: RankChange; index: number; onOpen: 
             {rose && <ArrowUp size={20} weight="bold" aria-label="Moved up" />}
             {fell && <ArrowDown size={20} weight="bold" aria-label="Moved down" />}
             {!rose && !fell && <ArrowRight size={20} weight="bold" aria-label="No change" />}
-            {formatRankShift(c.delta_rank)}
+            {rankShiftMagnitude(c.rank_v1, c.rank_v2)}
           </span>
         </span>
         <span className={`${styles.actions} ${actionChanged ? styles.actionChanged : ''}`}>

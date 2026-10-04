@@ -41,12 +41,12 @@ function buildOptions(series: SeriesRow[]): SplitOption[] {
   if (series.some((r) => r.split === 'final')) {
     options.push({ key: 'final', label: 'Final test (2023–2025)', match: (r) => r.split === 'final' });
   }
-  const origins = [...new Set(series.filter((r) => r.split === 'validation' && r.origin_cutoff).map((r) => r.origin_cutoff as string))].sort();
+  const origins = [...new Set(series.filter((r) => r.split === 'validation' && r.origin_cutoff != null).map((r) => String(r.origin_cutoff)))].sort();
   for (const o of origins) {
     options.push({
       key: `val:${o}`,
       label: `Validation · origin ${o.slice(0, 4)}`,
-      match: (r) => r.split === 'validation' && r.origin_cutoff === o,
+      match: (r) => r.split === 'validation' && r.origin_cutoff != null && String(r.origin_cutoff) === o,
     });
   }
   if (series.some((r) => r.split === 'confirmation')) {

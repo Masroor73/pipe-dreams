@@ -32,8 +32,39 @@ export function useAssets(query: AssetListQuery = {}) {
   return useApiResource(() => api.getAssets(query), [JSON.stringify(query)]);
 }
 
-export function useAssetsGeoJson(query: AssetGeoJsonQuery = {}) {
-  return useApiResource(() => api.getAssetsGeoJson(query), [JSON.stringify(query)]);
+const PAGE = 500; // API max page size (docs/API_CONTRACT.md)
+
+/** Every page of /api/assets for one query, merged in API order. */
+export function useAllAssets(query: AssetListQuery = {}, enabled = true) {
+  return useApiResource(async () => {
+    if (!enabled) {
+      return {
+        meta: { synthetic: false, config_hash: '' },
+        data: { plan: 'v2' as const, total: 0, limit: PAGE, offset: 0, items: [] },
+      };
+    }
+    const first = await api.getAssets({ ...query, limit: PAGE, offset: 0 });
+    const offsets: number[] = [];
+    for (let o = PAGE; o < first.data.total; o += PAGE) offsets.push(o);
+    const rest = await Promise.all(offsets.map((offset) => api.getAssets({ ...query, limit: PAGE, offset })));
+    const items = [...first.data.items, ...rest.flatMap((r) => r.data.items)];
+    return { meta: first.meta, data: { ...first.data, limit: PAGE, offset: 0, items } };
+  }, [JSON.stringify(query), enabled]);
+}
+
+export function useAssetsGeoJson(query: AssetGeoJsonQuery = {}, enabled = true) {
+  return useApiResource(
+    async () => {
+      if (!enabled) {
+        return {
+          meta: { synthetic: false, config_hash: '' },
+          data: { type: 'FeatureCollection' as const, features: [] },
+        };
+      }
+      return api.getAssetsGeoJson(query);
+    },
+    [JSON.stringify(query), enabled],
+  );
 }
 
 export function useAsset(id: string) {
@@ -48,3 +79,6 @@ export const useAudit = () => useApiResource(() => api.getAudit());
 export const useEscalations = () => useApiResource(() => api.getEscalations());
 export const useNotCovered = () => useApiResource(() => api.getNotCovered());
 export const useDataQuality = () => useApiResource(() => api.getDataQuality());
+
+export const useCommunities = () => useApiResource(() => api.getCommunities());
+export const useCommunitiesGeoJson = () => useApiResource(() => api.getCommunitiesGeoJson());

@@ -178,3 +178,6 @@ ASSETS_LIMIT_MAX = 500
 RANK_CHANGES_LIMIT_DEFAULT = 50
 RANK_CHANGES_LIMIT_MAX = 500
 ASSET_SORT_FIELDS = ("rank", "priority_score", "length_m")
+
+# CRS the engine writes geometry_wkt in (Alberta 3TM, metres); see DECISIONS.md #13.
+ENGINE_PROJECTED_CRS = "EPSG:3776"

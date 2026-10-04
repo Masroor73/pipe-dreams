@@ -14,10 +14,25 @@ export const CONFIDENCE_LABELS: Record<EvidenceConfidence, string> = {
   LOW_VERIFY: 'LOW_VERIFY (verify before acting)',
 };
 
+/** Plain-language meaning of each confidence level, shown in the legend. */
+export const CONFIDENCE_MEANINGS: Record<EvidenceConfidence, string> = {
+  HIGH: 'strong evidence',
+  MEDIUM: 'some gaps',
+  LOW_VERIFY: 'weak evidence — verify before acting',
+};
+
 export const CONFIDENCE_ORDER: EvidenceConfidence[] = ['HIGH', 'MEDIUM', 'LOW_VERIFY'];
 
 export const MAP_BACKGROUND = '#f7f9fb'; // --color-bg
 export const SELECTED_OUTLINE = '#14202e'; // --color-text
+/** Pipes in the community that were not selected for inspection. */
+export const MUTED_COLOR = '#8795a5';
+/** The pipe open in the detail panel. */
+export const OPEN_PIPE_COLOR = SELECTED_OUTLINE;
+/** Community polygons: selected community fill/outline, and the faint outline of the others. */
+export const COMMUNITY_COLOR = '#0b6e99'; // --color-accent
+export const COMMUNITY_OUTLINE_COLOR = '#4a5b6d';
+export const COMMUNITY_SELECTED_FILL_OPACITY = 0.15;
 
 /** Calgary, used before data arrives and when there are no features. */
 export const INITIAL_VIEW = { longitude: -114.0719, latitude: 51.0447, zoom: 10 };
@@ -72,3 +87,32 @@ export const REVEAL_MARGIN_PX = 48;
 /** Outside-click handling: ignore pointer travel beyond this (a map drag), and wait this long for ?asset= to change. */
 export const OUTSIDE_CLICK_DRAG_TOLERANCE_PX = 6;
 export const OUTSIDE_CLICK_CLOSE_DELAY_MS = 60;
+
+/**
+ * Raster street basemap (CARTO's free light_all tiles now return an "API key required" watermark,
+ * so this uses OpenStreetMap's standard tiles, desaturated so the pipe layers stand out).
+ * The offline style is the fallback when tiles cannot load.
+ */
+export const STREET_BASEMAP_STYLE = {
+  version: 8 as const,
+  sources: {
+    osm: {
+      type: 'raster' as const,
+      tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: '© OpenStreetMap contributors',
+    },
+  },
+  layers: [
+    {
+      id: 'osm',
+      type: 'raster' as const,
+      source: 'osm',
+      paint: { 'raster-saturation': -0.7, 'raster-brightness-min': 0.25, 'raster-contrast': -0.1 },
+    },
+  ],
+};
+
+/** Map legend starts collapsed on viewports shorter than this (laptops at high zoom). */
+export const LEGEND_COLLAPSE_BELOW_HEIGHT_PX = 720;

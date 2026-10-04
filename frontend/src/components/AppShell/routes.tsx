@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 import OverviewPage from '../../pages/OverviewPage';
 import MapPage from '../../pages/MapPage';
+import CommunitiesPage from '../../pages/CommunitiesPage';
 import AuditPage from '../../pages/AuditPage';
 import EscalationPage from '../../pages/EscalationPage';
 import LimitsPage from '../../pages/LimitsPage';
@@ -17,6 +18,7 @@ export interface AppRoute {
 /** Single source for routes and top-nav links. */
 export const APP_ROUTES: AppRoute[] = [
   { path: '/', label: 'Overview', element: <OverviewPage /> },
+  { path: '/communities', label: 'Communities', element: <CommunitiesPage />, fullBleed: true },
   { path: '/map', label: 'Map', element: <MapPage />, fullBleed: true },
   { path: '/audit', label: 'Agent audit', element: <AuditPage /> },
   { path: '/escalation', label: 'Escalation', element: <EscalationPage /> },

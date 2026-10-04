@@ -6,6 +6,8 @@ import type {
   AssetListItem,
   AssetListQuery,
   Audit,
+  Communities,
+  CommunityFeatureCollection,
   DataQuality,
   Envelope,
   Escalations,
@@ -55,6 +57,8 @@ export interface Api {
   getAssetsGeoJson(query?: AssetGeoJsonQuery): Promise<Envelope<AssetFeatureCollection>>;
   getAsset(id: string): Promise<Envelope<AssetDetail>>;
   getRankChanges(query?: RankChangesQuery): Promise<Envelope<RankChanges>>;
+  getCommunities(): Promise<Envelope<Communities>>;
+  getCommunitiesGeoJson(): Promise<Envelope<CommunityFeatureCollection>>;
   getAudit(): Promise<Envelope<Audit>>;
   getEscalations(): Promise<Envelope<Escalations>>;
   getNotCovered(): Promise<Envelope<NotCovered>>;
@@ -192,6 +196,16 @@ export function createApi(options: ApiOptions): Api {
       env.data.items = items.slice(0, query.limit ?? 50);
       return fixture(env);
     },
+
+    // Fixture mode has no community artifacts: an empty list keeps the page honest.
+    getCommunities: () =>
+      useFixtures
+        ? fixture({ meta: FIXTURE_META, data: { cutoff_year: 0, items: [] } })
+        : real('/communities'),
+    getCommunitiesGeoJson: () =>
+      useFixtures
+        ? fixture({ meta: FIXTURE_META, data: { type: 'FeatureCollection' as const, features: [] } })
+        : real('/communities/geojson'),
 
     getAudit: () => (useFixtures ? fixture(auditFixture as unknown as Envelope<Audit>) : real('/audit')),
     getEscalations: () =>
