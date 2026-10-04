@@ -12,6 +12,12 @@ import numpy as np
 import pandas as pd
 from shapely import wkt
 from shapely.geometry import mapping
+from shapely.ops import transform as shapely_transform
+
+try:
+    from pyproj import Transformer
+except ImportError:  # pragma: no cover - optional until installed everywhere
+    Transformer = None
 
 from app.core import constants as c
 from app.core.settings import REPO_ROOT
@@ -220,13 +226,40 @@ def _tuples_to_lists(
     return value
 
 
+_TO_WGS84 = (
+    Transformer.from_crs(
+        c.ENGINE_PROJECTED_CRS,
+        "EPSG:4326",
+        always_xy=True,
+    )
+    if Transformer is not None
+    else None
+)
+
+
+def _to_wgs84(geom):
+    """Serve WGS84 lon/lat as the contract requires.
+
+    Real artifacts store geometry in the engine's projected CRS (metres).
+    Geometry already in lon/lat is returned unchanged.
+    """
+    min_x, min_y, max_x, max_y = geom.bounds
+    if max(abs(min_x), abs(max_x)) <= 180 and max(abs(min_y), abs(max_y)) <= 90:
+        return geom
+    if _TO_WGS84 is None:
+        return geom
+    return shapely_transform(_TO_WGS84.transform, geom)
+
+
 def _geojson(
     geometry_wkt: str,
 ) -> dict[str, Any]:
     return _tuples_to_lists(
         mapping(
-            wkt.loads(
-                geometry_wkt
+            _to_wgs84(
+                wkt.loads(
+                    geometry_wkt
+                )
             )
         )
     )
