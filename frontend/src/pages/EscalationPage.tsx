@@ -1,3 +1,4 @@
+import { Term } from '../components/Term/Term';
 import { useEscalations } from '../hooks';
 import { DataState } from '../components/DataState/DataState';
 import { EscalationTable } from '../components/Escalation/EscalationTable';
@@ -12,8 +13,10 @@ export default function EscalationPage() {
       <header className={styles.header}>
         <h1>Escalation</h1>
         <p className={styles.intro}>
-          In-dataset assets that need human review before action. VERIFY / ESCALATE are governance rules, not
-          validated predictions.
+          In-dataset assets that need human review before action. <Term id="verify_escalate">VERIFY / ESCALATE</Term>{' '}
+          are governance rules, not validated predictions. Each row pairs a{' '}
+          <Term id="consequence_tier">consequence tier</Term> with{' '}
+          <Term id="evidence_confidence">evidence confidence</Term>.
         </p>
       </header>
       <DataState

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useAudit } from '../hooks';
+import { Term } from '../components/Term/Term';
 import { AgentCinema } from '../components/Audit/AgentCinema';
 import { replayOrder } from '../components/Audit/replayFrames';
 import { useCinema } from '../components/Audit/useCinema';
@@ -19,7 +20,8 @@ export default function AuditPage() {
       <header className={styles.header}>
         <h1>Agent audit</h1>
         <p className={styles.intro}>
-          Autonomous loop: plan → evaluate → diagnose → test candidates → accept/reject → plan V2
+          Autonomous loop: plan <Term id="v1">V1</Term> → evaluate → diagnose → test{' '}
+          <Term id="candidates">candidates</Term> → accept/reject → plan <Term id="v2">V2</Term>
         </p>
       </header>
       <DataState

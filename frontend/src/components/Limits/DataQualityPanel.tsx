@@ -1,8 +1,10 @@
+import type { ReactNode } from 'react';
+import { Term } from '../Term/Term';
 import type { DataQuality } from '../../types/api';
 import { formatNumber, formatPct } from '../../lib/format';
 import styles from './Limits.module.css';
 
-function Stat({ value, label }: { value: string; label: string }) {
+function Stat({ value, label }: { value: string; label: ReactNode }) {
   return (
     <div className={styles.stat}>
       <span className={styles.statValue}>{value}</span>
@@ -38,10 +40,12 @@ export function DataQualityPanel({ data }: { data: DataQuality }) {
         <Stat value={formatNumber(data.rows_dropped_missing_coordinates)} label="rows dropped — missing coordinates" />
         <Stat value={formatNumber(data.future_year_pipe_rows_excluded)} label="future-year pipe rows excluded" />
         <Stat value={formatNumber(data.planned_rows_excluded)} label="planned rows excluded" />
-        <Stat value={formatPct(data.unreachable_final_test_share, 0)} label="unreachable final-test share" />
+        <Stat value={formatPct(data.unreachable_final_test_share, 0)} label={<><Term id="reachable_share">unreachable</Term> final-test share</>} />
       </div>
       <div className={styles.sens}>
-        <h3 className={styles.subTitle}>Inactive-pipe sensitivity: capture at 5% budget</h3>
+        <h3 className={styles.subTitle}>
+          Inactive-pipe sensitivity: <Term id="capture">capture</Term> at 5% <Term id="length_budget">budget</Term>
+        </h3>
         <div className={styles.sensPair}>
           <Stat value={formatPct(data.inactive_sensitivity.included_capture_5pct, 1)} label="inactive included" />
           <Stat value={formatPct(data.inactive_sensitivity.excluded_capture_5pct, 1)} label="inactive excluded" />

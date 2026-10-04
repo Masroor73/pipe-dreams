@@ -1,5 +1,6 @@
 import type { CandidateResult } from '../../types/api';
 import { DecisionPill } from '../Pill/Pill';
+import { Term } from '../Term/Term';
 import { formatNumber } from '../../lib/format';
 import styles from './Audit.module.css';
 
@@ -17,7 +18,9 @@ export function CandidateGate({ candidate }: { candidate: CandidateResult }) {
             <th scope="col">Pooled V1</th>
             <th scope="col">Pooled candidate</th>
             <th scope="col">Difference</th>
-            <th scope="col">Bootstrap SE</th>
+            <th scope="col">
+              <Term id="bootstrap_se">Bootstrap SE</Term>
+            </th>
             <th scope="col">Required delta</th>
             <th scope="col">Decision</th>
           </tr>
