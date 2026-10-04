@@ -72,3 +72,29 @@ export const REVEAL_MARGIN_PX = 48;
 /** Outside-click handling: ignore pointer travel beyond this (a map drag), and wait this long for ?asset= to change. */
 export const OUTSIDE_CLICK_DRAG_TOLERANCE_PX = 6;
 export const OUTSIDE_CLICK_CLOSE_DELAY_MS = 60;
+
+/**
+ * Raster street basemap (CARTO's free light_all tiles now return an "API key required" watermark,
+ * so this uses OpenStreetMap's standard tiles, desaturated so the pipe layers stand out).
+ * The offline style is the fallback when tiles cannot load.
+ */
+export const STREET_BASEMAP_STYLE = {
+  version: 8 as const,
+  sources: {
+    osm: {
+      type: 'raster' as const,
+      tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: '© OpenStreetMap contributors',
+    },
+  },
+  layers: [
+    {
+      id: 'osm',
+      type: 'raster' as const,
+      source: 'osm',
+      paint: { 'raster-saturation': -0.7, 'raster-brightness-min': 0.25, 'raster-contrast': -0.1 },
+    },
+  ],
+};

@@ -1,11 +1,9 @@
-import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 import { CommunityMap } from '../components/Communities/CommunityMap';
-import { assetDots } from '../components/Communities/dots';
 import { DataState } from '../components/DataState/DataState';
 import { MapLegend } from '../components/Map/MapLegend';
 import { PlanToggle } from '../components/Map/PlanToggle';
-import { useAllAssets } from '../hooks';
+import { usePipeLayers } from '../hooks/usePipeLayers';
 import { useAssetLink } from '../hooks/useAssetLink';
 import { useIsSynthetic } from '../lib/synthetic';
 import type { CommunityFeatureCollection, PlanId } from '../types/api';
@@ -20,9 +18,7 @@ export default function MapPage() {
   const selectedId = params.get('asset');
   const openAsset = useAssetLink();
   const synthetic = useIsSynthetic();
-  const list = useAllAssets({ plan, selected_only: true, sort: 'rank' });
-  const items = list.data?.items;
-  const dots = useMemo(() => assetDots(items ?? []), [items]);
+  const list = usePipeLayers({ plan, selected_only: true }, { plan, selected_only: true, sort: 'rank' });
 
   const setPlan = (next: PlanId) =>
     setParams((prev) => {
@@ -31,7 +27,7 @@ export default function MapPage() {
       return p;
     });
 
-  const count = dots.features.length;
+  const count = list.points.features.length;
   return (
     <div
       className={styles.stage}
@@ -43,7 +39,8 @@ export default function MapPage() {
         <CommunityMap
           communities={NO_POLYGONS}
           selectedCommunityId={null}
-          dots={dots}
+          lines={list.lines}
+          points={list.points}
           selectedAssetId={selectedId}
           onSelectCommunity={() => undefined}
           onSelectAsset={openAsset}
@@ -54,7 +51,7 @@ export default function MapPage() {
           <div className={styles.overlayInner}>
             <DataState
               status={list.status}
-              errorMessage={list.error?.message}
+              errorMessage={list.errorMessage}
               onRetry={list.reload}
               empty={count === 0}
               emptyMessage="No selected segments in this plan."

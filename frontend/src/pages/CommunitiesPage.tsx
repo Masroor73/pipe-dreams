@@ -3,9 +3,8 @@ import { useSearchParams } from 'react-router';
 import { CommunityMap } from '../components/Communities/CommunityMap';
 import { DataState } from '../components/DataState/DataState';
 import { ConfidencePill, Pill } from '../components/Pill/Pill';
+import { usePipeLayers } from '../hooks/usePipeLayers';
 import { useAllAssets, useCommunities, useCommunitiesGeoJson } from '../hooks';
-import { assetDots } from '../components/Communities/dots';
-import type { DotCollection } from '../components/Communities/dots';
 import { useAssetLink } from '../hooks/useAssetLink';
 import { formatNumber } from '../lib/format';
 import { useIsSynthetic } from '../lib/synthetic';
@@ -13,7 +12,6 @@ import type { Resource } from '../hooks';
 import type { AssetList, CommunityFeatureCollection, CommunityProperties } from '../types/api';
 import styles from '../components/Communities/Communities.module.css';
 
-const EMPTY_DOTS: DotCollection = { type: 'FeatureCollection', features: [] };
 
 function CommunityRow({ c, onSelect }: { c: CommunityProperties; onSelect: (id: string) => void }) {
   return (
@@ -130,7 +128,11 @@ export default function CommunitiesPage() {
     { community_id: selected?.community_id, selected_only: selectedOnly, sort: 'rank' },
     !!selected,
   );
-  const dots = useMemo(() => (pipes.data ? assetDots(pipes.data.items) : EMPTY_DOTS), [pipes.data]);
+  const layers = usePipeLayers(
+    { community_id: selected?.community_id, selected_only: selectedOnly },
+    { community_id: selected?.community_id, selected_only: selectedOnly, sort: 'rank' },
+    !!selected,
+  );
 
   const update = (fn: (p: URLSearchParams) => void) =>
     setParams((prev) => {
@@ -150,13 +152,14 @@ export default function CommunitiesPage() {
     () => geo.data ?? { type: 'FeatureCollection', features: [] },
     [geo.data],
   );
-  const renderMap = (dots: DotCollection) => (
+  const renderMap = () => (
     <div className={styles.mapCol}>
       {geo.status === 'success' ? (
         <CommunityMap
           communities={polygons}
           selectedCommunityId={selected ? communityId : null}
-          dots={dots}
+          lines={layers.lines}
+          points={layers.points}
           selectedAssetId={assetId}
           onSelectCommunity={select}
           onSelectAsset={(id) => update((p) => p.set('asset', id))}
@@ -213,7 +216,7 @@ export default function CommunitiesPage() {
           )}
         </DataState>
       </div>
-      {renderMap(dots)}
+      {renderMap()}
     </div>
   );
 }

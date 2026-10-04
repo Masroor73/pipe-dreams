@@ -138,3 +138,12 @@
   overflow-wrap: anywhere;
   font-size: var(--text-sm);
 }
+
+.offlineNote {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

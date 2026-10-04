@@ -52,8 +52,19 @@ export function useAllAssets(query: AssetListQuery = {}, enabled = true) {
   }, [JSON.stringify(query), enabled]);
 }
 
-export function useAssetsGeoJson(query: AssetGeoJsonQuery = {}) {
-  return useApiResource(() => api.getAssetsGeoJson(query), [JSON.stringify(query)]);
+export function useAssetsGeoJson(query: AssetGeoJsonQuery = {}, enabled = true) {
+  return useApiResource(
+    async () => {
+      if (!enabled) {
+        return {
+          meta: { synthetic: false, config_hash: '' },
+          data: { type: 'FeatureCollection' as const, features: [] },
+        };
+      }
+      return api.getAssetsGeoJson(query);
+    },
+    [JSON.stringify(query), enabled],
+  );
 }
 
 export function useAsset(id: string) {

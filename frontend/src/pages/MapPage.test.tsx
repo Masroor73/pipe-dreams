@@ -3,19 +3,19 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import { MetaProvider } from '../lib/synthetic';
-import assets from '../fixtures/assets.json';
+import geojson from '../fixtures/assets_geojson_v2.json';
 import MapPage from './MapPage';
 
 vi.mock('../components/Communities/CommunityMap', () => ({
   CommunityMap: ({
-    dots,
+    points,
     onSelectAsset,
   }: {
-    dots: { features: { properties: { asset_id: string } }[] };
+    points: { features: { properties: { asset_id: string } }[] };
     onSelectAsset: (id: string) => void;
   }) => (
-    <div data-testid="dots" data-count={dots.features.length}>
-      <button type="button" onClick={() => onSelectAsset(dots.features[0]!.properties.asset_id)}>
+    <div data-testid="dots" data-count={points.features.length}>
+      <button type="button" onClick={() => onSelectAsset(points.features[0]!.properties.asset_id)}>
         dot
       </button>
     </div>
@@ -38,7 +38,7 @@ function renderMap(path = '/map') {
   );
 }
 
-const selectedCount = assets.data.items.filter((i) => i.selected).length;
+const selectedCount = geojson.data.features.filter((f) => f.properties.selected).length;
 
 describe('MapPage (dots from /api/assets)', () => {
   it('builds one dot per selected asset plus legend', async () => {
