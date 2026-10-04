@@ -113,6 +113,18 @@ FastAPI is the HTTP layer between the browser and the Python artifacts / engine.
 
 See [`docs/TECH_STACK.md`](./docs/TECH_STACK.md) for rationale and constraints.
 
+### Quick start (one command)
+
+Requires Python 3.11 and Node.js 20+. From the repo root:
+
+```bash
+python scripts/start.py
+```
+
+This creates `backend/.venv` and installs dependencies on the first run, starts the API on http://localhost:8000 and the frontend on http://localhost:5173 (live API mode), and opens the browser. Ctrl+C stops both.
+
+Options: `--artifacts artifacts/<run>` (serve real engine output), `--fixtures` (frontend only, built-in fixtures), `--api-port` / `--web-port`, `--no-open`.
+
 ### Running the frontend
 
 Requires Node.js 20+.
