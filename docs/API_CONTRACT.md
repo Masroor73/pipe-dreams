@@ -74,6 +74,7 @@ The frontend shows the persistent **SYNTHETIC / PLACEHOLDER DATA** banner whenev
 | HTTP | `code` | When |
 |---|---|---|
 | 404 | `asset_not_found` | unknown `asset_id` |
+| 404 | `not_found` | unknown route |
 | 422 | `invalid_query` | bad query parameter (FastAPI validation) |
 | 503 | `artifacts_unavailable` | required artifact missing or failed schema validation |
 
@@ -92,7 +93,7 @@ Not wrapped in the envelope, so it works even when artifacts are broken.
 }
 ```
 
-`status` is `"ok"` or `"degraded"`. It is `"degraded"`, with `artifacts_loaded: false`, when the artifact loader failed.
+`status` is `"ok"` or `"degraded"`. It is `"degraded"`, with `artifacts_loaded: false` and `synthetic: null`, when the artifact loader failed (synthetic-ness is unknown without loaded artifacts).
 
 ---
 
@@ -146,6 +147,7 @@ Rules:
 - `confirmation` rows may have `asset_capture: null`. They are directional relative lift only.
 - `final` rows contain only V1, the selected policy, and baselines.
 - `origin_cutoff` is `null` for `final` and `confirmation` rows when it does not apply.
+- `v2_equals_v1`, `budgets_pct`, `revision_gate` come straight from `audit_summary.json`; `final_test_previously_viewed` = `audit_summary.final_test.previously_viewed`.
 
 ---
 
@@ -280,7 +282,7 @@ Physical attributes are shared. Plan-specific fields sit under `v1` / `v2`.
 
 Source: `rank_changes.csv`. Feeds the "three rank/action changes" demo cards.
 
-Query parameters: `demo_only` (bool, default `true`) and `limit` (default `50`).
+Query parameters: `demo_only` (bool, default `true`) and `limit` (int, 1–500, default `50`).
 
 ```json
 {

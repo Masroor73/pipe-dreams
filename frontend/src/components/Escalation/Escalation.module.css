@@ -1,0 +1,188 @@
+.wrap {
+  container-type: inline-size;
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  min-width: 0;
+  font-size: var(--text-sm);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+  line-height: var(--leading-snug);
+  border-bottom: var(--border);
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0;
+  background: var(--color-surface-sunken);
+  border-bottom: var(--border-strong);
+  vertical-align: bottom;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3);
+  line-height: var(--leading-snug);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+.sortBtn svg {
+  flex: none;
+}
+.sortBtn:focus-visible,
+.assetBtn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+.sortBtn:active {
+  background: var(--color-border-strong);
+}
+.sortBtn:hover {
+  background: var(--color-border);
+  color: var(--color-text);
+}
+th[aria-sort='ascending'] .sortBtn,
+th[aria-sort='descending'] .sortBtn {
+  color: var(--color-accent);
+}
+.numCol .sortBtn {
+  justify-content: flex-end;
+}
+
+.table tbody tr:not(.groupRow) {
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.table tbody tr:not(.groupRow):hover {
+  background: var(--color-accent-soft);
+}
+.group:last-child tr:last-child td {
+  border-bottom: 0;
+}
+
+.groupInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-4);
+}
+.table .groupHead {
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  font-weight: var(--weight-regular);
+  border-bottom: var(--border);
+}
+.group:not(:first-of-type) .groupHead {
+  border-top: var(--border-strong);
+}
+.groupReason {
+  flex: 1 1 100%;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-base);
+}
+.groupMeta {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 0;
+  gap: var(--space-1) var(--space-4);
+  min-width: 0;
+  color: var(--color-text-muted);
+}
+.metaLabel {
+  margin-right: var(--space-1);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+.groupCount {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .lastReviewed {
+    display: none;
+  }
+  /* Row columns scroll inside .wrap; the group header stays pinned and wraps to the visible width. */
+  .groupInner {
+    position: sticky;
+    left: var(--space-3);
+    width: calc(100cqw - 2 * var(--space-3));
+  }
+  .groupMeta {
+    flex-direction: column;
+    flex-basis: 100%;
+  }
+}
+
+.numCol {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.wide {
+  min-width: 170px;
+}
+.owner {
+  min-width: 130px;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.date {
+  min-width: 108px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.assetBtn {
+  padding: var(--space-1) var(--space-2);
+  margin: calc(-1 * var(--space-1)) calc(-1 * var(--space-2));
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+.assetBtn:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-hover);
+}
+.assetBtn:active {
+  transform: scale(0.97);
+}

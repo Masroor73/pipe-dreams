@@ -1,0 +1,31 @@
+/* Ten columns need more than the default page measure: widen this page only,
+   keeping it centred (percentages resolve against the shell container). */
+.page {
+  --escalation-width: min(1520px, calc(100vw - 2 * var(--page-gutter) - 16px));
+  width: var(--escalation-width);
+  margin-inline: calc((100% - var(--escalation-width)) / 2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.intro {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+}
+.count {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+@media (max-width: 1000px) {
+  .page {
+    width: auto;
+    margin-inline: 0;
+  }
+}

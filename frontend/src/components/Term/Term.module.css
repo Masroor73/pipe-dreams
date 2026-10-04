@@ -1,0 +1,93 @@
+.wrap {
+  position: relative;
+  display: inline;
+}
+
+.term {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--color-text-faint);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+.term:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Popover: hidden until open (click) or hover/focus on fine pointers. Opacity only; no movement. */
+.pop {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  top: calc(100% + 6px);
+  width: min(320px, 80vw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-text);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: var(--leading-snug);
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 120ms var(--ease-out),
+    visibility 0s linear 120ms;
+}
+.wrap[data-open] .pop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 120ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .wrap:hover .pop,
+  .term:focus-visible + .pop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 120ms var(--ease-out) 150ms;
+  }
+}
+
+/* Phones: show the definition as a card pinned to the bottom of the screen so it never runs off the edge.
+   z-index sits above the asset sheet but below the synthetic banner. */
+@media (max-width: 640px) {
+  .pop {
+    position: fixed;
+    left: var(--space-4);
+    right: var(--space-4);
+    top: auto;
+    bottom: var(--space-4);
+    width: auto;
+    z-index: 50;
+  }
+}
+
+.popTerm {
+  font-weight: var(--weight-bold);
+}
+.popText {
+  color: rgb(255 255 255 / 88%);
+}
+.popLink {
+  align-self: flex-start;
+  color: #9fd6ef;
+  font-weight: var(--weight-semibold);
+}

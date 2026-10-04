@@ -1,0 +1,35 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding-block: var(--space-5) var(--space-7);
+  border-top: var(--border);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-7);
+}
+
+.facts dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-faint);
+}
+
+.facts dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.disclosure {
+  max-width: var(--measure);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
