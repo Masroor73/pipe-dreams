@@ -70,6 +70,41 @@ revision_gate:
   if_multiple_pass: "highest_pooled_validation_score"
   if_none_pass: "V2_equals_V1"
 
+validation_gate_result:
+  bootstrap_reps: 1000
+  bootstrap_seed: 0
+  selected_policy_id: "C3"
+  v1_policy_id: "V1"
+  v2_equals_v1: false
+  pooled_scores:
+    V1: 0.1746
+    C1: 0.1723
+    C2: 0.1864
+    C3: 0.2418
+    C4: 0.1737
+    count_only: 0.1825
+  candidate_decisions:
+    C1:
+      decision: "REJECT"
+      origin_wins: 1
+      pooled_delta_vs_v1: -0.002347
+      bootstrap_se: 0.004803
+    C2:
+      decision: "ACCEPT"
+      origin_wins: 3
+      pooled_delta_vs_v1: 0.011715
+      bootstrap_se: 0.003357
+    C3:
+      decision: "ACCEPT"
+      origin_wins: 3
+      pooled_delta_vs_v1: 0.067153
+      bootstrap_se: 0.007628
+    C4:
+      decision: "REJECT"
+      origin_wins: 1
+      pooled_delta_vs_v1: -0.000945
+      bootstrap_se: 0.004843
+
 evidence_confidence:
   thresholds: "MUST_BE_DERIVED_FROM_VALIDATION_BEFORE_FINAL_TEST"
 
