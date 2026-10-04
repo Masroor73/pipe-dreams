@@ -84,7 +84,8 @@ export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTi
         const cls = [
           styles.item,
           replayCls,
-          styles[`tone_${tone}`],
+          // Pending steps stay neutral so their colour can't give away the decision.
+          isFuture ? '' : styles[`tone_${tone}`],
           joinsNext ? styles.bracketTop : '',
           joinsPrev ? styles.bracketBottom : '',
         ]

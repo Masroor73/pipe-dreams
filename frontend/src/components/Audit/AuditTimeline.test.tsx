@@ -20,6 +20,7 @@ describe('AuditTimeline replay', () => {
     expect(within(future).getByText('PENDING')).toBeTruthy();
     expect(within(future).queryByText('REJECT')).toBeNull();
     expect(within(future).getByText('Not reached yet in this replay.')).toBeTruthy();
+    expect(future.className).not.toMatch(/tone_(accept|reject)/);
   });
 
   it('shows the decision once the replay reaches it', () => {
