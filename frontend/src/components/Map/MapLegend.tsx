@@ -8,15 +8,17 @@ import {
   CONFIDENCE_ORDER,
   FIT_COMPACT_BELOW_PX,
   MUTED_COLOR,
+  LEGEND_COLLAPSE_BELOW_HEIGHT_PX,
   OPEN_PIPE_COLOR,
 } from '../../config/map';
 import { Term } from '../Term/Term';
 import type { PlanId } from '../../types/api';
 import styles from './Map.module.css';
 
-/** Starts collapsed on narrow screens so the legend never covers much of the map. */
+/** Starts collapsed on narrow or short screens so the legend never covers much of the map. */
 function startsOpen(): boolean {
-  return typeof window.matchMedia !== 'function' || !window.matchMedia(`(max-width: ${FIT_COMPACT_BELOW_PX}px)`).matches;
+  if (typeof window.matchMedia !== 'function') return true;
+  return !window.matchMedia(`(max-width: ${FIT_COMPACT_BELOW_PX}px), (max-height: ${LEGEND_COLLAPSE_BELOW_HEIGHT_PX}px)`).matches;
 }
 
 export interface MapLegendProps {

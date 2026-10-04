@@ -113,3 +113,6 @@ export const STREET_BASEMAP_STYLE = {
     },
   ],
 };
+
+/** Map legend starts collapsed on viewports shorter than this (laptops at high zoom). */
+export const LEGEND_COLLAPSE_BELOW_HEIGHT_PX = 720;
