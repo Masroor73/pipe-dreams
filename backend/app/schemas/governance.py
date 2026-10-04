@@ -36,9 +36,19 @@ class NotCoveredData(BaseModel):
     items: list[NotCoveredItem]
 
 
-class InactiveSensitivity(BaseModel):
+class InactiveSensitivityCapture(BaseModel):
     included_capture_5pct: float
     excluded_capture_5pct: float
+
+
+class InactiveSensitivityNotUsed(BaseModel):
+    used_in_model: bool
+    reason: str
+
+
+InactiveSensitivity = (
+    InactiveSensitivityCapture | InactiveSensitivityNotUsed
+)
 
 
 class DataQualityData(BaseModel):
@@ -50,5 +60,5 @@ class DataQualityData(BaseModel):
     future_year_pipe_rows_excluded: int
     planned_rows_excluded: int
     inactive_sensitivity: InactiveSensitivity
-    retired_status_strata: dict[str, float]
+    retired_status_strata: dict[str, float | str | bool | None]
     notes: list[str]

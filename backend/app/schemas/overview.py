@@ -14,7 +14,7 @@ class RevisionGate(BaseModel):
 
 class SeriesRow(BaseModel):
     split: Split
-    origin_cutoff: str | None
+    origin_cutoff: int | str | None
     policy_id: PolicyId | BaselineId
     policy_type: str
     budget_pct: int
