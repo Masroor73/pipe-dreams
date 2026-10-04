@@ -59,6 +59,8 @@ def make_validation_inputs():
         crs=CRS,
     )
 
+    # Eligible network totals 1.0 km:
+    # C1 = 0.1 km, C2 = 0.4 km, C3 = 0.5 km.
     pipes = gpd.GeoDataFrame(
         {
             "install_year": [
@@ -70,20 +72,20 @@ def make_validation_inputs():
         geometry=[
             LineString(
                 [
-                    (0, 100),
-                    (1000, 100),
+                    (100, 100),
+                    (200, 100),
                 ]
             ),
             LineString(
                 [
-                    (1000, 100),
-                    (2000, 100),
+                    (1100, 100),
+                    (1500, 100),
                 ]
             ),
             LineString(
                 [
-                    (2000, 100),
-                    (3000, 100),
+                    (2100, 100),
+                    (2600, 100),
                 ]
             ),
         ],
@@ -155,7 +157,7 @@ def make_validation_inputs():
 class CommunityOriginValidationTests(
     unittest.TestCase
 ):
-    def test_top_ranked_community_captures_future_events(self):
+    def test_network_budget_captures_future_events(self):
         communities, pipes, breaks = (
             make_validation_inputs()
         )
@@ -169,7 +171,7 @@ class CommunityOriginValidationTests(
                 outcome_start_year=2014,
                 outcome_end_year=2016,
             ),
-            top_n=1,
+            budget_pct=10,
         )
 
         self.assertEqual(
@@ -178,30 +180,97 @@ class CommunityOriginValidationTests(
         )
 
         self.assertEqual(
+            result["selected_community_count"],
+            1,
+        )
+
+        self.assertAlmostEqual(
+            result["selected_pipe_length_km"],
+            0.1,
+            places=6,
+        )
+
+        self.assertAlmostEqual(
+            result["eligible_pipe_length_km"],
+            1.0,
+            places=6,
+        )
+
+        self.assertAlmostEqual(
+            result["actual_network_share"],
+            0.10,
+            places=6,
+        )
+
+        self.assertEqual(
             result["future_break_events"],
             4,
         )
 
         self.assertEqual(
-            result[
-                "future_break_events_assigned"
-            ],
+            result["future_break_events_assigned"],
             4,
         )
 
         self.assertEqual(
             result[
-                "top_community_future_break_events"
+                "future_break_events_in_eligible_network"
             ],
+            4,
+        )
+
+        self.assertEqual(
+            result["selected_future_break_events"],
             3,
         )
 
         self.assertAlmostEqual(
-            result[
-                "top_community_event_capture"
-            ],
+            result["event_capture"],
             0.75,
             places=6,
+        )
+
+        self.assertAlmostEqual(
+            result["lift_vs_network_share"],
+            7.5,
+            places=6,
+        )
+
+    def test_whole_community_selection_reports_budget_overshoot(
+        self,
+    ):
+        communities, pipes, breaks = (
+            make_validation_inputs()
+        )
+
+        result = evaluate_community_origin(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            origin=CommunityValidationOrigin(
+                cutoff_year=2013,
+                outcome_start_year=2014,
+                outcome_end_year=2016,
+            ),
+            budget_pct=25,
+        )
+
+        # C1 contributes 10% of network. Adding C2 raises the
+        # realized share to 50%, which is explicitly reported.
+        self.assertEqual(
+            result["selected_community_count"],
+            2,
+        )
+
+        self.assertAlmostEqual(
+            result["actual_network_share"],
+            0.50,
+            places=6,
+        )
+
+        self.assertGreater(
+            result["actual_network_share"],
+            result["budget_pct"] / 100.0,
         )
 
     def test_future_events_do_not_affect_historical_ranking(self):
@@ -250,15 +319,13 @@ class CommunityOriginValidationTests(
                 outcome_start_year=2014,
                 outcome_end_year=2016,
             ),
-            top_n=1,
+            budget_pct=10,
         )
 
-        # C1 remains the historical top-ranked community even
-        # though C3 receives many future events.
+        # C1 remains selected from historical evidence even though
+        # C3 receives many future events.
         self.assertEqual(
-            result[
-                "top_community_future_break_events"
-            ],
+            result["selected_future_break_events"],
             3,
         )
 
@@ -267,7 +334,9 @@ class CommunityOriginValidationTests(
             9,
         )
 
-    def test_outside_future_break_is_reported_not_silently_dropped(self):
+    def test_outside_future_break_is_reported_not_silently_dropped(
+        self,
+    ):
         communities, pipes, breaks = (
             make_validation_inputs()
         )
@@ -303,7 +372,7 @@ class CommunityOriginValidationTests(
                 outcome_start_year=2014,
                 outcome_end_year=2016,
             ),
-            top_n=1,
+            budget_pct=10,
         )
 
         self.assertEqual(
@@ -312,35 +381,88 @@ class CommunityOriginValidationTests(
         )
 
         self.assertEqual(
-            result[
-                "future_break_events_assigned"
-            ],
+            result["future_break_events_assigned"],
             4,
         )
 
         self.assertEqual(
-            result[
-                "future_break_events_unassigned"
-            ],
+            result["future_break_events_unassigned"],
             1,
         )
 
         self.assertAlmostEqual(
-            result[
-                "top_community_event_capture"
-            ],
+            result["event_capture"],
             0.75,
             places=6,
         )
 
-    def test_rejects_invalid_top_n(self):
+    def test_future_events_outside_eligible_network_are_reported(
+        self,
+    ):
+        communities, pipes, breaks = (
+            make_validation_inputs()
+        )
+
+        pipes = pipes.loc[
+            pipes.index != 2
+        ].reset_index(drop=True)
+
+        extra_future = gpd.GeoDataFrame(
+            {
+                "break_year": [2015],
+            },
+            geometry=[
+                Point(2200, 500),
+            ],
+            crs=CRS,
+        )
+
+        breaks = gpd.GeoDataFrame(
+            gpd.pd.concat(
+                [
+                    breaks,
+                    extra_future,
+                ],
+                ignore_index=True,
+            ),
+            geometry="geometry",
+            crs=CRS,
+        )
+
+        result = evaluate_community_origin(
+            communities=communities,
+            pipes=pipes,
+            breaks=breaks,
+            origin=CommunityValidationOrigin(
+                cutoff_year=2013,
+                outcome_start_year=2014,
+                outcome_end_year=2016,
+            ),
+            budget_pct=20,
+        )
+
+        self.assertEqual(
+            result[
+                "future_break_events_outside_eligible_network"
+            ],
+            1,
+        )
+
+        self.assertEqual(
+            result[
+                "future_break_events_in_eligible_network"
+            ],
+            4,
+        )
+
+    def test_rejects_invalid_budget(self):
         communities, pipes, breaks = (
             make_validation_inputs()
         )
 
         with self.assertRaisesRegex(
             ValueError,
-            "top_n must be greater than zero",
+            "budget_pct must be greater than zero and at most 100",
         ):
             evaluate_community_origin(
                 communities=communities,
@@ -351,7 +473,7 @@ class CommunityOriginValidationTests(
                     outcome_start_year=2014,
                     outcome_end_year=2016,
                 ),
-                top_n=0,
+                budget_pct=0,
             )
 
     def test_rejects_outcome_window_before_cutoff(self):
@@ -372,14 +494,14 @@ class CommunityOriginValidationTests(
                     outcome_start_year=2013,
                     outcome_end_year=2016,
                 ),
-                top_n=1,
+                budget_pct=10,
             )
 
 
 class CommunityRollingValidationTests(
     unittest.TestCase
 ):
-    def test_returns_one_row_per_origin(self):
+    def test_returns_one_row_per_origin_and_budget(self):
         communities, pipes, breaks = (
             make_validation_inputs()
         )
@@ -402,21 +524,31 @@ class CommunityRollingValidationTests(
             pipes=pipes,
             breaks=breaks,
             origins=origins,
-            top_n=1,
+            budgets_pct=(10, 20),
         )
 
         self.assertEqual(
             len(result),
-            2,
+            4,
         )
 
         self.assertEqual(
-            result[
-                "origin_cutoff"
-            ].tolist(),
+            result["origin_cutoff"].tolist(),
             [
                 2013,
+                2013,
                 2016,
+                2016,
+            ],
+        )
+
+        self.assertEqual(
+            result["budget_pct"].tolist(),
+            [
+                10.0,
+                20.0,
+                10.0,
+                20.0,
             ],
         )
 
@@ -438,21 +570,28 @@ class CommunityRollingValidationTests(
             pipes=pipes,
             breaks=breaks,
             origins=origins,
-            top_n=1,
+            budgets_pct=(10,),
         )
 
         expected = {
             "origin_cutoff",
             "outcome_start_year",
             "outcome_end_year",
+            "budget_pct",
             "communities_evaluated",
+            "selected_community_count",
+            "selected_pipe_length_km",
+            "eligible_pipe_length_km",
+            "actual_network_share",
             "future_break_events",
             "future_break_events_assigned",
             "future_break_events_unassigned",
             "future_break_events_ambiguous",
-            "top_community_count",
-            "top_community_future_break_events",
-            "top_community_event_capture",
+            "future_break_events_in_eligible_network",
+            "future_break_events_outside_eligible_network",
+            "selected_future_break_events",
+            "event_capture",
+            "lift_vs_network_share",
             "notes",
         }
 

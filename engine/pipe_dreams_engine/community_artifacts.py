@@ -1,7 +1,7 @@
 """Artifact generation for community intelligence outputs.
 
-This module converts community metrics and rolling validation results
-into the frozen CSV and GeoJSON artifacts consumed by FastAPI.
+This module converts community metrics and rolling validation results into
+the frozen CSV and GeoJSON artifacts consumed by FastAPI.
 """
 
 from __future__ import annotations
@@ -15,6 +15,7 @@ import pandas as pd
 from pipe_dreams_engine.community import build_community_metrics
 from pipe_dreams_engine.community_validation import (
     DEFAULT_COMMUNITY_VALIDATION_ORIGINS,
+    DEFAULT_NETWORK_BUDGETS_PCT,
     CommunityValidationOrigin,
     evaluate_rolling_community_origins,
 )
@@ -37,14 +38,21 @@ COMMUNITY_VALIDATION_COLUMNS = [
     "origin_cutoff",
     "outcome_start_year",
     "outcome_end_year",
+    "budget_pct",
     "communities_evaluated",
+    "selected_community_count",
+    "selected_pipe_length_km",
+    "eligible_pipe_length_km",
+    "actual_network_share",
     "future_break_events",
     "future_break_events_assigned",
     "future_break_events_unassigned",
     "future_break_events_ambiguous",
-    "top_community_count",
-    "top_community_future_break_events",
-    "top_community_event_capture",
+    "future_break_events_in_eligible_network",
+    "future_break_events_outside_eligible_network",
+    "selected_future_break_events",
+    "event_capture",
+    "lift_vs_network_share",
     "notes",
 ]
 
@@ -110,7 +118,10 @@ def write_community_artifacts(
         CommunityValidationOrigin,
         ...,
     ] = DEFAULT_COMMUNITY_VALIDATION_ORIGINS,
-    top_n: int = 5,
+    validation_budgets_pct: tuple[
+        float,
+        ...,
+    ] = DEFAULT_NETWORK_BUDGETS_PCT,
 ) -> dict[str, Path]:
     """Generate frozen community CSV, GeoJSON and validation artifacts."""
 
@@ -182,7 +193,7 @@ def write_community_artifacts(
             pipes=pipes,
             breaks=breaks,
             origins=validation_origins,
-            top_n=top_n,
+            budgets_pct=validation_budgets_pct,
         )
     )
 

@@ -122,7 +122,7 @@ class CommunityArtifactTests(
                         outcome_end_year=2016,
                     ),
                 ),
-                top_n=1,
+                validation_budgets_pct=(10,),
             )
 
             self.assertTrue(
@@ -174,7 +174,7 @@ class CommunityArtifactTests(
                         outcome_end_year=2016,
                     ),
                 ),
-                top_n=1,
+                validation_budgets_pct=(10,),
             )
 
             result = pd.read_csv(
@@ -218,7 +218,7 @@ class CommunityArtifactTests(
                         outcome_end_year=2016,
                     ),
                 ),
-                top_n=1,
+                validation_budgets_pct=(10,),
             )
 
             result = pd.read_csv(
@@ -257,7 +257,7 @@ class CommunityArtifactTests(
                         outcome_end_year=2016,
                     ),
                 ),
-                top_n=1,
+                validation_budgets_pct=(10,),
             )
 
             result = gpd.read_file(
@@ -299,7 +299,7 @@ class CommunityArtifactTests(
                         outcome_end_year=2016,
                     ),
                 ),
-                top_n=1,
+                validation_budgets_pct=(10,),
             )
 
             result = pd.read_csv(
@@ -323,6 +323,29 @@ class CommunityArtifactTests(
                     "origin_cutoff",
                 ],
                 2013,
+            )
+
+            self.assertEqual(
+                result.loc[
+                    0,
+                    "budget_pct",
+                ],
+                10.0,
+            )
+
+            self.assertIn(
+                "actual_network_share",
+                result.columns,
+            )
+
+            self.assertIn(
+                "event_capture",
+                result.columns,
+            )
+
+            self.assertIn(
+                "lift_vs_network_share",
+                result.columns,
             )
 
 

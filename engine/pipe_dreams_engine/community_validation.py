@@ -2,7 +2,7 @@
 
 This module evaluates whether cutoff-safe historical community burden
 identifies communities that contain a larger share of future water-main
-break events.
+break events than their share of eligible pipe-network length.
 
 Community validation is intentionally separate from the pipe-level
 V1/C1-C4 autonomous revision gate.
@@ -45,18 +45,25 @@ DEFAULT_COMMUNITY_VALIDATION_ORIGINS = (
     ),
 )
 
+DEFAULT_NETWORK_BUDGETS_PCT = (5, 10, 20)
+
 
 def _validate_origin(
     origin: CommunityValidationOrigin,
-    top_n: int,
+    budget_pct: float,
 ) -> None:
-    """Validate a rolling-origin evaluation definition."""
+    """Validate one rolling-origin evaluation definition."""
 
-    if not isinstance(top_n, int):
-        raise TypeError("top_n must be an integer")
+    if isinstance(budget_pct, bool) or not isinstance(
+        budget_pct,
+        (int, float),
+    ):
+        raise TypeError("budget_pct must be numeric")
 
-    if top_n <= 0:
-        raise ValueError("top_n must be greater than zero")
+    if budget_pct <= 0 or budget_pct > 100:
+        raise ValueError(
+            "budget_pct must be greater than zero and at most 100"
+        )
 
     if origin.outcome_start_year <= origin.cutoff_year:
         raise ValueError(
@@ -88,7 +95,6 @@ def _future_breaks(
     )
 
     future = breaks.loc[mask].copy()
-
     future["break_year"] = (
         break_year.loc[future.index]
         .astype(int)
@@ -205,43 +211,17 @@ def _assign_future_breaks(
     return assignments.reset_index(drop=True), quality
 
 
-def evaluate_community_origin(
-    communities: gpd.GeoDataFrame,
-    pipes: gpd.GeoDataFrame,
-    breaks: gpd.GeoDataFrame,
-    origin: CommunityValidationOrigin,
-    top_n: int = 5,
-) -> dict[str, object]:
-    """Evaluate one historical community-ranking origin.
+def _rank_eligible_communities(
+    historical_metrics: pd.DataFrame,
+) -> pd.DataFrame:
+    """Rank communities using cutoff-safe historical burden only."""
 
-    Communities are ranked using only information available through the
-    origin cutoff. Future event capture is then measured in the declared
-    outcome period.
-
-    Event capture uses uniquely assigned future events as its denominator.
-    Geographic assignment coverage is reported separately.
-    """
-
-    _validate_origin(
-        origin=origin,
-        top_n=top_n,
-    )
-
-    historical_metrics = build_community_metrics(
-        communities=communities,
-        pipes=pipes,
-        breaks=breaks,
-        cutoff_year=origin.cutoff_year,
-    )
-
-    eligible_communities = historical_metrics.loc[
-        historical_metrics[
-            "pipe_length_km"
-        ] > 0
+    eligible = historical_metrics.loc[
+        historical_metrics["pipe_length_km"] > 0
     ].copy()
 
-    eligible_communities = (
-        eligible_communities.sort_values(
+    return (
+        eligible.sort_values(
             by=[
                 "historical_breaks_per_km",
                 "historical_break_count",
@@ -257,19 +237,112 @@ def evaluate_community_origin(
         .reset_index(drop=True)
     )
 
+
+def _select_to_network_budget(
+    ranked_communities: pd.DataFrame,
+    budget_pct: float,
+) -> tuple[set[str], int, float, float, float]:
+    """Select whole communities in rank order until budget is reached.
+
+    Communities are atomic decision units, so the final selected
+    community may cause the realized network share to exceed the
+    requested budget slightly. Both requested and realized shares are
+    reported explicitly.
+    """
+
+    eligible_pipe_length_km = float(
+        ranked_communities["pipe_length_km"].sum()
+    )
+
+    if eligible_pipe_length_km <= 0:
+        return set(), 0, 0.0, 0.0, 0.0
+
+    target_pipe_length_km = (
+        eligible_pipe_length_km
+        * float(budget_pct)
+        / 100.0
+    )
+
+    cumulative_length_km = 0.0
+    selected_ids: set[str] = set()
+
+    for row in ranked_communities.itertuples(index=False):
+        if cumulative_length_km >= target_pipe_length_km:
+            break
+
+        selected_ids.add(str(row.community_id))
+        cumulative_length_km += float(row.pipe_length_km)
+
+    actual_network_share = (
+        cumulative_length_km
+        / eligible_pipe_length_km
+    )
+
+    return (
+        selected_ids,
+        len(selected_ids),
+        cumulative_length_km,
+        eligible_pipe_length_km,
+        actual_network_share,
+    )
+
+
+def evaluate_community_origin(
+    communities: gpd.GeoDataFrame,
+    pipes: gpd.GeoDataFrame,
+    breaks: gpd.GeoDataFrame,
+    origin: CommunityValidationOrigin,
+    budget_pct: float = 10,
+) -> dict[str, object]:
+    """Evaluate one historical community-ranking origin.
+
+    Communities are ranked using information available only through the
+    historical cutoff.
+
+    Whole communities are selected in rank order until the requested
+    fraction of eligible pipe-network length is reached.
+
+    Event capture is measured among uniquely assigned future break events
+    occurring in communities that had eligible pipe network at the
+    historical cutoff. Geographic assignment coverage and events outside
+    the eligible historical network are reported separately.
+    """
+
+    _validate_origin(
+        origin=origin,
+        budget_pct=budget_pct,
+    )
+
+    historical_metrics = build_community_metrics(
+        communities=communities,
+        pipes=pipes,
+        breaks=breaks,
+        cutoff_year=origin.cutoff_year,
+    )
+
+    eligible_communities = _rank_eligible_communities(
+        historical_metrics
+    )
+
     communities_evaluated = len(
         eligible_communities
     )
 
-    selected_count = min(
-        top_n,
-        communities_evaluated,
+    (
+        selected_ids,
+        selected_count,
+        selected_pipe_length_km,
+        eligible_pipe_length_km,
+        actual_network_share,
+    ) = _select_to_network_budget(
+        ranked_communities=eligible_communities,
+        budget_pct=budget_pct,
     )
 
-    selected_ids = set(
-        eligible_communities.head(
-            selected_count
-        )["community_id"].tolist()
+    eligible_ids = set(
+        eligible_communities["community_id"]
+        .astype(str)
+        .tolist()
     )
 
     future = _future_breaks(
@@ -289,22 +362,44 @@ def evaluate_community_origin(
         "future_break_events_assigned"
     ]
 
-    if assigned_count == 0:
-        capture = None
-        selected_future_events = 0
+    eligible_future = assignments.loc[
+        assignments["community_id"]
+        .astype(str)
+        .isin(eligible_ids)
+    ]
+
+    future_events_in_eligible_network = len(
+        eligible_future
+    )
+
+    future_events_outside_eligible_network = (
+        assigned_count
+        - future_events_in_eligible_network
+    )
+
+    selected_future_events = int(
+        eligible_future["community_id"]
+        .astype(str)
+        .isin(selected_ids)
+        .sum()
+    )
+
+    if future_events_in_eligible_network == 0:
+        event_capture = None
+        lift_vs_network_share = None
     else:
-        selected_future_events = int(
-            assignments[
-                "community_id"
-            ].isin(
-                selected_ids
-            ).sum()
+        event_capture = (
+            selected_future_events
+            / future_events_in_eligible_network
         )
 
-        capture = (
-            selected_future_events
-            / assigned_count
-        )
+        if actual_network_share <= 0:
+            lift_vs_network_share = None
+        else:
+            lift_vs_network_share = (
+                event_capture
+                / actual_network_share
+            )
 
     return {
         "origin_cutoff": origin.cutoff_year,
@@ -314,8 +409,21 @@ def evaluate_community_origin(
         "outcome_end_year": (
             origin.outcome_end_year
         ),
+        "budget_pct": float(budget_pct),
         "communities_evaluated": (
             communities_evaluated
+        ),
+        "selected_community_count": (
+            selected_count
+        ),
+        "selected_pipe_length_km": (
+            selected_pipe_length_km
+        ),
+        "eligible_pipe_length_km": (
+            eligible_pipe_length_km
+        ),
+        "actual_network_share": (
+            actual_network_share
         ),
         "future_break_events": (
             assignment_quality[
@@ -335,15 +443,27 @@ def evaluate_community_origin(
                 "future_break_events_ambiguous"
             ]
         ),
-        "top_community_count": selected_count,
-        "top_community_future_break_events": (
+        "future_break_events_in_eligible_network": (
+            future_events_in_eligible_network
+        ),
+        "future_break_events_outside_eligible_network": (
+            future_events_outside_eligible_network
+        ),
+        "selected_future_break_events": (
             selected_future_events
         ),
-        "top_community_event_capture": capture,
+        "event_capture": event_capture,
+        "lift_vs_network_share": (
+            lift_vs_network_share
+        ),
         "notes": (
-            "Capture denominator is uniquely assigned "
-            "future break events only; unassigned and "
-            "ambiguous events are reported separately."
+            "Communities are selected in historical-burden rank order "
+            "until the requested pipe-network budget is reached. "
+            "Because communities are atomic, realized network share may "
+            "exceed the requested budget. Event capture uses uniquely "
+            "assigned future events in communities with eligible network "
+            "at the historical cutoff; other assignment coverage is "
+            "reported separately."
         ),
     }
 
@@ -356,9 +476,12 @@ def evaluate_rolling_community_origins(
         CommunityValidationOrigin,
         ...,
     ] = DEFAULT_COMMUNITY_VALIDATION_ORIGINS,
-    top_n: int = 5,
+    budgets_pct: tuple[
+        float,
+        ...,
+    ] = DEFAULT_NETWORK_BUDGETS_PCT,
 ) -> pd.DataFrame:
-    """Evaluate community burden across multiple historical origins."""
+    """Evaluate community burden across origins and network budgets."""
 
     rows = [
         evaluate_community_origin(
@@ -366,9 +489,10 @@ def evaluate_rolling_community_origins(
             pipes=pipes,
             breaks=breaks,
             origin=origin,
-            top_n=top_n,
+            budget_pct=budget_pct,
         )
         for origin in origins
+        for budget_pct in budgets_pct
     ]
 
     return pd.DataFrame(rows)
