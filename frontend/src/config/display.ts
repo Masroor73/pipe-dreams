@@ -94,7 +94,7 @@ export const SERIES_LABEL_COLOR: Record<ChartSeriesKey, string> = {
 /** Series that also draw confidence whiskers; the others stay as clean lines. */
 export const WHISKER_SERIES: ChartSeriesKey[] = ['v2', 'count_only'];
 export const CHART_MARGIN_WIDE = { top: 30, right: 232, bottom: 8, left: 8 } as const;
-export const CHART_MARGIN_NARROW = { top: 30, right: 112, bottom: 8, left: 0 } as const;
+export const CHART_MARGIN_NARROW = { top: 30, right: 124, bottom: 8, left: 0 } as const;
 /** Chart widths (px) below which the chart switches to the narrow layout. */
 export const CHART_NARROW_PX = 560;
 export const CHART_XAXIS_HEIGHT = 48;
