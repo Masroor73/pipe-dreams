@@ -180,3 +180,96 @@ Required:
 ## Validation
 
 Run `scripts/validate_artifacts.py artifacts/<run>` before pointing the API at a new run. It uses the same checks as the API loader; see `docs/ENGINE_HANDOFF.md`.
+
+---
+
+## Community Intelligence Artifacts
+
+Community analysis is separate from the pipe-level V1/V2
+experiment. All community artifacts are generated offline.
+
+### `communities.csv`
+
+One row per community per supported historical cutoff.
+
+Required columns:
+- `community_id`
+- `community_name`
+- `cutoff_year`
+- `pipe_length_km`
+- `historical_break_count`
+- `historical_breaks_per_km`
+- `population`
+- `equity_index`
+- `equity_geography_status`
+- `data_quality_flags`
+
+Rules:
+- `community_id` and `cutoff_year` jointly identify each row.
+- Historical break counts include events through the cutoff only.
+- Historical pipe length excludes assets installed after the cutoff.
+- Pipe length is calculated from line geometry clipped to
+  community boundaries.
+- `historical_breaks_per_km` is null when pipe length is zero
+  or unavailable.
+- Population and equity fields remain null until their sources
+  and geographic alignment are verified.
+- Current population/equity context must not enter historical
+  predictive evaluation.
+- `data_quality_flags` is a JSON-encoded array of strings
+  when stored in CSV.
+
+### `communities.geojson`
+
+A GeoJSON FeatureCollection containing community boundaries
+and their frozen indicators.
+
+Required:
+- WGS84 (EPSG:4326) geometry;
+- `community_id` as each feature's ID;
+- properties matching the corresponding `communities.csv` row.
+
+A separate GeoJSON artifact is produced for each supported
+cutoff year, named:
+
+`communities_{cutoff_year}.geojson`
+
+The API selects the appropriate frozen file using the
+`cutoff_year` query parameter.
+
+### `community_validation.csv`
+
+One row per historical validation origin.
+
+Required columns:
+- `origin_cutoff`
+- `outcome_start_year`
+- `outcome_end_year`
+- `communities_evaluated`
+- `future_break_events`
+- `future_break_events_assigned`
+- `top_community_count`
+- `top_community_event_capture`
+- `notes`
+
+Rules:
+- Rank communities using only historical information
+  available at the origin cutoff.
+- Count future events independently in the corresponding
+  evaluation period.
+- Report assignment coverage.
+- Do not use this artifact in the pipe-level V1/V2
+  acceptance gate.
+
+### Community Data Integrity
+
+- Community IDs must be stable across all artifacts.
+- Boundary versions and data-source versions must be recorded.
+- Community polygons must not silently duplicate break events
+  along shared boundaries.
+- Breaks outside the covered geography must be reported.
+- Small pipe-length denominators must be flagged.
+- Present-day geometry and historical boundary limitations
+  must be disclosed.
+- All numerical results must come from actual processing;
+  synthetic examples must remain explicitly labeled.

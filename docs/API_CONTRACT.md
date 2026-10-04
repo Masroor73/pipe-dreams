@@ -431,3 +431,133 @@ Map keys are origin years or era labels as strings. Era labels come from config.
 4. API does not mutate frozen artifacts.
 5. `meta.synthetic` and `meta.config_hash` are present on every enveloped response.
 6. Schema changes must update backend Pydantic models, this document, and frontend types in the same pull request.
+
+
+---
+
+## Community Intelligence API
+
+Community intelligence is the primary entry point for the dashboard.
+Existing asset-level endpoints remain unchanged.
+
+Community infrastructure burden and community needs are presented as
+separate dimensions. The API does not provide an invented combined
+community risk score.
+
+### GET /api/communities
+
+Returns community-level historical infrastructure indicators.
+
+Query parameters:
+- `cutoff_year`: optional integer; defaults to the latest available
+  completed historical year represented in the frozen artifact.
+
+Response:
+
+```json
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "cutoff_year": 2022,
+    "items": [
+      {
+        "community_id": "example_001",
+        "community_name": "Example Community",
+        "pipe_length_km": 12.5,
+        "historical_break_count": 20,
+        "historical_breaks_per_km": 1.6,
+        "population": null,
+        "equity_index": null,
+        "equity_geography_status": "NOT_ASSESSED",
+        "data_quality_flags": []
+      }
+    ]
+  }
+}
+```
+
+The values above are synthetic contract examples, not measured Calgary
+results.
+
+Field rules:
+- `historical_break_count` includes only eligible historical events
+  through the specified cutoff.
+- `pipe_length_km` is based on the length of water-main geometry
+  intersecting each community polygon, not entire pipes assigned
+  by centroid.
+- `historical_breaks_per_km` equals historical break count divided
+  by eligible pipe length in kilometres.
+- The metric is null when the denominator is zero or unavailable.
+- `population` and `equity_index` are optional contextual values.
+  They remain null until the relevant source and geographic alignment
+  have been verified.
+- `equity_geography_status` is one of:
+  `NOT_ASSESSED`, `DIRECT`, `AREA_WEIGHTED`, `UNAVAILABLE`.
+- `data_quality_flags` contains explicit limitations such as
+  `LOW_PIPE_COVERAGE`, `SMALL_DENOMINATOR`, or
+  `BOUNDARY_ASSIGNMENT_UNCERTAIN` when applicable.
+- Historical burden is not a calibrated failure probability.
+- Current equity context must not be used as a historical
+  prediction feature.
+
+### GET /api/communities/geojson
+
+Returns a GeoJSON FeatureCollection containing the same frozen
+community indicators for map rendering.
+
+Query parameters:
+- `cutoff_year`: same meaning as `/api/communities`.
+
+Response:
+
+```json
+{
+  "meta": {
+    "synthetic": true,
+    "config_hash": "PLACEHOLDER"
+  },
+  "data": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "id": "example_001",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-114.1, 51.0],
+              [-114.09, 51.0],
+              [-114.09, 51.01],
+              [-114.1, 51.01],
+              [-114.1, 51.0]
+            ]
+          ]
+        },
+        "properties": {
+          "community_id": "example_001",
+          "community_name": "Example Community",
+          "pipe_length_km": 12.5,
+          "historical_break_count": 20,
+          "historical_breaks_per_km": 1.6,
+          "population": null,
+          "equity_index": null,
+          "equity_geography_status": "NOT_ASSESSED",
+          "data_quality_flags": []
+        }
+      }
+    ]
+  }
+}
+```
+
+GeoJSON geometry must be WGS84 (EPSG:4326). All spatial
+calculations occur offline in the engine using a suitable projected
+coordinate system.
+
+Both community endpoints read precomputed artifacts. FastAPI must
+not perform spatial joins, recalculate burden, or fit models
+during requests.
