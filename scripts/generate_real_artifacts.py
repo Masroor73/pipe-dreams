@@ -1870,6 +1870,16 @@ def main() -> int:
             columns=ESCALATION_COLUMNS
         )
     else:
+        # Fixed response SLA from the review date.
+        # Do not schedule escalation deadlines sequentially by row/rank.
+        reviewed = pd.to_datetime(
+            escalation["last_reviewed"],
+            errors="raise",
+        )
+        escalation["response_deadline"] = (
+            reviewed + pd.Timedelta(days=7)
+        ).dt.date.astype(str)
+
         missing = [
             col
             for col in ESCALATION_COLUMNS
