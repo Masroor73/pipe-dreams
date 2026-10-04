@@ -1,3 +1,4 @@
+import { Briefing } from '../components/Overview/Briefing';
 import { CaptureChart } from '../components/Overview/CaptureChart';
 import { GateCards } from '../components/Overview/GateCards';
 import { Headline } from '../components/Overview/Headline';
@@ -17,6 +18,7 @@ export default function OverviewPage() {
       <GateCards overview={overview} />
       <RankChangeCards />
       <Teasers />
+      <Briefing />
       <OverviewFooter overview={overview} />
     </div>
   );
