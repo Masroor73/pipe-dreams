@@ -4,13 +4,12 @@ import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent, MapRef } from 'react-map-gl/maplibre';
 import {
-  CASING_COLOR,
   CONFIDENCE_COLORS,
   INITIAL_VIEW,
-  LINE_WIDTH_STOPS,
   MAPLIBRE_WORKER_PATH,
 } from '../../config/map';
-import type { AssetFeature, CommunityFeatureCollection } from '../../types/api';
+import type { CommunityFeatureCollection } from '../../types/api';
+import type { DotCollection } from './dots';
 import { OFFLINE_STYLE } from '../Map/offlineStyle';
 import { hasWebGL } from '../Map/geo';
 import styles from './Communities.module.css';
@@ -46,27 +45,12 @@ export function coordBounds(coords: unknown): Bounds | null {
     : null;
 }
 
-const LINE_COLOR = [
-  'match',
-  ['get', 'evidence_confidence'],
-  'HIGH',
-  CONFIDENCE_COLORS.HIGH,
-  'MEDIUM',
-  CONFIDENCE_COLORS.MEDIUM,
-  'LOW_VERIFY',
-  CONFIDENCE_COLORS.LOW_VERIFY,
-  CONFIDENCE_COLORS.HIGH,
-] as unknown as string;
-
-const widthExpr = (stops: readonly (readonly [number, number])[], extra = 0) =>
-  ['interpolate', ['linear'], ['zoom'], ...stops.flatMap(([z, w]) => [z, w + extra])] as never;
-
-const LINE_LAYOUT = { 'line-cap': 'round' as const, 'line-join': 'round' as const };
+const DOT_COLORS = ['match', ['get', 'evidence_confidence'], 'HIGH', CONFIDENCE_COLORS.HIGH, 'MEDIUM', CONFIDENCE_COLORS.MEDIUM, 'LOW_VERIFY', CONFIDENCE_COLORS.LOW_VERIFY, CONFIDENCE_COLORS.HIGH] as never;
 
 export interface CommunityMapProps {
   communities: CommunityFeatureCollection;
   selectedCommunityId: string | null;
-  pipes: AssetFeature[];
+  dots: DotCollection;
   selectedAssetId: string | null;
   onSelectCommunity: (id: string) => void;
   onSelectAsset: (id: string) => void;
@@ -75,7 +59,7 @@ export interface CommunityMapProps {
 export function CommunityMap({
   communities,
   selectedCommunityId,
-  pipes,
+  dots,
   selectedAssetId,
   onSelectCommunity,
   onSelectAsset,
@@ -83,19 +67,19 @@ export function CommunityMap({
   const mapRef = useRef<MapRef>(null);
   const [loaded, setLoaded] = useState(false);
   const webgl = useMemo(() => hasWebGL(), []);
-  const pipeData = useMemo(() => ({ type: 'FeatureCollection' as const, features: pipes }), [pipes]);
   const cityBounds = useMemo(
     () => coordBounds(communities.features.map((f) => f.geometry.coordinates)),
     [communities],
   );
   const target = useMemo(() => {
     const sel = communities.features.find((f) => f.properties.community_id === selectedCommunityId);
-    return sel ? coordBounds(sel.geometry.coordinates) : cityBounds;
-  }, [communities, selectedCommunityId, cityBounds]);
+    if (sel) return coordBounds(sel.geometry.coordinates);
+    return cityBounds ?? coordBounds(dots.features.map((f) => f.geometry.coordinates));
+  }, [communities, selectedCommunityId, cityBounds, dots]);
 
   useEffect(() => {
     if (!target || !loaded) return;
-    mapRef.current?.fitBounds(target, { padding: 48, maxZoom: 15, duration: 600 });
+    mapRef.current?.fitBounds(target, { padding: 80, maxZoom: 14, duration: 600 });
   }, [target, loaded]);
 
   if (!webgl) {
@@ -110,7 +94,7 @@ export function CommunityMap({
   const onClick = (e: MapLayerMouseEvent) => {
     const f = e.features?.[0];
     if (!f) return;
-    if (f.layer.id === 'pipes') onSelectAsset(String(f.properties?.asset_id));
+    if (f.layer.id.startsWith('dots')) onSelectAsset(String(f.properties?.asset_id));
     else if (f.properties?.community_id) onSelectCommunity(String(f.properties.community_id));
   };
 
@@ -120,7 +104,7 @@ export function CommunityMap({
         ref={mapRef}
         initialViewState={cityBounds ? { bounds: cityBounds, fitBoundsOptions: { padding: 48 } } : INITIAL_VIEW}
         mapStyle={OFFLINE_STYLE}
-        interactiveLayerIds={['community-fill', 'pipes']}
+        interactiveLayerIds={['dots-muted', 'dots-selected', 'community-fill']}
         attributionControl={{ compact: true }}
         onLoad={() => setLoaded(true)}
         onClick={onClick}
@@ -144,25 +128,38 @@ export function CommunityMap({
             paint={{ 'line-color': '#0b6e99', 'line-width': 3 }}
           />
         </Source>
-        <Source id="community-pipes" type="geojson" data={pipeData as never}>
+        <Source id="asset-dots" type="geojson" data={dots as never}>
           <Layer
-            id="pipes-casing"
-            type="line"
-            layout={LINE_LAYOUT}
-            paint={{ 'line-color': CASING_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base, 2) }}
+            id="dots-muted"
+            type="circle"
+            filter={['!', ['get', 'selected']] as never}
+            paint={{
+              'circle-color': '#8795a5',
+              'circle-radius': 3,
+              'circle-opacity': 0.55,
+            }}
           />
           <Layer
-            id="pipes"
-            type="line"
-            layout={LINE_LAYOUT}
-            paint={{ 'line-color': LINE_COLOR, 'line-width': widthExpr(LINE_WIDTH_STOPS.base) }}
+            id="dots-selected"
+            type="circle"
+            filter={['get', 'selected'] as never}
+            paint={{
+              'circle-color': DOT_COLORS,
+              'circle-radius': 6,
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-width': 1.5,
+            }}
           />
           <Layer
-            id="pipes-selected"
-            type="line"
+            id="dots-open"
+            type="circle"
             filter={['==', ['get', 'asset_id'], selectedAssetId ?? ''] as never}
-            layout={LINE_LAYOUT}
-            paint={{ 'line-color': '#14202e', 'line-width': widthExpr(LINE_WIDTH_STOPS.selected) }}
+            paint={{
+              'circle-color': '#14202e',
+              'circle-radius': 9,
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-width': 2.5,
+            }}
           />
         </Source>
       </Map>

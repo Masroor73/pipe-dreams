@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
-import type { ReactNode } from 'react';
 import { useSearchParams } from 'react-router';
 import { CommunityMap } from '../components/Communities/CommunityMap';
 import { DataState } from '../components/DataState/DataState';
 import { ConfidencePill, Pill } from '../components/Pill/Pill';
-import { useAssets, useAssetsGeoJson, useCommunities, useCommunitiesGeoJson } from '../hooks';
+import { useAllAssets, useCommunities, useCommunitiesGeoJson } from '../hooks';
+import { assetDots } from '../components/Communities/dots';
+import type { DotCollection } from '../components/Communities/dots';
 import { useAssetLink } from '../hooks/useAssetLink';
 import { formatNumber } from '../lib/format';
 import { useIsSynthetic } from '../lib/synthetic';
-import type { AssetFeature, CommunityFeatureCollection, CommunityProperties } from '../types/api';
+import type { Resource } from '../hooks';
+import type { AssetList, CommunityFeatureCollection, CommunityProperties } from '../types/api';
 import styles from '../components/Communities/Communities.module.css';
 
-const EMPTY_PIPES: AssetFeature[] = [];
+const EMPTY_DOTS: DotCollection = { type: 'FeatureCollection', features: [] };
 
 function CommunityRow({ c, onSelect }: { c: CommunityProperties; onSelect: (id: string) => void }) {
   return (
@@ -44,7 +46,9 @@ function PipeList({
   onToggle,
   onClear,
   assetId,
+  list,
 }: {
+  list: Resource<AssetList>;
   community: CommunityProperties;
   selectedOnly: boolean;
   onToggle: (v: boolean) => void;
@@ -52,12 +56,6 @@ function PipeList({
   assetId: string | null;
 }) {
   const openAsset = useAssetLink();
-  const list = useAssets({
-    community_id: community.community_id,
-    selected_only: selectedOnly,
-    sort: 'rank',
-    limit: 500,
-  });
   const items = list.data?.items ?? [];
   return (
     <section aria-label="Pipes in selected community" style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
@@ -116,20 +114,6 @@ function PipeList({
   );
 }
 
-/** Fetches the selected community's pipe lines for the map layer. */
-function PipeLines({
-  communityId,
-  selectedOnly,
-  children,
-}: {
-  communityId: string;
-  selectedOnly: boolean;
-  children: (pipes: AssetFeature[]) => ReactNode;
-}) {
-  const geo = useAssetsGeoJson({ community_id: communityId, selected_only: selectedOnly });
-  return <>{children(geo.data?.features ?? EMPTY_PIPES)}</>;
-}
-
 export default function CommunitiesPage() {
   const [params, setParams] = useSearchParams();
   const communityId = params.get('community');
@@ -142,6 +126,11 @@ export default function CommunitiesPage() {
   const items = list.data?.items ?? [];
   const selected = communityId ? items.find((c) => c.community_id === communityId) : undefined;
   const notFound = !!communityId && list.status === 'success' && !selected;
+  const pipes = useAllAssets(
+    { community_id: selected?.community_id, selected_only: selectedOnly, sort: 'rank' },
+    !!selected,
+  );
+  const dots = useMemo(() => (pipes.data ? assetDots(pipes.data.items) : EMPTY_DOTS), [pipes.data]);
 
   const update = (fn: (p: URLSearchParams) => void) =>
     setParams((prev) => {
@@ -161,13 +150,13 @@ export default function CommunitiesPage() {
     () => geo.data ?? { type: 'FeatureCollection', features: [] },
     [geo.data],
   );
-  const renderMap = (pipes: AssetFeature[]) => (
+  const renderMap = (dots: DotCollection) => (
     <div className={styles.mapCol}>
       {geo.status === 'success' ? (
         <CommunityMap
           communities={polygons}
           selectedCommunityId={selected ? communityId : null}
-          pipes={pipes}
+          dots={dots}
           selectedAssetId={assetId}
           onSelectCommunity={select}
           onSelectAsset={(id) => update((p) => p.set('asset', id))}
@@ -208,6 +197,7 @@ export default function CommunitiesPage() {
         >
           {selected ? (
             <PipeList
+              list={pipes}
               community={selected}
               selectedOnly={selectedOnly}
               onToggle={setSelectedOnly}
@@ -223,13 +213,7 @@ export default function CommunitiesPage() {
           )}
         </DataState>
       </div>
-      {selected ? (
-        <PipeLines communityId={selected.community_id} selectedOnly={selectedOnly}>
-          {renderMap}
-        </PipeLines>
-      ) : (
-        renderMap(EMPTY_PIPES)
-      )}
+      {renderMap(dots)}
     </div>
   );
 }

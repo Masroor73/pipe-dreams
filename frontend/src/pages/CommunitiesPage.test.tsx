@@ -101,7 +101,6 @@ describe('CommunitiesPage', () => {
     expect(screen.getByTestId('loc').textContent).toContain('community=BLN');
     await screen.findByText('#123 citywide');
     expect(mocks.getAssets).toHaveBeenCalledWith(expect.objectContaining({ community_id: 'BLN', sort: 'rank' }));
-    expect(mocks.getAssetsGeoJson).toHaveBeenCalledWith(expect.objectContaining({ community_id: 'BLN' }));
     expect(screen.getByText('250 m')).toBeInTheDocument();
     expect(screen.getByText('INSPECT')).toBeInTheDocument();
   });
