@@ -113,4 +113,21 @@
   .card {
     padding: var(--space-4) var(--space-3);
   }
+  /* One scrollable row of split tabs instead of a stacked list. */
+  .toolbar {
+    min-width: 0;
+  }
+  .segmented {
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .segmented::-webkit-scrollbar {
+    display: none;
+  }
+  .segment {
+    flex: none;
+    white-space: nowrap;
+  }
 }

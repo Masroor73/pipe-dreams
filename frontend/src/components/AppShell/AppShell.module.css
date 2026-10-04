@@ -240,6 +240,9 @@
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
+    /* Fade the trailing edge so it reads as a scrollable row, not a clipped one. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+    padding-right: var(--space-6);
   }
 
   .links::-webkit-scrollbar {
