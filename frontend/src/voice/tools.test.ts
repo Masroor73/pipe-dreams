@@ -67,7 +67,7 @@ describe('voice tools', () => {
     expect(r.plan).toBe('v2');
     expect(r.items).toHaveLength(3);
     expect(r.items[0]).toMatchObject({ asset_id: 'PIPE-0001', rank: 1, length_m: 101.4, recommended_action: 'INSPECT' });
-    expect(navigate).toHaveBeenCalledWith('/map?plan=v2&asset=PIPE-0001');
+    expect(navigate).toHaveBeenCalledWith('/map?plan=v2&asset=PIPE-0001&focus=1');
   });
 
   it('get_priority_plan caps top_n at 8 and honours v1', async () => {
@@ -81,7 +81,7 @@ describe('voice tools', () => {
     const r = (await tools.explain_asset({ asset_id: 'PIPE-0001' })) as Record<string, unknown>;
     expect(r).toMatchObject({ rank_v1: 9, rank_v2: 1, selected_v2: true, evidence_confidence: 'LOW_VERIFY', revision_reason: 'moved up' });
     expect(r.likelihood_score_note).toBe('ranking signal, not failure probability');
-    expect(navigate).toHaveBeenCalledWith('?asset=PIPE-0001');
+    expect(navigate).toHaveBeenCalledWith('?asset=PIPE-0001&focus=1');
   });
 
   it('compare_v1_v2 reports decisions as PASSED/FAILED and the final capture', async () => {
@@ -109,7 +109,7 @@ describe('voice tools', () => {
   it('focus_community navigates and returns pipe counts', async () => {
     const { api, navigate, tools } = setup();
     const r = (await tools.focus_community({ community_id: 'BBB' })) as Record<string, unknown>;
-    expect(navigate).toHaveBeenCalledWith('/communities?community=BBB');
+    expect(navigate).toHaveBeenCalledWith('/communities?community=BBB&focus=1');
     expect(api.getAssets).toHaveBeenCalledWith({ community_id: 'BBB', limit: 1 });
     expect(api.getAssets).toHaveBeenCalledWith({ community_id: 'BBB', selected_only: true, limit: 1 });
     expect(r).toMatchObject({ name: 'HIGH', pipes_total: 42, pipes_selected_for_inspection: 42 });

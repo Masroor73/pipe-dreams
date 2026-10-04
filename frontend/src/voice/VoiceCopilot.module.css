@@ -83,3 +83,23 @@
     animation: none;
   }
 }
+
+.handsFree {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted, #4a5b6d);
+  cursor: pointer;
+  background: var(--color-surface, #fff);
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 1px 6px rgb(20 32 46 / 0.18);
+}
+.listening {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-style: normal;
+  opacity: 0.75;
+}
