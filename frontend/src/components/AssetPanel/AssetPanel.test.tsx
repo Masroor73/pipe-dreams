@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import { MetaProvider } from '../../lib/synthetic';
@@ -23,7 +23,7 @@ describe('AssetPanel', () => {
     renderPanel('seg_000001');
     const table = await screen.findByRole('table', TABLE);
     const cells = (label: string) =>
-      within(within(table).getByRole('rowheader', { name: label }).closest('tr')!)
+      within(within(table).getByRole('rowheader', { name: new RegExp(`^${label}`) }).closest('tr')!)
         .getAllByRole('cell')
         .map((c) => c.textContent);
     expect(cells('Rank')).toEqual(['5', '31']);
@@ -36,12 +36,19 @@ describe('AssetPanel', () => {
     expect(screen.getByRole('dialog', { name: 'Asset seg_000001' })).toBeInTheDocument();
   });
 
-  it('labels the consequence tier chip with a tooltip', async () => {
+  it('wraps the consequence tier label in a glossary term', async () => {
     renderPanel('seg_000001');
     await screen.findByRole('table', TABLE);
-    const chip = screen.getByText(/^Consequence tier T\d/);
-    expect(chip).toBeInTheDocument();
-    expect(chip.closest('[title]')).toHaveAttribute('title', expect.stringContaining('pipe diameter'));
+    expect(screen.getByRole('button', { name: 'Consequence tier' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Priority score' })).toBeInTheDocument();
+  });
+
+  it('is a non-modal dialog labelled by its heading', async () => {
+    renderPanel('seg_000001');
+    await screen.findByRole('table', TABLE);
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('aria-modal', 'false');
+    expect(dialog).toHaveAttribute('aria-labelledby', screen.getByRole('heading', { level: 2 }).id);
   });
 
   it('shows the not-found message for an unknown id', async () => {
@@ -49,14 +56,34 @@ describe('AssetPanel', () => {
     expect(await screen.findByText("No asset with id 'nope_123' in plan v2.")).toBeInTheDocument();
   });
 
-  it('closes on Escape, the X button and the scrim', async () => {
+  it('has no dimming scrim', async () => {
+    renderPanel('seg_000001');
+    await screen.findByRole('table', TABLE);
+    expect(screen.queryByTestId('asset-scrim')).not.toBeInTheDocument();
+  });
+
+  it('closes on Escape, the X button and an outside click', async () => {
     const onClose = renderPanel('seg_000001');
     await screen.findByRole('table', TABLE);
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(onClose).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByRole('button', { name: 'Close asset panel' }));
     expect(onClose).toHaveBeenCalledTimes(2);
-    fireEvent.click(screen.getByTestId('asset-scrim'));
-    expect(onClose).toHaveBeenCalledTimes(3);
+    fireEvent.pointerDown(document.body);
+    fireEvent.click(document.body);
+    await waitFor(() => expect(onClose).toHaveBeenCalledTimes(3));
+  });
+
+  it('does not close on a click inside the panel or on an asset trigger', async () => {
+    const onClose = renderPanel('seg_000001');
+    await screen.findByRole('table', TABLE);
+    fireEvent.click(screen.getByRole('table', TABLE));
+    const trigger = document.createElement('a');
+    trigger.setAttribute('data-asset-trigger', '');
+    document.body.appendChild(trigger);
+    fireEvent.click(trigger);
+    await new Promise((r) => setTimeout(r, 120));
+    expect(onClose).not.toHaveBeenCalled();
+    trigger.remove();
   });
 });

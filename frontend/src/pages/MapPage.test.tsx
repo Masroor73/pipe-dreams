@@ -37,7 +37,7 @@ describe('MapPage (SVG fallback, no WebGL in jsdom)', () => {
     expect(document.querySelectorAll('svg path[data-asset-id]')).toHaveLength(selectedCount);
     expect(screen.getByText(`${selectedCount} selected segments · plan V2`)).toBeInTheDocument();
     expect(screen.getByText('LOW_VERIFY (verify before acting)')).toBeInTheDocument();
-    expect(screen.getByText(/Evidence confidence ≠ failure probability/)).toBeInTheDocument();
+    expect(screen.getByText(/≠ failure probability/)).toBeInTheDocument();
   });
 
   it('sets ?asset= when a line is clicked', async () => {

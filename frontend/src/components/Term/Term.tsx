@@ -24,16 +24,19 @@ export function Term({ id, children }: TermProps) {
 
   useEffect(() => {
     if (!open) return;
+    // Capture phase: an open popover consumes Esc so it does not also close the asset panel.
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      e.stopImmediatePropagation();
+      setOpen(false);
     };
     const onDown = (e: PointerEvent) => {
       if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener('keydown', onKey);
+    document.addEventListener('keydown', onKey, true);
     document.addEventListener('pointerdown', onDown);
     return () => {
-      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('keydown', onKey, true);
       document.removeEventListener('pointerdown', onDown);
     };
   }, [open]);

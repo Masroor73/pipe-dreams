@@ -60,3 +60,15 @@ export const CHANGED_PULSE = {
   /** MapLibre paint transition back to full opacity (linear; MapLibre has no easing option). */
   returnMs: 500,
 } as const;
+
+/** At or below this width the asset panel is a bottom sheet (mirrors the CSS media query). */
+export const SHEET_MAX_WIDTH_PX = 640;
+/** Bottom-sheet max height as a fraction of the viewport (mirrors max-height: 60dvh). */
+export const SHEET_MAX_HEIGHT_FRAC = 0.6;
+/** Ease (ms) when the map moves a selected segment out from under the asset panel; 0 under reduced motion. */
+export const REVEAL_EASE_MS = 280;
+/** Breathing room (px) kept between a revealed segment and the panel edge. */
+export const REVEAL_MARGIN_PX = 48;
+/** Outside-click handling: ignore pointer travel beyond this (a map drag), and wait this long for ?asset= to change. */
+export const OUTSIDE_CLICK_DRAG_TOLERANCE_PX = 6;
+export const OUTSIDE_CLICK_CLOSE_DELAY_MS = 60;

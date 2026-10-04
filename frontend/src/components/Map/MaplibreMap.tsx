@@ -18,10 +18,11 @@ import {
   HALO_EXTRA,
   LINE_WIDTH_STOPS,
   MAPLIBRE_WORKER_PATH,
+  REVEAL_EASE_MS,
 } from '../../config/map';
 import type { AssetFeatureCollection, AssetFeatureProperties } from '../../types/api';
 import { useChangedPulse } from './changedSegments';
-import { featureBounds, fitPadding } from './geo';
+import { featureBounds, fitPadding, planReveal } from './geo';
 import { OFFLINE_STYLE } from './offlineStyle';
 import { useBasemap } from './useBasemap';
 import type { MapViewProps } from './SvgFallbackMap';
@@ -100,6 +101,33 @@ export function MaplibreMap({ features, selectedId, changedIds, pulseKey, onSele
     });
   }, [bounds]);
 
+  // Keep the selected segment in the part of the map the asset panel leaves visible.
+  const featuresRef = useRef(features);
+  featuresRef.current = features;
+  const revealSelected = (id: string | null) => {
+    const map = mapRef.current;
+    const wrap = wrapRef.current;
+    const feature = id ? featuresRef.current.find((f) => f.properties.asset_id === id) : undefined;
+    if (!map || !wrap || !feature) return;
+    const coords = feature.geometry.coordinates;
+    const rect = wrap.getBoundingClientRect();
+    const points = coords.map(([lng, lat]) => map.project([lng, lat]));
+    const plan = planReveal(points, { width: rect.width, height: rect.height, left: rect.left }, { width: window.innerWidth, height: window.innerHeight });
+    if (plan.visible) return;
+    const lngs = coords.map((c) => c[0]);
+    const lats = coords.map((c) => c[1]);
+    const reduced = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    map.easeTo({
+      center: [(Math.min(...lngs) + Math.max(...lngs)) / 2, (Math.min(...lats) + Math.max(...lats)) / 2],
+      padding: plan.padding,
+      duration: reduced ? 0 : REVEAL_EASE_MS,
+    });
+  };
+  useEffect(() => {
+    revealSelected(selectedId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
+
   const propsAt = (e: MapLayerMouseEvent): AssetFeatureProperties | null =>
     (e.features?.[0]?.properties as AssetFeatureProperties | undefined) ?? null;
 
@@ -111,6 +139,7 @@ export function MaplibreMap({ features, selectedId, changedIds, pulseKey, onSele
         initialViewState={initialViewState}
         mapStyle={mode === 'online' ? BASEMAP_STYLE_URL : OFFLINE_STYLE}
         interactiveLayerIds={['lines']}
+        onLoad={() => revealSelected(selectedId)}
         attributionControl={{ compact: true }}
         onStyleData={onStyleLoaded}
         onError={(e) => {

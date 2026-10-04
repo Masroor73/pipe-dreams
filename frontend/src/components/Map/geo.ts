@@ -4,6 +4,9 @@ import {
   FIT_PADDING,
   FIT_PADDING_COMPACT,
   FIT_PANEL_WIDTH_PX,
+  REVEAL_MARGIN_PX,
+  SHEET_MAX_HEIGHT_FRAC,
+  SHEET_MAX_WIDTH_PX,
 } from '../../config/map';
 import type { AssetFeature } from '../../types/api';
 
@@ -42,6 +45,33 @@ export function fitPadding(mapWidth: number, panelOpen: boolean): FitPadding {
   const base = mapWidth > 0 && mapWidth < FIT_COMPACT_BELOW_PX ? FIT_PADDING_COMPACT : FIT_PADDING;
   const panelBesideMap = panelOpen && mapWidth - FIT_PANEL_WIDTH_PX >= FIT_MIN_VISIBLE_PX;
   return { top: base, bottom: base, left: base, right: base + (panelBesideMap ? FIT_PANEL_WIDTH_PX : 0) };
+}
+
+export interface RevealPlan {
+  /** True when the points already sit in the part of the map the panel leaves visible. */
+  visible: boolean;
+  /** Camera padding that keeps the panel's footprint out of the camera centre. */
+  padding: FitPadding;
+}
+
+/**
+ * Where the asset panel covers the map (container-relative px): the right side on desktop,
+ * the bottom sheet at <= SHEET_MAX_WIDTH_PX. `points` are the selected segment's vertices in container px.
+ */
+export function planReveal(
+  points: { x: number; y: number }[],
+  container: { width: number; height: number; left: number },
+  viewport: { width: number; height: number },
+): RevealPlan {
+  const sheet = viewport.width <= SHEET_MAX_WIDTH_PX;
+  const panelW = sheet ? 0 : Math.min(FIT_PANEL_WIDTH_PX, viewport.width);
+  const sheetH = sheet ? Math.round(viewport.height * SHEET_MAX_HEIGHT_FRAC) : 0;
+  const visibleRight = viewport.width - panelW - container.left - REVEAL_MARGIN_PX;
+  const visibleBottom = container.height - sheetH - REVEAL_MARGIN_PX;
+  const visible =
+    points.length > 0 &&
+    points.every((p) => p.x >= 0 && p.y >= 0 && p.x <= Math.min(visibleRight, container.width) && p.y <= visibleBottom);
+  return { visible, padding: { top: 0, left: 0, right: panelW, bottom: sheetH } };
 }
 
 export function hasWebGL(): boolean {

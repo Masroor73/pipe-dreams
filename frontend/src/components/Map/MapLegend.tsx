@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CaretDown } from '@phosphor-icons/react';
 import { CONFIDENCE_COLORS, CONFIDENCE_LABELS, CONFIDENCE_ORDER, FIT_COMPACT_BELOW_PX } from '../../config/map';
+import { Term } from '../Term/Term';
 import type { PlanId } from '../../types/api';
 import styles from './Map.module.css';
 
@@ -37,7 +38,9 @@ export function MapLegend({ count, plan }: { count: number; plan: PlanId }) {
         <p className={styles.legendCount}>
           {count} selected segments · plan {plan.toUpperCase()}
         </p>
-        <p className={styles.note}>Evidence confidence ≠ failure probability.</p>
+        <p className={styles.note}>
+          <Term id="evidence_confidence">Evidence confidence</Term> ≠ failure probability.
+        </p>
       </div>
     </section>
   );

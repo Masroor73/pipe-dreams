@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { X } from '@phosphor-icons/react';
-import { CONSEQUENCE_TIER_HELP, CONSEQUENCE_TIER_LABEL } from '../../config/display';
+import { CONSEQUENCE_TIER_LABEL } from '../../config/display';
+import { OUTSIDE_CLICK_CLOSE_DELAY_MS, OUTSIDE_CLICK_DRAG_TOLERANCE_PX } from '../../config/map';
 import { useAsset } from '../../hooks';
 import { formatDelta, formatNumber } from '../../lib/format';
 import type { AssetDetail, PlanFields } from '../../types/api';
 import { DataState } from '../DataState/DataState';
 import { ConfidencePill, Pill } from '../Pill/Pill';
+import { Term } from '../Term/Term';
 import styles from './AssetPanel.module.css';
 
 export interface AssetPanelProps {
@@ -17,6 +20,8 @@ export interface AssetPanelProps {
 
 interface CompareRow {
   label: string;
+  /** Optional glossary-wrapped label node; `label` stays the key. */
+  node?: ReactNode;
   get: (f: PlanFields) => string;
   /** Free text: may wrap. Numbers and enums never do. */
   prose?: boolean;
@@ -25,9 +30,9 @@ interface CompareRow {
 const COMPARE_ROWS: CompareRow[] = [
   { label: 'Rank', get: (f) => String(f.rank) },
   { label: 'Selected', get: (f) => (f.selected ? 'Yes' : 'No') },
-  { label: 'Priority score', get: (f) => f.priority_score.toFixed(3) },
+  { label: 'Priority score', node: <Term id="priority">Priority score</Term>, get: (f) => f.priority_score.toFixed(3) },
   { label: 'Likelihood score', get: (f) => f.likelihood_score.toFixed(3) },
-  { label: 'Recommended action', get: (f) => f.recommended_action },
+  { label: 'Recommended action', node: <Term id="recommended_action">Recommended action</Term>, get: (f) => f.recommended_action },
   { label: 'Revision reason', get: (f) => f.revision_reason ?? '—', prose: true },
 ];
 
@@ -48,7 +53,7 @@ function PlanComparison({ v1, v2 }: { v1: PlanFields; v2: PlanFields }) {
           const b = row.get(v2);
           return (
             <tr key={row.label}>
-              <th scope="row">{row.label}</th>
+              <th scope="row">{row.node ?? row.label}</th>
               <td className={row.prose ? styles.prose : undefined}>{a}</td>
               <td className={[a !== b ? styles.differs : '', row.prose ? styles.prose : ''].join(' ').trim() || undefined}>{b}</td>
             </tr>
@@ -64,11 +69,9 @@ function Detail({ asset }: { asset: AssetDetail }) {
   return (
     <>
       <div className={styles.meta}>
-        <span role="group" title={CONSEQUENCE_TIER_HELP} aria-label={`${CONSEQUENCE_TIER_LABEL} ${asset.consequence_tier}. ${CONSEQUENCE_TIER_HELP}`}>
-          <Pill tone="neutral">
-            {CONSEQUENCE_TIER_LABEL} {asset.consequence_tier}
-          </Pill>
-        </span>
+        <Pill tone="neutral">
+          <Term id="consequence_tier">{CONSEQUENCE_TIER_LABEL}</Term> {asset.consequence_tier}
+        </Pill>
         <ConfidencePill confidence={asset.evidence_confidence} />
         <span className={styles.length}>{formatNumber(asset.length_m, 1)} m</span>
       </div>
@@ -85,7 +88,9 @@ function Detail({ asset }: { asset: AssetDetail }) {
       <PlanComparison v1={asset.v1} v2={asset.v2} />
 
       <section className={styles.evidence} aria-label="Evidence">
-        <h3>Evidence</h3>
+        <h3>
+          <Term id="evidence_confidence">Evidence</Term>
+        </h3>
         <dl>
           <dt>Evidence basis</dt>
           <dd>{asset.evidence_basis}</dd>
@@ -108,6 +113,9 @@ export function AssetPanel({ assetId, onClose, open = true }: AssetPanelProps) {
   const [entered, setEntered] = useState(false);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
+  const assetIdRef = useRef(assetId);
+  assetIdRef.current = assetId;
+  const headingId = useId();
 
   // Slide in on the frame after mount; remember and restore focus.
   useEffect(() => {
@@ -128,21 +136,56 @@ export function AssetPanel({ assetId, onClose, open = true }: AssetPanelProps) {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
 
+  // Outside click closes the panel with no scrim. Capture phase runs before the map's own click, so
+  // a click on another segment (which sets ?asset=) wins: we only close if ?asset= is unchanged shortly
+  // after. Drags (map panning) and clicks on [data-asset-trigger] elements are ignored.
+  useEffect(() => {
+    let down: { x: number; y: number } | null = null;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const outside = (t: EventTarget | null) =>
+      t instanceof Node && !panelRef.current?.contains(t) && !(t instanceof Element && t.closest('[data-asset-trigger]'));
+    const onDown = (e: PointerEvent) => {
+      down = outside(e.target) ? { x: e.clientX, y: e.clientY } : null;
+    };
+    const onClick = (e: MouseEvent) => {
+      const start = down;
+      down = null;
+      if (!outside(e.target)) return;
+      if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) > OUTSIDE_CLICK_DRAG_TOLERANCE_PX) return;
+      timer = setTimeout(() => {
+        const current = new URLSearchParams(window.location.search).get('asset');
+        if (current === null || current === assetIdRef.current) onCloseRef.current();
+      }, OUTSIDE_CLICK_CLOSE_DELAY_MS);
+    };
+    document.addEventListener('pointerdown', onDown, true);
+    document.addEventListener('click', onClick, true);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('pointerdown', onDown, true);
+      document.removeEventListener('click', onClick, true);
+    };
+  }, []);
+
   const visible = entered && open;
   const notFound = asset.error?.code === 'asset_not_found';
 
   return (
+    // Non-modal dialog: the map stays interactive and undimmed beside it, so aria-modal is false.
     <>
-      <div className={`${styles.scrim} ${visible ? styles.scrimVisible : ''}`} onClick={onClose} aria-hidden="true" data-testid="asset-scrim" />
       <aside
         ref={panelRef}
         className={`${styles.panel} ${visible ? styles.panelOpen : ''}`}
         role="dialog"
-        aria-label={`Asset ${assetId}`}
+        aria-modal="false"
+        aria-labelledby={headingId}
         tabIndex={-1}
+        data-asset-panel
       >
+        <span className={styles.grab} aria-hidden="true" />
         <header className={styles.header}>
-          <h2>{assetId}</h2>
+          <h2 id={headingId}>
+            {`Asset ${assetId}`}
+          </h2>
           <button type="button" className={styles.close} onClick={onClose} aria-label="Close asset panel">
             <X size={22} aria-hidden="true" />
           </button>
