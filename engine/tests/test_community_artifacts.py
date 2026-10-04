@@ -15,20 +15,15 @@ from pipe_dreams_engine.community_validation import (
 )
 from shapely.geometry import LineString, Point, Polygon
 
+
 CRS = "EPSG:3776"
 
 
 def make_artifact_inputs():
     communities = gpd.GeoDataFrame(
         {
-            "community_id": [
-                "C1",
-                "C2",
-            ],
-            "community_name": [
-                "West",
-                "East",
-            ],
+            "community_id": ["C1", "C2"],
+            "community_name": ["West", "East"],
         },
         geometry=[
             Polygon(
@@ -55,10 +50,8 @@ def make_artifact_inputs():
 
     pipes = gpd.GeoDataFrame(
         {
-            "install_year": [
-                2000,
-                2000,
-            ],
+            "asset_id": ["P1", "P2"],
+            "install_year": [2000, 2000],
         },
         geometry=[
             LineString(
@@ -79,12 +72,7 @@ def make_artifact_inputs():
 
     breaks = gpd.GeoDataFrame(
         {
-            "break_year": [
-                2010,
-                2011,
-                2014,
-                2015,
-            ],
+            "break_year": [2010, 2011, 2014, 2015],
         },
         geometry=[
             Point(100, 200),
@@ -98,13 +86,10 @@ def make_artifact_inputs():
     return communities, pipes, breaks
 
 
-class CommunityArtifactTests(
-    unittest.TestCase
-):
+class CommunityArtifactTests(unittest.TestCase):
+
     def test_writes_expected_artifact_files(self):
-        communities, pipes, breaks = (
-            make_artifact_inputs()
-        )
+        communities, pipes, breaks = make_artifact_inputs()
 
         with tempfile.TemporaryDirectory() as tmp:
             paths = write_community_artifacts(
@@ -124,39 +109,25 @@ class CommunityArtifactTests(
             )
 
             self.assertTrue(
-                Path(
-                    paths["communities_csv"]
-                ).exists()
+                Path(paths["communities_csv"]).exists()
             )
-
+            self.assertTrue(
+                Path(paths["community_validation_csv"]).exists()
+            )
+            self.assertTrue(
+                Path(paths["communities_2013_geojson"]).exists()
+            )
+            self.assertTrue(
+                Path(paths["communities_2016_geojson"]).exists()
+            )
             self.assertTrue(
                 Path(
-                    paths[
-                        "community_validation_csv"
-                    ]
-                ).exists()
-            )
-
-            self.assertTrue(
-                Path(
-                    paths[
-                        "communities_2013_geojson"
-                    ]
-                ).exists()
-            )
-
-            self.assertTrue(
-                Path(
-                    paths[
-                        "communities_2016_geojson"
-                    ]
+                    paths["asset_community_assignments_csv"]
                 ).exists()
             )
 
     def test_communities_csv_matches_frozen_schema(self):
-        communities, pipes, breaks = (
-            make_artifact_inputs()
-        )
+        communities, pipes, breaks = make_artifact_inputs()
 
         with tempfile.TemporaryDirectory() as tmp:
             write_community_artifacts(
@@ -176,31 +147,23 @@ class CommunityArtifactTests(
             )
 
             result = pd.read_csv(
-                Path(tmp)
-                / "communities.csv"
+                Path(tmp) / "communities.csv"
             )
 
             self.assertEqual(
                 result.columns.tolist(),
                 COMMUNITY_CSV_COLUMNS,
             )
-
+            self.assertEqual(len(result), 2)
             self.assertEqual(
-                len(result),
-                2,
-            )
-
-            self.assertEqual(
-                result[
-                    "equity_geography_status"
-                ].unique().tolist(),
+                result["equity_geography_status"]
+                .unique()
+                .tolist(),
                 ["NOT_ASSESSED"],
             )
 
     def test_flags_are_json_encoded_in_csv(self):
-        communities, pipes, breaks = (
-            make_artifact_inputs()
-        )
+        communities, pipes, breaks = make_artifact_inputs()
 
         with tempfile.TemporaryDirectory() as tmp:
             write_community_artifacts(
@@ -220,26 +183,17 @@ class CommunityArtifactTests(
             )
 
             result = pd.read_csv(
-                Path(tmp)
-                / "communities.csv"
+                Path(tmp) / "communities.csv"
             )
 
             decoded = json.loads(
-                result.loc[
-                    0,
-                    "data_quality_flags",
-                ]
+                result.loc[0, "data_quality_flags"]
             )
 
-            self.assertIsInstance(
-                decoded,
-                list,
-            )
+            self.assertIsInstance(decoded, list)
 
     def test_geojson_is_wgs84_and_contains_properties(self):
-        communities, pipes, breaks = (
-            make_artifact_inputs()
-        )
+        communities, pipes, breaks = make_artifact_inputs()
 
         with tempfile.TemporaryDirectory() as tmp:
             write_community_artifacts(
@@ -259,73 +213,138 @@ class CommunityArtifactTests(
             )
 
             geojson_path = (
-                Path(tmp)
-                / "communities_2013.geojson"
+                Path(tmp) / "communities_2013.geojson"
             )
 
-            result = gpd.read_file(
-                geojson_path
-            )
+            result = gpd.read_file(geojson_path)
 
             self.assertEqual(
                 result.crs.to_epsg(),
                 4326,
             )
-
             self.assertIn(
                 "historical_breaks_per_km",
                 result.columns,
             )
-
             self.assertIn(
                 "pipe_length_km",
                 result.columns,
             )
 
             payload = json.loads(
-                geojson_path.read_text(
-                    encoding="utf-8"
-                )
+                geojson_path.read_text(encoding="utf-8")
             )
 
             self.assertEqual(
                 payload["type"],
                 "FeatureCollection",
             )
-
             self.assertGreater(
-                len(
-                    payload["features"]
-                ),
+                len(payload["features"]),
                 0,
             )
 
-            for feature in payload[
-                "features"
-            ]:
-                self.assertIn(
-                    "id",
-                    feature,
-                )
-
-                self.assertIn(
-                    "properties",
-                    feature,
-                )
-
+            for feature in payload["features"]:
+                self.assertIn("id", feature)
+                self.assertIn("properties", feature)
                 self.assertEqual(
                     feature["id"],
-                    feature[
-                        "properties"
-                    ][
-                        "community_id"
-                    ],
+                    feature["properties"]["community_id"],
                 )
 
-    def test_validation_csv_matches_frozen_schema(self):
-        communities, pipes, breaks = (
-            make_artifact_inputs()
+    def test_asset_community_assignments_preserve_cross_boundary_overlap(
+        self,
+    ):
+        communities, _, breaks = make_artifact_inputs()
+
+        crossing_pipe = gpd.GeoDataFrame(
+            {
+                "asset_id": ["P_CROSS"],
+                "install_year": [2000],
+            },
+            geometry=[
+                LineString(
+                    [
+                        (500, 500),
+                        (1500, 500),
+                    ]
+                ),
+            ],
+            crs=CRS,
         )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            write_community_artifacts(
+                communities=communities,
+                pipes=crossing_pipe,
+                breaks=breaks,
+                output_dir=tmp,
+                cutoffs=(2013,),
+                validation_origins=(
+                    CommunityValidationOrigin(
+                        cutoff_year=2013,
+                        outcome_start_year=2014,
+                        outcome_end_year=2016,
+                    ),
+                ),
+                validation_budgets_pct=(10,),
+            )
+
+            result = (
+                pd.read_csv(
+                    Path(tmp)
+                    / "asset_community_assignments.csv"
+                )
+                .sort_values("community_id")
+                .reset_index(drop=True)
+            )
+
+            self.assertEqual(
+                result.columns.tolist(),
+                [
+                    "asset_id",
+                    "community_id",
+                    "overlap_length_m",
+                    "asset_length_m",
+                    "overlap_share",
+                ],
+            )
+
+            self.assertEqual(len(result), 2)
+            self.assertEqual(
+                result["asset_id"].tolist(),
+                ["P_CROSS", "P_CROSS"],
+            )
+            self.assertEqual(
+                result["community_id"].tolist(),
+                ["C1", "C2"],
+            )
+
+            for row in result.itertuples():
+                self.assertAlmostEqual(
+                    row.overlap_length_m,
+                    500.0,
+                    places=6,
+                )
+                self.assertAlmostEqual(
+                    row.asset_length_m,
+                    1000.0,
+                    places=6,
+                )
+                self.assertAlmostEqual(
+                    row.overlap_share,
+                    0.5,
+                    places=6,
+                )
+
+            self.assertAlmostEqual(
+                result["overlap_share"].sum(),
+                1.0,
+                places=6,
+            )
+
+    def test_validation_csv_matches_frozen_schema(self):
+        communities, pipes, breaks = make_artifact_inputs()
 
         with tempfile.TemporaryDirectory() as tmp:
             write_community_artifacts(
@@ -345,46 +364,30 @@ class CommunityArtifactTests(
             )
 
             result = pd.read_csv(
-                Path(tmp)
-                / "community_validation.csv"
+                Path(tmp) / "community_validation.csv"
             )
 
             self.assertEqual(
                 result.columns.tolist(),
                 COMMUNITY_VALIDATION_COLUMNS,
             )
-
+            self.assertEqual(len(result), 1)
             self.assertEqual(
-                len(result),
-                1,
-            )
-
-            self.assertEqual(
-                result.loc[
-                    0,
-                    "origin_cutoff",
-                ],
+                result.loc[0, "origin_cutoff"],
                 2013,
             )
-
             self.assertEqual(
-                result.loc[
-                    0,
-                    "budget_pct",
-                ],
+                result.loc[0, "budget_pct"],
                 10.0,
             )
-
             self.assertIn(
                 "actual_network_share",
                 result.columns,
             )
-
             self.assertIn(
                 "event_capture",
                 result.columns,
             )
-
             self.assertIn(
                 "lift_vs_network_share",
                 result.columns,

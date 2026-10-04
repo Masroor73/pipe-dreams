@@ -64,3 +64,8 @@ CommunityService = Annotated[
     CommunityArtifactService,
     Depends(get_loaded_community_service),
 ]
+
+OptionalCommunityService = Annotated[
+    CommunityArtifactService,
+    Depends(get_community_service),
+]

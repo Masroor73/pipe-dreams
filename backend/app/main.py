@@ -20,12 +20,17 @@ from app.services.community_artifact_service import (
     CommunityArtifactService,
     CommunityArtifactsUnavailableError,
     CommunityCutoffNotFoundError,
+    CommunityNotFoundError,
 )
 
 logger = logging.getLogger(__name__)
 
 
-def _error(status: int, code: str, message: str) -> JSONResponse:
+def _error(
+    status: int,
+    code: str,
+    message: str,
+) -> JSONResponse:
     return JSONResponse(
         status_code=status,
         content={
@@ -37,56 +42,101 @@ def _error(status: int, code: str, message: str) -> JSONResponse:
     )
 
 
-def _summarize_validation(exc: RequestValidationError) -> str:
+def _summarize_validation(
+    exc: RequestValidationError,
+) -> str:
     parts = []
 
     for err in exc.errors():
         loc = ".".join(
-            str(p)
-            for p in err.get("loc", ())
-            if p != "query"
+            str(part)
+            for part in err.get(
+                "loc",
+                (),
+            )
+            if part != "query"
         )
+
         parts.append(
-            f"{loc}: {err.get('msg', 'invalid value')}"
+            f"{loc}: "
+            f"{err.get('msg', 'invalid value')}"
         )
 
-    return "; ".join(parts) or "Invalid query parameters."
+    return (
+        "; ".join(parts)
+        or "Invalid query parameters."
+    )
 
 
-def create_app(artifact_dir: Path | None = None) -> FastAPI:
+def create_app(
+    artifact_dir: Path | None = None,
+) -> FastAPI:
     settings = get_settings()
+
     chosen = (
         artifact_dir
         if artifact_dir is not None
         else settings.artifact_dir
     )
-    resolved_artifact_dir = resolve_artifact_dir(chosen)
 
-    service = ArtifactService(resolved_artifact_dir)
-    for message in service.errors:
-        logger.error("artifact load error: %s", message)
+    resolved_artifact_dir = (
+        resolve_artifact_dir(
+            chosen
+        )
+    )
 
-    community_service = CommunityArtifactService(
+    service = ArtifactService(
         resolved_artifact_dir
     )
+
+    for message in service.errors:
+        logger.error(
+            "artifact load error: %s",
+            message,
+        )
+
+    community_service = (
+        CommunityArtifactService(
+            resolved_artifact_dir
+        )
+    )
+
     for message in community_service.errors:
         logger.warning(
             "community artifact load error: %s",
             message,
         )
 
-    app = FastAPI(title="Pipe Dreams API")
+    for message in (
+        community_service
+        .asset_assignment_errors
+    ):
+        logger.warning(
+            "asset-community assignment load error: %s",
+            message,
+        )
+
+    app = FastAPI(
+        title="Pipe Dreams API"
+    )
+
     app.state.artifacts = service
-    app.state.community_artifacts = community_service
+    app.state.community_artifacts = (
+        community_service
+    )
 
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
-        allow_methods=["GET"],
+        allow_methods=[
+            "GET",
+        ],
         allow_headers=[],
     )
 
-    @app.exception_handler(RequestValidationError)
+    @app.exception_handler(
+        RequestValidationError
+    )
     async def _invalid_query(
         _: Request,
         exc: RequestValidationError,
@@ -94,10 +144,14 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
         return _error(
             422,
             "invalid_query",
-            _summarize_validation(exc),
+            _summarize_validation(
+                exc
+            ),
         )
 
-    @app.exception_handler(ArtifactsUnavailableError)
+    @app.exception_handler(
+        ArtifactsUnavailableError
+    )
     async def _unavailable(
         _: Request,
         exc: ArtifactsUnavailableError,
@@ -105,7 +159,9 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
         return _error(
             503,
             "artifacts_unavailable",
-            str(exc),
+            str(
+                exc
+            ),
         )
 
     @app.exception_handler(
@@ -118,7 +174,9 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
         return _error(
             503,
             "community_artifacts_unavailable",
-            str(exc),
+            str(
+                exc
+            ),
         )
 
     @app.exception_handler(
@@ -137,7 +195,25 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
             ),
         )
 
-    @app.exception_handler(AssetNotFoundError)
+    @app.exception_handler(
+        CommunityNotFoundError
+    )
+    async def _community_not_found(
+        _: Request,
+        exc: CommunityNotFoundError,
+    ):
+        return _error(
+            404,
+            "community_not_found",
+            (
+                "No community with id "
+                f"'{exc.community_id}' is available."
+            ),
+        )
+
+    @app.exception_handler(
+        AssetNotFoundError
+    )
     async def _asset_not_found(
         _: Request,
         exc: AssetNotFoundError,
@@ -151,7 +227,9 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
             ),
         )
 
-    @app.exception_handler(StarletteHTTPException)
+    @app.exception_handler(
+        StarletteHTTPException
+    )
     async def _http_error(
         _: Request,
         exc: StarletteHTTPException,
@@ -165,10 +243,15 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
 
         return JSONResponse(
             status_code=exc.status_code,
-            content={"detail": exc.detail},
+            content={
+                "detail": exc.detail
+            },
         )
 
-    app.include_router(api_router)
+    app.include_router(
+        api_router
+    )
+
     return app
 
 

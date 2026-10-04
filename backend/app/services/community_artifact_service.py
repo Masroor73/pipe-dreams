@@ -22,6 +22,10 @@ COMMUNITIES_FILE = "communities.csv"
 COMMUNITY_VALIDATION_FILE = "community_validation.csv"
 COMMUNITY_GEOJSON_TEMPLATE = "communities_{cutoff_year}.geojson"
 
+ASSET_COMMUNITY_ASSIGNMENTS_FILE = (
+    "asset_community_assignments.csv"
+)
+
 COMMUNITY_COLUMNS = (
     "community_id",
     "community_name",
@@ -57,6 +61,14 @@ COMMUNITY_VALIDATION_COLUMNS = (
     "notes",
 )
 
+ASSET_COMMUNITY_ASSIGNMENT_COLUMNS = (
+    "asset_id",
+    "community_id",
+    "overlap_length_m",
+    "asset_length_m",
+    "overlap_share",
+)
+
 ALLOWED_EQUITY_GEOGRAPHY_STATUS = (
     "NOT_ASSESSED",
     "DIRECT",
@@ -80,6 +92,19 @@ class CommunityCutoffNotFoundError(Exception):
             str(cutoff_year)
         )
         self.cutoff_year = cutoff_year
+
+
+class CommunityNotFoundError(Exception):
+    """Raised when a requested community id is not available."""
+
+    def __init__(
+        self,
+        community_id: str,
+    ) -> None:
+        super().__init__(
+            community_id
+        )
+        self.community_id = community_id
 
 
 def _clean(
@@ -230,6 +255,12 @@ class CommunityArtifactService:
             int,
             dict[str, Any],
         ] = {}
+
+        self.asset_assignments_loaded = False
+        self.asset_assignment_errors: list[str] = []
+        self._asset_community_assignments = (
+            pd.DataFrame()
+        )
 
         self._load()
 
@@ -505,7 +536,6 @@ class CommunityArtifactService:
                             "data_quality_flags"
                         )
                     )
-
             except Exception as exc:
                 self.errors.append(
                     f"{path.name}: "
@@ -535,6 +565,277 @@ class CommunityArtifactService:
             cutoffs
         )
         self.loaded = True
+
+        self._load_asset_community_assignments()
+
+    def _load_asset_community_assignments(
+        self,
+    ) -> None:
+        path = (
+            self.artifact_dir
+            / ASSET_COMMUNITY_ASSIGNMENTS_FILE
+        )
+
+        # The asset-to-community mapping is optional even when the
+        # community artifacts themselves are available. A missing or
+        # invalid mapping must not disable the existing community API.
+        if not path.is_file():
+            return
+
+        try:
+            assignments = (
+                pd.read_csv(
+                    path
+                )
+            )
+        except Exception as exc:
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                f"cannot parse CSV ({exc})"
+            )
+            return
+
+        missing = (
+            _missing_columns(
+                assignments,
+                ASSET_COMMUNITY_ASSIGNMENT_COLUMNS,
+            )
+        )
+
+        if missing:
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                f"missing required columns {missing}"
+            )
+            return
+
+        assignments = (
+            assignments.loc[
+                :,
+                list(
+                    ASSET_COMMUNITY_ASSIGNMENT_COLUMNS
+                ),
+            ].copy()
+        )
+
+        if assignments.empty:
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "file contains no assignment rows"
+            )
+            return
+
+        if assignments[
+            "asset_id"
+        ].isna().any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "asset_id must not contain nulls"
+            )
+            return
+
+        if assignments[
+            "community_id"
+        ].isna().any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "community_id must not contain nulls"
+            )
+            return
+
+        assignments[
+            "asset_id"
+        ] = assignments[
+            "asset_id"
+        ].astype(
+            str
+        )
+
+        assignments[
+            "community_id"
+        ] = assignments[
+            "community_id"
+        ].astype(
+            str
+        )
+
+        empty_asset_ids = (
+            assignments[
+                "asset_id"
+            ].str.strip()
+            == ""
+        )
+
+        if empty_asset_ids.any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "asset_id must not contain empty values"
+            )
+            return
+
+        empty_community_ids = (
+            assignments[
+                "community_id"
+            ].str.strip()
+            == ""
+        )
+
+        if empty_community_ids.any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "community_id must not contain empty values"
+            )
+            return
+
+        duplicate_mask = (
+            assignments.duplicated(
+                subset=[
+                    "asset_id",
+                    "community_id",
+                ],
+                keep=False,
+            )
+        )
+
+        if duplicate_mask.any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "duplicate (asset_id, community_id) rows"
+            )
+            return
+
+        numeric_columns = (
+            "overlap_length_m",
+            "asset_length_m",
+            "overlap_share",
+        )
+
+        for column in numeric_columns:
+            numeric = (
+                pd.to_numeric(
+                    assignments[
+                        column
+                    ],
+                    errors="coerce",
+                )
+            )
+
+            if numeric.isna().any():
+                self.asset_assignment_errors.append(
+                    f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                    f"{column} must be numeric"
+                )
+                return
+
+            values = (
+                numeric.to_numpy(
+                    dtype=float
+                )
+            )
+
+            if not np.isfinite(
+                values
+            ).all():
+                self.asset_assignment_errors.append(
+                    f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                    f"{column} must contain only finite values"
+                )
+                return
+
+            assignments[
+                column
+            ] = numeric
+
+        if (
+            assignments[
+                "overlap_length_m"
+            ]
+            < 0
+        ).any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "overlap_length_m must be nonnegative"
+            )
+            return
+
+        if (
+            assignments[
+                "asset_length_m"
+            ]
+            <= 0
+        ).any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "asset_length_m must be greater than zero"
+            )
+            return
+
+        if (
+            assignments[
+                "overlap_length_m"
+            ]
+            > assignments[
+                "asset_length_m"
+            ]
+        ).any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "overlap_length_m must not exceed "
+                "asset_length_m"
+            )
+            return
+
+        bad_share = (
+            (
+                assignments[
+                    "overlap_share"
+                ]
+                < 0
+            )
+            | (
+                assignments[
+                    "overlap_share"
+                ]
+                > 1
+            )
+        )
+
+        if bad_share.any():
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "overlap_share must be between 0 and 1"
+            )
+            return
+
+        known_community_ids = set(
+            self._communities[
+                "community_id"
+            ].astype(
+                str
+            )
+        )
+
+        unknown_community_ids = sorted(
+            set(
+                assignments[
+                    "community_id"
+                ]
+            )
+            - known_community_ids
+        )
+
+        if unknown_community_ids:
+            self.asset_assignment_errors.append(
+                f"{ASSET_COMMUNITY_ASSIGNMENTS_FILE}: "
+                "contains unknown community_id values "
+                f"{unknown_community_ids[:5]}"
+            )
+            return
+
+        self._asset_community_assignments = (
+            assignments
+        )
+        self.asset_assignments_loaded = True
 
     def _resolve_cutoff(
         self,
@@ -669,6 +970,59 @@ class CommunityArtifactService:
             "type": "FeatureCollection",
             "features": features,
         }
+
+    def asset_ids_for_community(
+        self,
+        community_id: str,
+    ) -> set[str]:
+        if not self.loaded:
+            raise CommunityArtifactsUnavailableError(
+                "Community artifacts are missing "
+                "or failed validation."
+            )
+
+        community_id = str(
+            community_id
+        )
+
+        known_community_ids = set(
+            self._communities[
+                "community_id"
+            ].astype(
+                str
+            )
+        )
+
+        if (
+            community_id
+            not in known_community_ids
+        ):
+            raise CommunityNotFoundError(
+                community_id
+            )
+
+        if not self.asset_assignments_loaded:
+            raise CommunityArtifactsUnavailableError(
+                "Asset-community assignments are "
+                "missing or failed validation."
+            )
+
+        rows = (
+            self._asset_community_assignments.loc[
+                self._asset_community_assignments[
+                    "community_id"
+                ]
+                == community_id
+            ]
+        )
+
+        return set(
+            rows[
+                "asset_id"
+            ].astype(
+                str
+            )
+        )
 
     def validation(
         self,
