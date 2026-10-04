@@ -216,7 +216,31 @@ class RealDataAdapterTests(
                         ]
                     ],
                 },
-            }
+            },
+            {
+                "year": "2001",
+                "globalid": "active-1",
+                "length": "10",
+                "material": "PVC",
+                "diam": "200",
+                "p_zone": "Z1",
+                "status_ind": "ACTIVE",
+                "multilinestring": {
+                    "type": "MultiLineString",
+                    "coordinates": [
+                        [
+                            [
+                                -114.07,
+                                51.04,
+                            ],
+                            [
+                                -114.06,
+                                51.04,
+                            ],
+                        ]
+                    ],
+                },
+            },
         ]
 
         community_csv = (
@@ -276,6 +300,35 @@ class RealDataAdapterTests(
 
             self.assertEqual(
                 len(pipes),
+                1,
+            )
+
+            self.assertEqual(
+                pipes.loc[
+                    0,
+                    "asset_id",
+                ],
+                "active-1",
+            )
+
+            self.assertEqual(
+                diagnostics[
+                    "pipe_rows"
+                ],
+                2,
+            )
+
+            self.assertEqual(
+                diagnostics[
+                    "pipe_rows_eligible"
+                ],
+                1,
+            )
+
+            self.assertEqual(
+                diagnostics[
+                    "pipe_rows_excluded"
+                ],
                 1,
             )
 

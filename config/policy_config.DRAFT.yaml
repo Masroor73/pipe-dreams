@@ -18,22 +18,22 @@ recency_grid:
   - "hl10"
 
 candidate_revisions:
-  - id: "C1_history_2000_plus"
+  - id: "C1"
     history_window: "2000_plus"
     recency_decay: "none"
     ranking_normalization: "per_asset"
 
-  - id: "C2_recency_hl10"
+  - id: "C2"
     history_window: "full"
     recency_decay: "hl10"
     ranking_normalization: "per_asset"
 
-  - id: "C3_per_meter"
+  - id: "C3"
     history_window: "full"
     recency_decay: "none"
     ranking_normalization: "per_meter"
 
-  - id: "C4_joint_2000_plus_hl10"
+  - id: "C4"
     history_window: "2000_plus"
     recency_decay: "hl10"
     ranking_normalization: "per_asset"

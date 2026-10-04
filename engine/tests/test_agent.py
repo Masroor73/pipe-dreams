@@ -174,10 +174,10 @@ class AgentTests(unittest.TestCase):
                 in CANDIDATE_POLICIES
             ],
             [
-                "C1_history_2000_plus",
-                "C2_recency_hl10",
-                "C3_per_meter",
-                "C4_joint_2000_plus_hl10",
+                "C1",
+                "C2",
+                "C3",
+                "C4",
             ],
         )
 
@@ -186,7 +186,7 @@ class AgentTests(unittest.TestCase):
     ):
         self.assertEqual(
             POLICY_BY_ID[
-                "C3_per_meter"
+                "C3"
             ].ranking_mode,
             "per_metre",
         )
@@ -196,7 +196,7 @@ class AgentTests(unittest.TestCase):
     ):
         decision = (
             evaluate_candidate_gate(
-                "C1_history_2000_plus",
+                "C1",
                 self.bad,
                 self.good,
                 bootstrap_reps=100,
@@ -226,7 +226,7 @@ class AgentTests(unittest.TestCase):
     ):
         decision = (
             evaluate_candidate_gate(
-                "C1_history_2000_plus",
+                "C1",
                 self.bad,
                 self.bad,
                 bootstrap_reps=100,
@@ -264,7 +264,7 @@ class AgentTests(unittest.TestCase):
         self,
     ):
         candidates = {
-            "C1_history_2000_plus": (
+            "C1": (
                 self.good
             ),
         }
@@ -318,7 +318,7 @@ class AgentTests(unittest.TestCase):
             policy.policy_id: (
                 self.good
                 if policy.policy_id
-                == "C1_history_2000_plus"
+                == "C1"
                 else self.bad
             )
             for policy
@@ -336,7 +336,7 @@ class AgentTests(unittest.TestCase):
 
         self.assertEqual(
             selection.selected_policy_id,
-            "C1_history_2000_plus",
+            "C1",
         )
         self.assertFalse(
             selection.v2_equals_v1
@@ -347,7 +347,7 @@ class AgentTests(unittest.TestCase):
     ):
         decision = (
             evaluate_candidate_gate(
-                "C1_history_2000_plus",
+                "C1",
                 self.bad,
                 self.good,
                 bootstrap_reps=50,
@@ -422,7 +422,7 @@ class AgentTests(unittest.TestCase):
             policy.policy_id: (
                 self.good
                 if policy.policy_id
-                == "C1_history_2000_plus"
+                == "C1"
                 else self.bad
             )
             for policy

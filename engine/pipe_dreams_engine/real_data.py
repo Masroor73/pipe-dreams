@@ -283,7 +283,12 @@ def load_real_inputs(
     gpd.GeoDataFrame,
     dict[str, object],
 ]:
-    """Load all real datasets and return engine inputs plus diagnostics."""
+    """Load real datasets and exclude non-eligible pipe rows.
+
+    Raw diagnostics are retained for planned and future-install-year rows,
+    while the returned pipe frame contains only assets eligible for the
+    analytical engine.
+    """
 
     breaks = load_breaks(
         breaks_path
@@ -295,6 +300,31 @@ def load_real_inputs(
 
     communities = load_communities(
         communities_path
+    )
+
+    future_mask = (
+        pipes["install_year"]
+        > 2026
+    )
+
+    planned_mask = (
+        pipes["status"]
+        == "PLANNED"
+    )
+
+    excluded_mask = (
+        future_mask
+        | planned_mask
+    )
+
+    eligible_pipes = (
+        pipes.loc[
+            ~excluded_mask
+        ]
+        .copy()
+        .reset_index(
+            drop=True
+        )
     )
 
     diagnostics = {
@@ -311,6 +341,12 @@ def load_real_inputs(
         "pipe_rows": len(
             pipes
         ),
+        "pipe_rows_eligible": len(
+            eligible_pipes
+        ),
+        "pipe_rows_excluded": int(
+            excluded_mask.sum()
+        ),
         "pipe_install_year_min": int(
             pipes["install_year"].min()
         ),
@@ -318,16 +354,10 @@ def load_real_inputs(
             pipes["install_year"].max()
         ),
         "pipe_future_after_2026": int(
-            (
-                pipes["install_year"]
-                > 2026
-            ).sum()
+            future_mask.sum()
         ),
         "pipe_planned_rows": int(
-            (
-                pipes["status"]
-                == "PLANNED"
-            ).sum()
+            planned_mask.sum()
         ),
         "community_rows": len(
             communities
@@ -336,7 +366,7 @@ def load_real_inputs(
 
     return (
         communities,
-        pipes,
+        eligible_pipes,
         breaks,
         diagnostics,
     )

@@ -83,25 +83,25 @@ V1_POLICY = PolicySpec(
 
 CANDIDATE_POLICIES = (
     PolicySpec(
-        policy_id="C1_history_2000_plus",
+        policy_id="C1",
         history_window="2000_plus",
         recency_decay="none",
         ranking_normalization="per_asset",
     ),
     PolicySpec(
-        policy_id="C2_recency_hl10",
+        policy_id="C2",
         history_window="full",
         recency_decay="hl10",
         ranking_normalization="per_asset",
     ),
     PolicySpec(
-        policy_id="C3_per_meter",
+        policy_id="C3",
         history_window="full",
         recency_decay="none",
         ranking_normalization="per_meter",
     ),
     PolicySpec(
-        policy_id="C4_joint_2000_plus_hl10",
+        policy_id="C4",
         history_window="2000_plus",
         recency_decay="hl10",
         ranking_normalization="per_asset",
