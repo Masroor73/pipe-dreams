@@ -48,3 +48,6 @@ export const useAudit = () => useApiResource(() => api.getAudit());
 export const useEscalations = () => useApiResource(() => api.getEscalations());
 export const useNotCovered = () => useApiResource(() => api.getNotCovered());
 export const useDataQuality = () => useApiResource(() => api.getDataQuality());
+
+export const useCommunities = () => useApiResource(() => api.getCommunities());
+export const useCommunitiesGeoJson = () => useApiResource(() => api.getCommunitiesGeoJson());

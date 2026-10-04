@@ -114,6 +114,7 @@ export interface AssetListQuery {
   selected_only?: boolean;
   evidence_confidence?: EvidenceConfidence;
   consequence_tier?: string;
+  community_id?: string;
   sort?: 'rank' | 'priority_score' | 'length_m';
   limit?: number;
   offset?: number;
@@ -149,6 +150,7 @@ export interface AssetFeatureCollection {
 export interface AssetGeoJsonQuery {
   plan?: PlanId;
   selected_only?: boolean;
+  community_id?: string;
 }
 
 // ---- /api/assets/{asset_id} ----
@@ -282,4 +284,34 @@ export interface DataQuality {
   };
   retired_status_strata: Record<string, number>;
   notes: string[];
+}
+
+// ---- /api/communities and /api/communities/geojson ----
+export interface CommunityProperties {
+  community_id: string;
+  community_name: string;
+  pipe_length_km: number;
+  historical_break_count: number;
+  historical_breaks_per_km: number | null;
+  population: number | null;
+  equity_index: number | null;
+  equity_geography_status: 'NOT_ASSESSED' | 'DIRECT' | 'AREA_WEIGHTED' | 'UNAVAILABLE';
+  data_quality_flags: string[];
+}
+
+export interface Communities {
+  cutoff_year: number;
+  items: CommunityProperties[];
+}
+
+export interface CommunityFeature {
+  type: 'Feature';
+  id: string;
+  geometry: { type: 'Polygon' | 'MultiPolygon'; coordinates: unknown };
+  properties: CommunityProperties;
+}
+
+export interface CommunityFeatureCollection {
+  type: 'FeatureCollection';
+  features: CommunityFeature[];
 }
