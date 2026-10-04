@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAudit, useOverview } from '../hooks';
 import { Term } from '../components/Term/Term';
 import { AgentCinema } from '../components/Audit/AgentCinema';
@@ -16,6 +17,23 @@ export default function AuditPage() {
   const sorted = useMemo(() => replayOrder(events), [events]);
   const order = useMemo(() => sorted.map((e) => e.seq), [sorted]);
   const cinema = useCinema(sorted);
+
+  // One-shot: /audit?replay=1 (from the voice copilot) starts playback of the logged decisions, then clears the flag.
+  const [params, setParams] = useSearchParams();
+  const replayRequested = params.get('replay') === '1';
+  const { play } = cinema;
+  useEffect(() => {
+    if (!replayRequested || sorted.length === 0) return;
+    play();
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('replay');
+        return next;
+      },
+      { replace: true },
+    );
+  }, [replayRequested, sorted, play, setParams]);
 
   return (
     <div className={styles.page}>

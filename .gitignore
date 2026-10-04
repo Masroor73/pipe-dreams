@@ -32,3 +32,5 @@ artifacts/synthetic/*
 Thumbs.db
 .vscode/
 .idea/
+.env.local
+*.local

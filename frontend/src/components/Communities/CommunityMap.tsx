@@ -2,6 +2,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
+import { useSearchParams } from 'react-router';
+import { FOCUS_DURATION_MS, FOCUS_PARAM, planFocus } from '../../voice/focus';
 import type { MapLayerMouseEvent, MapRef } from 'react-map-gl/maplibre';
 import {
   BASEMAP_OFFLINE_NOTE,
@@ -112,6 +114,39 @@ export function CommunityMap({
     mapRef.current?.fitBounds(target, { padding: 80, maxZoom: 14, duration: fittedOnce.current ? 600 : 0 });
     fittedOnce.current = true;
   }, [target, loaded]);
+
+  // One-shot focus request from the voice copilot (?focus=1): fly to the asset or community, then clear it.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const focusParam = searchParams.get(FOCUS_PARAM);
+  const assetParam = searchParams.get('asset');
+  const communityParam = searchParams.get('community');
+  useEffect(() => {
+    if (focusParam !== '1' || !loaded) return;
+    const line = assetParam ? lines?.features.find((f) => f.properties.asset_id === assetParam) : undefined;
+    const comm = communities.features.find((f) => f.properties.community_id === communityParam);
+    const plan = planFocus({
+      focus: focusParam,
+      assetId: assetParam,
+      communityId: communityParam,
+      assetBounds: line ? coordBounds(line.geometry.coordinates) : null,
+      communityBounds: comm ? coordBounds(comm.geometry.coordinates) : null,
+    });
+    const map = mapRef.current;
+    if (!plan || !map) return;
+    try {
+      if (plan.kind === 'asset') {
+        map.flyTo({ center: plan.center, zoom: plan.zoom, padding: { top: 0, bottom: 0, left: 0, right: window.innerWidth > 640 ? 240 : 0 }, duration: FOCUS_DURATION_MS });
+      } else {
+        map.fitBounds(plan.bounds, { padding: plan.padding, maxZoom: plan.maxZoom, duration: FOCUS_DURATION_MS });
+      }
+    } finally {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete(FOCUS_PARAM);
+        return next;
+      }, { replace: true });
+    }
+  }, [focusParam, assetParam, communityParam, loaded, lines, communities, setSearchParams]);
 
   if (!webgl) {
     return (
