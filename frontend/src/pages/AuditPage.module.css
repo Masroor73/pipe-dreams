@@ -1,0 +1,28 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.intro {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+}
+
+.trailTitle {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-xl);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

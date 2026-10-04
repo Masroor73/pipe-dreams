@@ -1,0 +1,54 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-3) 2px var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.neutral {
+  background: var(--color-surface-sunken);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.accent {
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent-border);
+  color: var(--color-accent);
+}
+
+.accept {
+  background: var(--color-accept-soft);
+  border-color: var(--color-accept-border);
+  color: var(--color-accept);
+}
+
+.reject {
+  background: var(--color-reject-soft);
+  border-color: var(--color-reject-border);
+  color: var(--color-reject);
+}
+
+.conf-high {
+  background: var(--color-conf-high-soft);
+  border-color: var(--color-conf-high);
+  color: var(--color-conf-high);
+}
+
+.conf-medium {
+  background: var(--color-conf-medium-soft);
+  border-color: var(--color-conf-medium);
+  color: var(--color-conf-medium);
+}
+
+.conf-low {
+  background: var(--color-conf-low-soft);
+  border-color: var(--color-conf-low);
+  color: var(--color-conf-low);
+}

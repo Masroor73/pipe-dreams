@@ -1,0 +1,258 @@
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.mapFill,
+.fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.svgLine {
+  stroke-width: 5px;
+  cursor: pointer;
+  transition:
+    stroke-width var(--duration-fast) var(--ease-out),
+    opacity 500ms var(--ease-in-out);
+  outline: none;
+}
+
+/* Changed-segment emphasis: unchanged lines dim at once, then fade back (see config CHANGED_PULSE). */
+.svgDim {
+  opacity: 0.35;
+  transition: stroke-width var(--duration-fast) var(--ease-out);
+}
+
+.svgLine:focus-visible {
+  stroke-width: 7px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .svgLine:hover {
+    stroke-width: 7px;
+  }
+}
+
+.svgLineSelected {
+  stroke-width: 9px;
+}
+
+.basemapNote {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  margin: 0;
+}
+
+.card {
+  position: absolute;
+  z-index: 2;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.toggleCard {
+  top: var(--space-4);
+  left: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 2px;
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-sm);
+}
+
+.segment {
+  min-width: 56px;
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.segment:hover {
+  color: var(--color-text);
+}
+
+.segment:active {
+  transform: scale(0.97);
+}
+
+.segmentActive,
+.segmentActive:hover {
+  background: var(--color-surface);
+  color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.segment:focus-visible,
+.svgLine:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.legend {
+  left: var(--space-4);
+  bottom: var(--space-4);
+  max-width: min(340px, calc(100% - 2 * var(--space-4)));
+}
+
+/* Desktop: the heading looks like a plain title; the toggle only works on small screens. */
+.legendToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: default;
+  pointer-events: none;
+}
+
+.caret,
+.caretOpen {
+  display: none;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 640px) {
+  .legendToggle {
+    min-height: 44px;
+    margin-block: calc(-1 * var(--space-3));
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .caret,
+  .caretOpen {
+    display: inline-block;
+  }
+
+  .legendHidden {
+    display: none;
+  }
+
+  .toggleCard {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .segment {
+    min-height: 36px;
+  }
+}
+
+.legendList {
+  margin: var(--space-2) 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.legendList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatch {
+  flex: none;
+  width: 28px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+}
+
+.legendCount {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-text);
+  color: var(--color-surface);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+}
+
+.overlayInner {
+  width: min(420px, calc(100% - 2 * var(--space-4)));
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -1,0 +1,132 @@
+/* A compact ruled list: each rank change is one scannable row, not a card. */
+.row {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  border-top: var(--border);
+}
+
+.row li {
+  border-bottom: var(--border);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 7.5rem 12.5rem auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-5);
+  row-gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.card:hover {
+  background: var(--color-surface-sunken);
+}
+
+.card:active {
+  transform: scale(0.99);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.asset {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+}
+
+.ranks {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.rankNum {
+  position: relative; /* anchors the screen-reader-only final value during the tick */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.rose {
+  color: var(--color-accent);
+}
+
+.fell {
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.actionChanged {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.reasons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+@media (max-width: 1000px) {
+  .card {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+
+  .actions {
+    justify-self: start;
+  }
+
+  .reasons {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

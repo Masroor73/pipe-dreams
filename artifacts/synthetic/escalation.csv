@@ -1,0 +1,6 @@
+asset_id,priority_rank,consequence_tier,evidence_confidence,escalation_reason,owner,required_action,response_deadline,status,last_reviewed
+seg_000040,5,T1,LOW_VERIFY,"high consequence, low evidence confidence",Water Integrity Lead,Verify asset record before scheduling,2026-11-01,OPEN,2026-10-03
+seg_000024,30,T1,LOW_VERIFY,"high consequence, low evidence confidence",Water Integrity Lead,Verify asset record before scheduling,2026-11-08,IN_REVIEW,2026-10-03
+seg_000031,63,T1,LOW_VERIFY,"high consequence, low evidence confidence",Water Integrity Lead,Verify asset record before scheduling,2026-11-15,OPEN,2026-10-03
+seg_000016,73,T1,LOW_VERIFY,"high consequence, low evidence confidence",Water Integrity Lead,Verify asset record before scheduling,2026-11-22,IN_REVIEW,2026-10-03
+seg_000017,75,T1,LOW_VERIFY,"high consequence, low evidence confidence",Water Integrity Lead,Verify asset record before scheduling,2026-11-29,OPEN,2026-10-03

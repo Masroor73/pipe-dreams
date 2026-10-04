@@ -1,0 +1,35 @@
+{
+  "synthetic": true,
+  "config_hash": "PLACEHOLDER",
+  "git_commit": "synthetic",
+  "git_tag": "synthetic",
+  "data_checksums": {},
+  "selected_policy_id": "C2",
+  "v1_policy_id": "V1",
+  "v2_equals_v1": false,
+  "budgets_pct": [
+    1,
+    2,
+    5,
+    10
+  ],
+  "revision_gate": {
+    "min_origin_wins": 2,
+    "n_origins": 3,
+    "min_improvement_in_se": 1.0,
+    "bootstrap_block_km": 1.0
+  },
+  "final_test": {
+    "cutoff_year": 2022,
+    "outcome_years": [
+      2023,
+      2024,
+      2025
+    ],
+    "previously_viewed": true
+  },
+  "data_quality": {
+    "summary": "SYNTHETIC placeholder data quality summary",
+    "overall_match_rate": 0.84
+  }
+}

@@ -1,0 +1,91 @@
+/* Quiet two-column strip: no card chrome, a single hairline above. */
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: var(--border);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card h3 {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.count {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.big {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
+
+.list li {
+  display: flex;
+  flex-direction: column;
+}
+
+.id {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  color: var(--color-accent);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.link svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 1000px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}

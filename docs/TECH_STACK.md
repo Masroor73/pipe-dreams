@@ -59,6 +59,26 @@ Why:
 Requirement:
 - the app must have a no-basemap/fallback mode in case tile/network access fails.
 
+Package: `maplibre-gl` with `react-map-gl` (`react-map-gl/maplibre` entry point) as the React wrapper. The default map style is an inline offline style (background only, no tiles), with an SVG line-drawing fallback when WebGL is unavailable.
+
+### Routing
+**Choice:** `react-router` (v7).
+Why: five tabs plus a deep-linkable `?asset=<id>` side panel need URL state; it is the standard React router.
+
+### Icons
+**Choice:** `@phosphor-icons/react` (the only icon family).
+Why: one consistent, tree-shakable icon set; no hand-drawn SVG icons.
+
+### Typeface
+**Choice:** `@fontsource-variable/figtree` (self-hosted).
+Why: legible on a projector with tabular numerals, and works offline during the demo (no Google Fonts request).
+
+### Styling
+Plain CSS: design tokens in `frontend/src/styles/tokens.css` plus CSS modules. No Tailwind, UI kit, or animation library (CSS transitions only).
+
+### Fixture mode
+`VITE_USE_FIXTURES=true` (default in `frontend/.env.development`) serves contract-shaped synthetic JSON from `frontend/src/fixtures/` so the UI can be built before the backend exists. Fixtures always carry `meta.synthetic: true` and `config_hash: "PLACEHOLDER"`, so the synthetic banner is always shown.
+
 ---
 
 ## 3. Backend
@@ -120,8 +140,8 @@ Frozen config parsing.
 - FastAPI TestClient / httpx where needed.
 
 ### Frontend
-- Vitest;
-- React Testing Library for critical UI states if time permits.
+- Vitest (jsdom);
+- React Testing Library (`@testing-library/react`, `jest-dom`, `user-event`) for critical UI states.
 
 ### Lint / format
 - Ruff for Python.

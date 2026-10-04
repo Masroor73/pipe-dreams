@@ -1,0 +1,2808 @@
+{
+  "seg_000001": {
+    "asset_id": "seg_000001",
+    "source_segment_ids": [
+      "55978"
+    ],
+    "length_m": 284.2,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.94,
+    "rank_stability": 0.87,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 16 m",
+    "latitude": 51.030986,
+    "longitude": -114.093922,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.102011,
+          51.03082
+        ],
+        [
+          -114.093922,
+          51.030986
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 5,
+      "selected": true,
+      "likelihood_score": 0.87,
+      "priority_score": 0.892,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 31,
+      "selected": false,
+      "likelihood_score": 0.44,
+      "priority_score": 0.495,
+      "recommended_action": "MONITOR",
+      "revision_reason": "older breaks down-weighted"
+    },
+    "rank_change": {
+      "delta_rank": 26,
+      "reason_1": "older breaks down-weighted",
+      "reason_2": null,
+      "show_in_demo": true
+    }
+  },
+  "seg_000002": {
+    "asset_id": "seg_000002",
+    "source_segment_ids": [
+      "38350",
+      "94713"
+    ],
+    "length_m": 390.8,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.42,
+    "rank_stability": 0.63,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.031027,
+    "longitude": -114.090771,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.093922,
+          51.030986
+        ],
+        [
+          -114.090771,
+          51.031027
+        ],
+        [
+          -114.087623,
+          51.03092
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 38,
+      "selected": false,
+      "likelihood_score": 0.34,
+      "priority_score": 0.387,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 38,
+      "selected": false,
+      "likelihood_score": 0.35,
+      "priority_score": 0.384,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000003": {
+    "asset_id": "seg_000003",
+    "source_segment_ids": [
+      "43826"
+    ],
+    "length_m": 363.5,
+    "consequence_tier": "T1",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.46,
+    "rank_stability": 0.86,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.031229,
+    "longitude": -114.080688,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087623,
+          51.03092
+        ],
+        [
+          -114.080688,
+          51.031229
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 45,
+      "selected": false,
+      "likelihood_score": 0.28,
+      "priority_score": 0.281,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 45,
+      "selected": false,
+      "likelihood_score": 0.25,
+      "priority_score": 0.281,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000004": {
+    "asset_id": "seg_000004",
+    "source_segment_ids": [
+      "96935"
+    ],
+    "length_m": 196.3,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.7,
+    "rank_stability": 0.86,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 12 m",
+    "latitude": 51.031423,
+    "longitude": -114.072738,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.080688,
+          51.031229
+        ],
+        [
+          -114.072738,
+          51.031423
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 20,
+      "selected": true,
+      "likelihood_score": 0.66,
+      "priority_score": 0.66,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 20,
+      "selected": true,
+      "likelihood_score": 0.66,
+      "priority_score": 0.658,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000005": {
+    "asset_id": "seg_000005",
+    "source_segment_ids": [
+      "76457"
+    ],
+    "length_m": 328.1,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.83,
+    "rank_stability": 0.42,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 8 m",
+    "latitude": 51.031004,
+    "longitude": -114.069028,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072738,
+          51.031423
+        ],
+        [
+          -114.069028,
+          51.031004
+        ],
+        [
+          -114.065259,
+          51.030979
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 41,
+      "selected": false,
+      "likelihood_score": 0.29,
+      "priority_score": 0.337,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 41,
+      "selected": false,
+      "likelihood_score": 0.35,
+      "priority_score": 0.342,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000006": {
+    "asset_id": "seg_000006",
+    "source_segment_ids": [
+      "16448",
+      "99509"
+    ],
+    "length_m": 216.2,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.73,
+    "rank_stability": 0.51,
+    "evidence_basis": "1 matched break since 2000; match distance about 6 m",
+    "latitude": 51.031043,
+    "longitude": -114.061711,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065259,
+          51.030979
+        ],
+        [
+          -114.061711,
+          51.031043
+        ],
+        [
+          -114.058247,
+          51.030557
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 15,
+      "selected": true,
+      "likelihood_score": 0.68,
+      "priority_score": 0.734,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 15,
+      "selected": true,
+      "likelihood_score": 0.66,
+      "priority_score": 0.738,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000007": {
+    "asset_id": "seg_000007",
+    "source_segment_ids": [
+      "82781",
+      "97131"
+    ],
+    "length_m": 141.2,
+    "consequence_tier": "T3",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.9,
+    "rank_stability": 0.58,
+    "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.035826,
+    "longitude": -114.094036,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.100938,
+          51.035466
+        ],
+        [
+          -114.094036,
+          51.035826
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 39,
+      "selected": false,
+      "likelihood_score": 0.39,
+      "priority_score": 0.369,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 39,
+      "selected": false,
+      "likelihood_score": 0.34,
+      "priority_score": 0.373,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000008": {
+    "asset_id": "seg_000008",
+    "source_segment_ids": [
+      "26438",
+      "25688"
+    ],
+    "length_m": 227.9,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.58,
+    "rank_stability": 0.48,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.035553,
+    "longitude": -114.087135,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.094036,
+          51.035826
+        ],
+        [
+          -114.087135,
+          51.035553
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 55,
+      "selected": false,
+      "likelihood_score": 0.13,
+      "priority_score": 0.127,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 55,
+      "selected": false,
+      "likelihood_score": 0.13,
+      "priority_score": 0.128,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000009": {
+    "asset_id": "seg_000009",
+    "source_segment_ids": [
+      "18217"
+    ],
+    "length_m": 149.2,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.83,
+    "rank_stability": 0.6,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.035547,
+    "longitude": -114.083837,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087135,
+          51.035553
+        ],
+        [
+          -114.083837,
+          51.035547
+        ],
+        [
+          -114.08055,
+          51.035376
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 4,
+      "selected": true,
+      "likelihood_score": 0.97,
+      "priority_score": 0.905,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 4,
+      "selected": true,
+      "likelihood_score": 0.77,
+      "priority_score": 0.904,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000010": {
+    "asset_id": "seg_000010",
+    "source_segment_ids": [
+      "16949",
+      "97515"
+    ],
+    "length_m": 156.2,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.94,
+    "rank_stability": 0.66,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 14 m",
+    "latitude": 51.035619,
+    "longitude": -114.073073,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.08055,
+          51.035376
+        ],
+        [
+          -114.073073,
+          51.035619
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 52,
+      "selected": false,
+      "likelihood_score": 0.18,
+      "priority_score": 0.173,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 52,
+      "selected": false,
+      "likelihood_score": 0.17,
+      "priority_score": 0.17,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000011": {
+    "asset_id": "seg_000011",
+    "source_segment_ids": [
+      "89655",
+      "67124"
+    ],
+    "length_m": 187.5,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.91,
+    "rank_stability": 0.57,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 10 m",
+    "latitude": 51.035792,
+    "longitude": -114.069192,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.073073,
+          51.035619
+        ],
+        [
+          -114.069192,
+          51.035792
+        ],
+        [
+          -114.065322,
+          51.035545
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 6,
+      "selected": true,
+      "likelihood_score": 0.85,
+      "priority_score": 0.876,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 6,
+      "selected": true,
+      "likelihood_score": 0.75,
+      "priority_score": 0.871,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000012": {
+    "asset_id": "seg_000012",
+    "source_segment_ids": [
+      "13244"
+    ],
+    "length_m": 364.5,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.86,
+    "rank_stability": 0.75,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
+    "latitude": 51.035429,
+    "longitude": -114.061944,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065322,
+          51.035545
+        ],
+        [
+          -114.061944,
+          51.035429
+        ],
+        [
+          -114.058576,
+          51.035221
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 32,
+      "selected": false,
+      "likelihood_score": 0.46,
+      "priority_score": 0.476,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 32,
+      "selected": false,
+      "likelihood_score": 0.45,
+      "priority_score": 0.475,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000013": {
+    "asset_id": "seg_000013",
+    "source_segment_ids": [
+      "84864"
+    ],
+    "length_m": 265.3,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.89,
+    "rank_stability": 0.66,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.040055,
+    "longitude": -114.09406,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.100885,
+          51.039781
+        ],
+        [
+          -114.09406,
+          51.040055
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 40,
+      "selected": false,
+      "likelihood_score": 0.36,
+      "priority_score": 0.355,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 3,
+      "selected": true,
+      "likelihood_score": 0.93,
+      "priority_score": 0.92,
+      "recommended_action": "INSPECT",
+      "revision_reason": "recency weighting"
+    },
+    "rank_change": {
+      "delta_rank": -37,
+      "reason_1": "recency weighting",
+      "reason_2": "recent breaks weighted under hl10",
+      "show_in_demo": true
+    }
+  },
+  "seg_000014": {
+    "asset_id": "seg_000014",
+    "source_segment_ids": [
+      "61013",
+      "48776"
+    ],
+    "length_m": 331.4,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.73,
+    "rank_stability": 0.56,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 11 m",
+    "latitude": 51.040151,
+    "longitude": -114.087002,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.09406,
+          51.040055
+        ],
+        [
+          -114.087002,
+          51.040151
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 46,
+      "selected": false,
+      "likelihood_score": 0.27,
+      "priority_score": 0.262,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 46,
+      "selected": false,
+      "likelihood_score": 0.24,
+      "priority_score": 0.264,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000015": {
+    "asset_id": "seg_000015",
+    "source_segment_ids": [
+      "15584",
+      "67689"
+    ],
+    "length_m": 231.4,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.78,
+    "rank_stability": 0.5,
+    "evidence_basis": "1 matched break since 2000; match distance about 6 m",
+    "latitude": 51.040355,
+    "longitude": -114.08035,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087002,
+          51.040151
+        ],
+        [
+          -114.08035,
+          51.040355
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 25,
+      "selected": true,
+      "likelihood_score": 0.5,
+      "priority_score": 0.585,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 25,
+      "selected": true,
+      "likelihood_score": 0.62,
+      "priority_score": 0.581,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000016": {
+    "asset_id": "seg_000016",
+    "source_segment_ids": [
+      "35119"
+    ],
+    "length_m": 145.8,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.75,
+    "rank_stability": 0.77,
+    "evidence_basis": "1 matched break since 2000; match distance about 5 m",
+    "latitude": 51.039686,
+    "longitude": -114.072336,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.08035,
+          51.040355
+        ],
+        [
+          -114.072336,
+          51.039686
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 7,
+      "selected": true,
+      "likelihood_score": 0.83,
+      "priority_score": 0.86,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 7,
+      "selected": true,
+      "likelihood_score": 0.75,
+      "priority_score": 0.857,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000017": {
+    "asset_id": "seg_000017",
+    "source_segment_ids": [
+      "34033",
+      "47313"
+    ],
+    "length_m": 399.1,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.93,
+    "rank_stability": 0.81,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 15 m",
+    "latitude": 51.039981,
+    "longitude": -114.065632,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072336,
+          51.039686
+        ],
+        [
+          -114.065632,
+          51.039981
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 24,
+      "selected": true,
+      "likelihood_score": 0.63,
+      "priority_score": 0.596,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 24,
+      "selected": true,
+      "likelihood_score": 0.51,
+      "priority_score": 0.601,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000018": {
+    "asset_id": "seg_000018",
+    "source_segment_ids": [
+      "81127",
+      "38825"
+    ],
+    "length_m": 241.7,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.64,
+    "rank_stability": 0.41,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 12 m",
+    "latitude": 51.039859,
+    "longitude": -114.058348,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065632,
+          51.039981
+        ],
+        [
+          -114.058348,
+          51.039859
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 3,
+      "selected": true,
+      "likelihood_score": 0.91,
+      "priority_score": 0.922,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 40,
+      "selected": false,
+      "likelihood_score": 0.31,
+      "priority_score": 0.355,
+      "recommended_action": "MONITOR",
+      "revision_reason": "relative reorder after recency weighting"
+    },
+    "rank_change": {
+      "delta_rank": 37,
+      "reason_1": "relative reorder after recency weighting",
+      "reason_2": null,
+      "show_in_demo": false
+    }
+  },
+  "seg_000019": {
+    "asset_id": "seg_000019",
+    "source_segment_ids": [
+      "10337"
+    ],
+    "length_m": 145.7,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.97,
+    "rank_stability": 0.68,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.044408,
+    "longitude": -114.09489,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.102031,
+          51.044868
+        ],
+        [
+          -114.09489,
+          51.044408
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 51,
+      "selected": false,
+      "likelihood_score": 0.16,
+      "priority_score": 0.185,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 51,
+      "selected": false,
+      "likelihood_score": 0.19,
+      "priority_score": 0.19,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000020": {
+    "asset_id": "seg_000020",
+    "source_segment_ids": [
+      "32374"
+    ],
+    "length_m": 310.2,
+    "consequence_tier": "T1",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.51,
+    "rank_stability": 0.47,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.044055,
+    "longitude": -114.087581,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.09489,
+          51.044408
+        ],
+        [
+          -114.087581,
+          51.044055
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 42,
+      "selected": false,
+      "likelihood_score": 0.29,
+      "priority_score": 0.323,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 42,
+      "selected": false,
+      "likelihood_score": 0.35,
+      "priority_score": 0.327,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000021": {
+    "asset_id": "seg_000021",
+    "source_segment_ids": [
+      "41176"
+    ],
+    "length_m": 147.7,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.87,
+    "rank_stability": 0.66,
+    "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 14 m",
+    "latitude": 51.044728,
+    "longitude": -114.08391,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087581,
+          51.044055
+        ],
+        [
+          -114.08391,
+          51.044728
+        ],
+        [
+          -114.080088,
+          51.0448
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 30,
+      "selected": false,
+      "likelihood_score": 0.52,
+      "priority_score": 0.51,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 30,
+      "selected": false,
+      "likelihood_score": 0.5,
+      "priority_score": 0.51,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000022": {
+    "asset_id": "seg_000022",
+    "source_segment_ids": [
+      "80383"
+    ],
+    "length_m": 139.8,
+    "consequence_tier": "T1",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.51,
+    "rank_stability": 0.74,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.044704,
+    "longitude": -114.076686,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.080088,
+          51.0448
+        ],
+        [
+          -114.076686,
+          51.044704
+        ],
+        [
+          -114.07328,
+          51.04467
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 43,
+      "selected": false,
+      "likelihood_score": 0.27,
+      "priority_score": 0.31,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 43,
+      "selected": false,
+      "likelihood_score": 0.28,
+      "priority_score": 0.31,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000023": {
+    "asset_id": "seg_000023",
+    "source_segment_ids": [
+      "40755",
+      "30413"
+    ],
+    "length_m": 195.7,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.79,
+    "rank_stability": 0.77,
+    "evidence_basis": "1 matched break since 2000; match distance about 6 m",
+    "latitude": 51.044924,
+    "longitude": -114.069709,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.07328,
+          51.04467
+        ],
+        [
+          -114.069709,
+          51.044924
+        ],
+        [
+          -114.066128,
+          51.044737
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 23,
+      "selected": true,
+      "likelihood_score": 0.53,
+      "priority_score": 0.615,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 23,
+      "selected": true,
+      "likelihood_score": 0.54,
+      "priority_score": 0.616,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000024": {
+    "asset_id": "seg_000024",
+    "source_segment_ids": [
+      "78508"
+    ],
+    "length_m": 108.3,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.56,
+    "rank_stability": 0.82,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.044589,
+    "longitude": -114.062115,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.066128,
+          51.044737
+        ],
+        [
+          -114.062115,
+          51.044589
+        ],
+        [
+          -114.058103,
+          51.044435
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 44,
+      "selected": false,
+      "likelihood_score": 0.26,
+      "priority_score": 0.295,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 44,
+      "selected": false,
+      "likelihood_score": 0.28,
+      "priority_score": 0.293,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000025": {
+    "asset_id": "seg_000025",
+    "source_segment_ids": [
+      "85565",
+      "21093"
+    ],
+    "length_m": 242.7,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.74,
+    "rank_stability": 0.44,
+    "evidence_basis": "1 matched break since 2000; match distance about 10 m",
+    "latitude": 51.048854,
+    "longitude": -114.097772,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.101665,
+          51.048818
+        ],
+        [
+          -114.097772,
+          51.048854
+        ],
+        [
+          -114.093935,
+          51.049271
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 47,
+      "selected": false,
+      "likelihood_score": 0.25,
+      "priority_score": 0.248,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 47,
+      "selected": false,
+      "likelihood_score": 0.25,
+      "priority_score": 0.247,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000026": {
+    "asset_id": "seg_000026",
+    "source_segment_ids": [
+      "16546",
+      "19912"
+    ],
+    "length_m": 381.3,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.98,
+    "rank_stability": 0.73,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 12 m",
+    "latitude": 51.048892,
+    "longitude": -114.090618,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.093935,
+          51.049271
+        ],
+        [
+          -114.090618,
+          51.048892
+        ],
+        [
+          -114.087266,
+          51.048665
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 2,
+      "selected": true,
+      "likelihood_score": 0.96,
+      "priority_score": 0.933,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 2,
+      "selected": true,
+      "likelihood_score": 0.92,
+      "priority_score": 0.936,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000027": {
+    "asset_id": "seg_000027",
+    "source_segment_ids": [
+      "54809",
+      "65709"
+    ],
+    "length_m": 351.5,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.88,
+    "rank_stability": 0.69,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 16 m",
+    "latitude": 51.048984,
+    "longitude": -114.083873,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087266,
+          51.048665
+        ],
+        [
+          -114.083873,
+          51.048984
+        ],
+        [
+          -114.080468,
+          51.048716
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 10,
+      "selected": true,
+      "likelihood_score": 0.72,
+      "priority_score": 0.81,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 10,
+      "selected": true,
+      "likelihood_score": 0.72,
+      "priority_score": 0.813,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000028": {
+    "asset_id": "seg_000028",
+    "source_segment_ids": [
+      "93372"
+    ],
+    "length_m": 141.8,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.42,
+    "rank_stability": 0.55,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.049231,
+    "longitude": -114.072473,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.080468,
+          51.048716
+        ],
+        [
+          -114.072473,
+          51.049231
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 8,
+      "selected": true,
+      "likelihood_score": 0.78,
+      "priority_score": 0.845,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 8,
+      "selected": true,
+      "likelihood_score": 0.9,
+      "priority_score": 0.841,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000029": {
+    "asset_id": "seg_000029",
+    "source_segment_ids": [
+      "78908"
+    ],
+    "length_m": 123.9,
+    "consequence_tier": "T3",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.56,
+    "rank_stability": 0.66,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.049522,
+    "longitude": -114.068881,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072473,
+          51.049231
+        ],
+        [
+          -114.068881,
+          51.049522
+        ],
+        [
+          -114.065268,
+          51.049356
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 48,
+      "selected": false,
+      "likelihood_score": 0.22,
+      "priority_score": 0.23,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 48,
+      "selected": false,
+      "likelihood_score": 0.24,
+      "priority_score": 0.233,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000030": {
+    "asset_id": "seg_000030",
+    "source_segment_ids": [
+      "42802"
+    ],
+    "length_m": 394.9,
+    "consequence_tier": "T2",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.77,
+    "rank_stability": 0.78,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 16 m",
+    "latitude": 51.048569,
+    "longitude": -114.058498,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065268,
+          51.049356
+        ],
+        [
+          -114.058498,
+          51.048569
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 34,
+      "selected": false,
+      "likelihood_score": 0.48,
+      "priority_score": 0.445,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 34,
+      "selected": false,
+      "likelihood_score": 0.38,
+      "priority_score": 0.446,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000031": {
+    "asset_id": "seg_000031",
+    "source_segment_ids": [
+      "73187",
+      "51760"
+    ],
+    "length_m": 105.5,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.7,
+    "rank_stability": 0.79,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 7 m",
+    "latitude": 51.033124,
+    "longitude": -114.10126,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.102011,
+          51.03082
+        ],
+        [
+          -114.10126,
+          51.033124
+        ],
+        [
+          -114.100938,
+          51.035466
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 16,
+      "selected": true,
+      "likelihood_score": 0.74,
+      "priority_score": 0.721,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 16,
+      "selected": true,
+      "likelihood_score": 0.64,
+      "priority_score": 0.723,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000032": {
+    "asset_id": "seg_000032",
+    "source_segment_ids": [
+      "17918"
+    ],
+    "length_m": 253.5,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.64,
+    "rank_stability": 0.85,
+    "evidence_basis": "1 matched break since 2000; match distance about 3 m",
+    "latitude": 51.037623,
+    "longitude": -114.100918,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.100938,
+          51.035466
+        ],
+        [
+          -114.100918,
+          51.037623
+        ],
+        [
+          -114.100885,
+          51.039781
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 21,
+      "selected": true,
+      "likelihood_score": 0.66,
+      "priority_score": 0.647,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 21,
+      "selected": true,
+      "likelihood_score": 0.56,
+      "priority_score": 0.648,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000033": {
+    "asset_id": "seg_000033",
+    "source_segment_ids": [
+      "93598",
+      "10442"
+    ],
+    "length_m": 195.1,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.9,
+    "rank_stability": 0.75,
+    "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 14 m",
+    "latitude": 51.044868,
+    "longitude": -114.102031,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.100885,
+          51.039781
+        ],
+        [
+          -114.102031,
+          51.044868
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 13,
+      "selected": true,
+      "likelihood_score": 0.75,
+      "priority_score": 0.768,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 13,
+      "selected": true,
+      "likelihood_score": 0.7,
+      "priority_score": 0.769,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000034": {
+    "asset_id": "seg_000034",
+    "source_segment_ids": [
+      "84249"
+    ],
+    "length_m": 135.4,
+    "consequence_tier": "T3",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.84,
+    "rank_stability": 0.53,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 6 m",
+    "latitude": 51.048818,
+    "longitude": -114.101665,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.102031,
+          51.044868
+        ],
+        [
+          -114.101665,
+          51.048818
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 57,
+      "selected": false,
+      "likelihood_score": 0.1,
+      "priority_score": 0.098,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 57,
+      "selected": false,
+      "likelihood_score": 0.09,
+      "priority_score": 0.098,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000035": {
+    "asset_id": "seg_000035",
+    "source_segment_ids": [
+      "61697",
+      "23703"
+    ],
+    "length_m": 375.8,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.84,
+    "rank_stability": 0.81,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.035826,
+    "longitude": -114.094036,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.093922,
+          51.030986
+        ],
+        [
+          -114.094036,
+          51.035826
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 54,
+      "selected": false,
+      "likelihood_score": 0.15,
+      "priority_score": 0.143,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 54,
+      "selected": false,
+      "likelihood_score": 0.14,
+      "priority_score": 0.141,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000036": {
+    "asset_id": "seg_000036",
+    "source_segment_ids": [
+      "33949"
+    ],
+    "length_m": 144.2,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.93,
+    "rank_stability": 0.64,
+    "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 6 m",
+    "latitude": 51.040055,
+    "longitude": -114.09406,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.094036,
+          51.035826
+        ],
+        [
+          -114.09406,
+          51.040055
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 17,
+      "selected": true,
+      "likelihood_score": 0.62,
+      "priority_score": 0.705,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 17,
+      "selected": true,
+      "likelihood_score": 0.71,
+      "priority_score": 0.704,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000037": {
+    "asset_id": "seg_000037",
+    "source_segment_ids": [
+      "94636",
+      "53831"
+    ],
+    "length_m": 206.8,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.91,
+    "rank_stability": 0.56,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
+    "latitude": 51.044408,
+    "longitude": -114.09489,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.09406,
+          51.040055
+        ],
+        [
+          -114.09489,
+          51.044408
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 53,
+      "selected": false,
+      "likelihood_score": 0.17,
+      "priority_score": 0.156,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 53,
+      "selected": false,
+      "likelihood_score": 0.15,
+      "priority_score": 0.158,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000038": {
+    "asset_id": "seg_000038",
+    "source_segment_ids": [
+      "57814",
+      "39431"
+    ],
+    "length_m": 266.4,
+    "consequence_tier": "T3",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.48,
+    "rank_stability": 0.5,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.046805,
+    "longitude": -114.093971,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.09489,
+          51.044408
+        ],
+        [
+          -114.093971,
+          51.046805
+        ],
+        [
+          -114.093935,
+          51.049271
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 58,
+      "selected": false,
+      "likelihood_score": 0.07,
+      "priority_score": 0.078,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 58,
+      "selected": false,
+      "likelihood_score": 0.08,
+      "priority_score": 0.08,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000039": {
+    "asset_id": "seg_000039",
+    "source_segment_ids": [
+      "59197",
+      "14448"
+    ],
+    "length_m": 230.4,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.66,
+    "rank_stability": 0.89,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 14 m",
+    "latitude": 51.035553,
+    "longitude": -114.087135,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087623,
+          51.03092
+        ],
+        [
+          -114.087135,
+          51.035553
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 59,
+      "selected": false,
+      "likelihood_score": 0.07,
+      "priority_score": 0.068,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 59,
+      "selected": false,
+      "likelihood_score": 0.06,
+      "priority_score": 0.063,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000040": {
+    "asset_id": "seg_000040",
+    "source_segment_ids": [
+      "62471",
+      "25827"
+    ],
+    "length_m": 292.6,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.91,
+    "rank_stability": 0.79,
+    "evidence_basis": "2 matched breaks since 2000; nearest-line distance < 9 m",
+    "latitude": 51.037855,
+    "longitude": -114.087308,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087135,
+          51.035553
+        ],
+        [
+          -114.087308,
+          51.037855
+        ],
+        [
+          -114.087002,
+          51.040151
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 9,
+      "selected": true,
+      "likelihood_score": 0.72,
+      "priority_score": 0.827,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 9,
+      "selected": true,
+      "likelihood_score": 0.73,
+      "priority_score": 0.83,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000041": {
+    "asset_id": "seg_000041",
+    "source_segment_ids": [
+      "62579"
+    ],
+    "length_m": 225.9,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.54,
+    "rank_stability": 0.69,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.044055,
+    "longitude": -114.087581,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087002,
+          51.040151
+        ],
+        [
+          -114.087581,
+          51.044055
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 56,
+      "selected": false,
+      "likelihood_score": 0.1,
+      "priority_score": 0.108,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 56,
+      "selected": false,
+      "likelihood_score": 0.1,
+      "priority_score": 0.111,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000042": {
+    "asset_id": "seg_000042",
+    "source_segment_ids": [
+      "15169",
+      "13916"
+    ],
+    "length_m": 378,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.75,
+    "rank_stability": 0.91,
+    "evidence_basis": "1 matched break since 2000; match distance about 12 m",
+    "latitude": 51.048665,
+    "longitude": -114.087266,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.087581,
+          51.044055
+        ],
+        [
+          -114.087266,
+          51.048665
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 11,
+      "selected": true,
+      "likelihood_score": 0.69,
+      "priority_score": 0.795,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 11,
+      "selected": true,
+      "likelihood_score": 0.7,
+      "priority_score": 0.796,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000043": {
+    "asset_id": "seg_000043",
+    "source_segment_ids": [
+      "86897"
+    ],
+    "length_m": 319.1,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.69,
+    "rank_stability": 0.94,
+    "evidence_basis": "1 matched break since 2000; match distance about 11 m",
+    "latitude": 51.035376,
+    "longitude": -114.08055,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.080688,
+          51.031229
+        ],
+        [
+          -114.08055,
+          51.035376
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 12,
+      "selected": true,
+      "likelihood_score": 0.72,
+      "priority_score": 0.784,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 12,
+      "selected": true,
+      "likelihood_score": 0.79,
+      "priority_score": 0.785,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000044": {
+    "asset_id": "seg_000044",
+    "source_segment_ids": [
+      "55844"
+    ],
+    "length_m": 347.5,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.89,
+    "rank_stability": 0.43,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.040355,
+    "longitude": -114.08035,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.08055,
+          51.035376
+        ],
+        [
+          -114.08035,
+          51.040355
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 1,
+      "selected": true,
+      "likelihood_score": 0.88,
+      "priority_score": 0.951,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 1,
+      "selected": true,
+      "likelihood_score": 0.98,
+      "priority_score": 0.95,
+      "recommended_action": "INSPECT",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000045": {
+    "asset_id": "seg_000045",
+    "source_segment_ids": [
+      "33405"
+    ],
+    "length_m": 366.7,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.86,
+    "rank_stability": 0.59,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.0448,
+    "longitude": -114.080088,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.08035,
+          51.040355
+        ],
+        [
+          -114.080088,
+          51.0448
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 26,
+      "selected": false,
+      "likelihood_score": 0.57,
+      "priority_score": 0.57,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 26,
+      "selected": false,
+      "likelihood_score": 0.57,
+      "priority_score": 0.567,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000046": {
+    "asset_id": "seg_000046",
+    "source_segment_ids": [
+      "12548",
+      "74965"
+    ],
+    "length_m": 382.6,
+    "consequence_tier": "T3",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.48,
+    "rank_stability": 0.55,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.046751,
+    "longitude": -114.08045,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.080088,
+          51.0448
+        ],
+        [
+          -114.08045,
+          51.046751
+        ],
+        [
+          -114.080468,
+          51.048716
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 37,
+      "selected": false,
+      "likelihood_score": 0.35,
+      "priority_score": 0.402,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 37,
+      "selected": false,
+      "likelihood_score": 0.41,
+      "priority_score": 0.398,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000047": {
+    "asset_id": "seg_000047",
+    "source_segment_ids": [
+      "23685",
+      "10454"
+    ],
+    "length_m": 104.5,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.73,
+    "rank_stability": 0.49,
+    "evidence_basis": "1 matched break since 2000; match distance about 4 m",
+    "latitude": 51.033532,
+    "longitude": -114.072546,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072738,
+          51.031423
+        ],
+        [
+          -114.072546,
+          51.033532
+        ],
+        [
+          -114.073073,
+          51.035619
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 49,
+      "selected": false,
+      "likelihood_score": 0.19,
+      "priority_score": 0.217,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 49,
+      "selected": false,
+      "likelihood_score": 0.2,
+      "priority_score": 0.221,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000048": {
+    "asset_id": "seg_000048",
+    "source_segment_ids": [
+      "57102"
+    ],
+    "length_m": 239.6,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.83,
+    "rank_stability": 0.94,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 17 m",
+    "latitude": 51.039686,
+    "longitude": -114.072336,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.073073,
+          51.035619
+        ],
+        [
+          -114.072336,
+          51.039686
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 33,
+      "selected": false,
+      "likelihood_score": 0.46,
+      "priority_score": 0.464,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 33,
+      "selected": false,
+      "likelihood_score": 0.49,
+      "priority_score": 0.462,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000049": {
+    "asset_id": "seg_000049",
+    "source_segment_ids": [
+      "64672"
+    ],
+    "length_m": 387.2,
+    "consequence_tier": "T3",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.7,
+    "rank_stability": 0.81,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 3 m",
+    "latitude": 51.04467,
+    "longitude": -114.07328,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072336,
+          51.039686
+        ],
+        [
+          -114.07328,
+          51.04467
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 18,
+      "selected": true,
+      "likelihood_score": 0.59,
+      "priority_score": 0.693,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 18,
+      "selected": true,
+      "likelihood_score": 0.73,
+      "priority_score": 0.689,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000050": {
+    "asset_id": "seg_000050",
+    "source_segment_ids": [
+      "16806",
+      "37450"
+    ],
+    "length_m": 321.9,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.87,
+    "rank_stability": 0.56,
+    "evidence_basis": "3 matched breaks since 2000; nearest-line distance < 13 m",
+    "latitude": 51.049231,
+    "longitude": -114.072473,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.07328,
+          51.04467
+        ],
+        [
+          -114.072473,
+          51.049231
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 60,
+      "selected": false,
+      "likelihood_score": 0.05,
+      "priority_score": 0.048,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 60,
+      "selected": false,
+      "likelihood_score": 0.05,
+      "priority_score": 0.049,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000051": {
+    "asset_id": "seg_000051",
+    "source_segment_ids": [
+      "18757"
+    ],
+    "length_m": 281.6,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.93,
+    "rank_stability": 0.63,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 13 m",
+    "latitude": 51.035545,
+    "longitude": -114.065322,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065259,
+          51.030979
+        ],
+        [
+          -114.065322,
+          51.035545
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 28,
+      "selected": false,
+      "likelihood_score": 0.55,
+      "priority_score": 0.536,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 22,
+      "selected": true,
+      "likelihood_score": 0.62,
+      "priority_score": 0.627,
+      "recommended_action": "INSPECT",
+      "revision_reason": "recent breaks weighted under hl10"
+    },
+    "rank_change": {
+      "delta_rank": -6,
+      "reason_1": "recent breaks weighted under hl10",
+      "reason_2": "crosses inspection budget cut-off",
+      "show_in_demo": true
+    }
+  },
+  "seg_000052": {
+    "asset_id": "seg_000052",
+    "source_segment_ids": [
+      "17923",
+      "28188"
+    ],
+    "length_m": 200.9,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.87,
+    "rank_stability": 0.56,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 15 m",
+    "latitude": 51.039981,
+    "longitude": -114.065632,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065322,
+          51.035545
+        ],
+        [
+          -114.065632,
+          51.039981
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 19,
+      "selected": true,
+      "likelihood_score": 0.7,
+      "priority_score": 0.676,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 19,
+      "selected": true,
+      "likelihood_score": 0.71,
+      "priority_score": 0.676,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000053": {
+    "asset_id": "seg_000053",
+    "source_segment_ids": [
+      "25820",
+      "49898"
+    ],
+    "length_m": 397.6,
+    "consequence_tier": "T1",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.89,
+    "rank_stability": 0.92,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.042345,
+    "longitude": -114.066229,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.065632,
+          51.039981
+        ],
+        [
+          -114.066229,
+          51.042345
+        ],
+        [
+          -114.066128,
+          51.044737
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 22,
+      "selected": true,
+      "likelihood_score": 0.6,
+      "priority_score": 0.627,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 28,
+      "selected": false,
+      "likelihood_score": 0.54,
+      "priority_score": 0.536,
+      "recommended_action": "MONITOR",
+      "revision_reason": "relative reorder after recency weighting"
+    },
+    "rank_change": {
+      "delta_rank": 6,
+      "reason_1": "relative reorder after recency weighting",
+      "reason_2": null,
+      "show_in_demo": false
+    }
+  },
+  "seg_000054": {
+    "asset_id": "seg_000054",
+    "source_segment_ids": [
+      "86389"
+    ],
+    "length_m": 284.5,
+    "consequence_tier": "T2",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.7,
+    "rank_stability": 0.63,
+    "evidence_basis": "2 matched breaks since 2000; match distance about 8 m",
+    "latitude": 51.047062,
+    "longitude": -114.065915,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.066128,
+          51.044737
+        ],
+        [
+          -114.065915,
+          51.047062
+        ],
+        [
+          -114.065268,
+          51.049356
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 14,
+      "selected": true,
+      "likelihood_score": 0.78,
+      "priority_score": 0.754,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 14,
+      "selected": true,
+      "likelihood_score": 0.75,
+      "priority_score": 0.753,
+      "recommended_action": "CONDITION_ASSESS",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000055": {
+    "asset_id": "seg_000055",
+    "source_segment_ids": [
+      "75832",
+      "41894"
+    ],
+    "length_m": 159.7,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.98,
+    "rank_stability": 0.55,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 11 m",
+    "latitude": 51.035221,
+    "longitude": -114.058576,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.058247,
+          51.030557
+        ],
+        [
+          -114.058576,
+          51.035221
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 36,
+      "selected": false,
+      "likelihood_score": 0.39,
+      "priority_score": 0.417,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 36,
+      "selected": false,
+      "likelihood_score": 0.43,
+      "priority_score": 0.416,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000056": {
+    "asset_id": "seg_000056",
+    "source_segment_ids": [
+      "82191"
+    ],
+    "length_m": 103.6,
+    "consequence_tier": "T2",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.84,
+    "rank_stability": 0.84,
+    "evidence_basis": "5 matched breaks since 2000; nearest-line distance < 5 m",
+    "latitude": 51.037538,
+    "longitude": -114.058386,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.058576,
+          51.035221
+        ],
+        [
+          -114.058386,
+          51.037538
+        ],
+        [
+          -114.058348,
+          51.039859
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 29,
+      "selected": false,
+      "likelihood_score": 0.53,
+      "priority_score": 0.524,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 29,
+      "selected": false,
+      "likelihood_score": 0.55,
+      "priority_score": 0.52,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000057": {
+    "asset_id": "seg_000057",
+    "source_segment_ids": [
+      "67743",
+      "98461"
+    ],
+    "length_m": 206.9,
+    "consequence_tier": "T1",
+    "evidence_confidence": "MEDIUM",
+    "association_quality": 0.8,
+    "rank_stability": 0.93,
+    "evidence_basis": "1 matched break since 2000; match distance about 10 m",
+    "latitude": 51.042144,
+    "longitude": -114.058104,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.058348,
+          51.039859
+        ],
+        [
+          -114.058104,
+          51.042144
+        ],
+        [
+          -114.058103,
+          51.044435
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 35,
+      "selected": false,
+      "likelihood_score": 0.42,
+      "priority_score": 0.434,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 35,
+      "selected": false,
+      "likelihood_score": 0.4,
+      "priority_score": 0.433,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000058": {
+    "asset_id": "seg_000058",
+    "source_segment_ids": [
+      "16384",
+      "10369"
+    ],
+    "length_m": 395.6,
+    "consequence_tier": "T2",
+    "evidence_confidence": "LOW_VERIFY",
+    "association_quality": 0.51,
+    "rank_stability": 0.89,
+    "evidence_basis": "No matched breaks since 2000; asset record unverified, needs field confirmation",
+    "latitude": 51.048569,
+    "longitude": -114.058498,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.058103,
+          51.044435
+        ],
+        [
+          -114.058498,
+          51.048569
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 31,
+      "selected": false,
+      "likelihood_score": 0.43,
+      "priority_score": 0.492,
+      "recommended_action": "VERIFY",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 5,
+      "selected": true,
+      "likelihood_score": 0.95,
+      "priority_score": 0.889,
+      "recommended_action": "VERIFY",
+      "revision_reason": "relative reorder after recency weighting"
+    },
+    "rank_change": {
+      "delta_rank": -26,
+      "reason_1": "relative reorder after recency weighting",
+      "reason_2": null,
+      "show_in_demo": false
+    }
+  },
+  "seg_000059": {
+    "asset_id": "seg_000059",
+    "source_segment_ids": [
+      "23094",
+      "84394"
+    ],
+    "length_m": 386.4,
+    "consequence_tier": "T3",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.97,
+    "rank_stability": 0.88,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 14 m",
+    "latitude": 51.038003,
+    "longitude": -114.090541,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.094036,
+          51.035826
+        ],
+        [
+          -114.090541,
+          51.038003
+        ],
+        [
+          -114.087002,
+          51.040151
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 27,
+      "selected": false,
+      "likelihood_score": 0.53,
+      "priority_score": 0.554,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 27,
+      "selected": false,
+      "likelihood_score": 0.56,
+      "priority_score": 0.555,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  },
+  "seg_000060": {
+    "asset_id": "seg_000060",
+    "source_segment_ids": [
+      "42512",
+      "29981"
+    ],
+    "length_m": 377.2,
+    "consequence_tier": "T3",
+    "evidence_confidence": "HIGH",
+    "association_quality": 0.95,
+    "rank_stability": 0.45,
+    "evidence_basis": "4 matched breaks since 2000; nearest-line distance < 13 m",
+    "latitude": 51.042428,
+    "longitude": -114.069678,
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          -114.072336,
+          51.039686
+        ],
+        [
+          -114.069678,
+          51.042428
+        ],
+        [
+          -114.066128,
+          51.044737
+        ]
+      ]
+    },
+    "v1": {
+      "rank": 50,
+      "selected": false,
+      "likelihood_score": 0.18,
+      "priority_score": 0.202,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "v2": {
+      "rank": 50,
+      "selected": false,
+      "likelihood_score": 0.2,
+      "priority_score": 0.203,
+      "recommended_action": "MONITOR",
+      "revision_reason": null
+    },
+    "rank_change": null
+  }
+}
