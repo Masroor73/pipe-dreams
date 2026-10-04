@@ -1,5 +1,5 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { setWorkerUrl } from 'maplibre-gl';
 import Map, { Layer, Source } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent, MapRef } from 'react-map-gl/maplibre';
@@ -81,6 +81,7 @@ export function CommunityMap({
   onSelectAsset,
 }: CommunityMapProps) {
   const mapRef = useRef<MapRef>(null);
+  const [loaded, setLoaded] = useState(false);
   const webgl = useMemo(() => hasWebGL(), []);
   const pipeData = useMemo(() => ({ type: 'FeatureCollection' as const, features: pipes }), [pipes]);
   const cityBounds = useMemo(
@@ -93,9 +94,9 @@ export function CommunityMap({
   }, [communities, selectedCommunityId, cityBounds]);
 
   useEffect(() => {
-    if (!target) return;
+    if (!target || !loaded) return;
     mapRef.current?.fitBounds(target, { padding: 48, maxZoom: 15, duration: 600 });
-  }, [target]);
+  }, [target, loaded]);
 
   if (!webgl) {
     return (
@@ -121,6 +122,7 @@ export function CommunityMap({
         mapStyle={OFFLINE_STYLE}
         interactiveLayerIds={['community-fill', 'pipes']}
         attributionControl={{ compact: true }}
+        onLoad={() => setLoaded(true)}
         onClick={onClick}
         onMouseMove={(e) => {
           e.target.getCanvas().style.cursor = e.features?.length ? 'pointer' : '';

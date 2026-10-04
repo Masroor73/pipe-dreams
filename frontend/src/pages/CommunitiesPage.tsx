@@ -4,10 +4,10 @@ import { useSearchParams } from 'react-router';
 import { CommunityMap } from '../components/Communities/CommunityMap';
 import { DataState } from '../components/DataState/DataState';
 import { ConfidencePill, Pill } from '../components/Pill/Pill';
-import { Term } from '../components/Term/Term';
 import { useAssets, useAssetsGeoJson, useCommunities, useCommunitiesGeoJson } from '../hooks';
 import { useAssetLink } from '../hooks/useAssetLink';
 import { formatNumber } from '../lib/format';
+import { useIsSynthetic } from '../lib/synthetic';
 import type { AssetFeature, CommunityFeatureCollection, CommunityProperties } from '../types/api';
 import styles from '../components/Communities/Communities.module.css';
 
@@ -96,17 +96,15 @@ function PipeList({
                 onClick={() => openAsset(a.asset_id)}
               >
                 <span className={styles.rowTitle}>
-                  <span>{a.asset_id}</span>
-                  <span>#{a.rank} citywide</span>
+                  <span className={styles.assetId}>{a.asset_id}</span>
+                  <span className={styles.rank}>#{a.rank} citywide</span>
                 </span>
                 <span className={styles.meta}>
-                  <span>{formatNumber(a.length_m)} m</span>
+                  <span>{formatNumber(a.length_m, a.length_m < 10 ? 2 : 0)} m</span>
                   <span>{a.recommended_action}</span>
                 </span>
                 <span className={styles.pillRow}>
-                  <Pill>
-                    <Term id="consequence_tier">Consequence tier</Term> {a.consequence_tier}
-                  </Pill>
+                  <Pill>Consequence tier {a.consequence_tier}</Pill>
                   <ConfidencePill confidence={a.evidence_confidence} />
                 </span>
               </button>
@@ -139,6 +137,7 @@ export default function CommunitiesPage() {
   const assetId = params.get('asset');
   const list = useCommunities();
   const geo = useCommunitiesGeoJson();
+  const synthetic = useIsSynthetic();
 
   const items = list.data?.items ?? [];
   const selected = communityId ? items.find((c) => c.community_id === communityId) : undefined;
@@ -185,7 +184,7 @@ export default function CommunitiesPage() {
   );
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${synthetic ? '' : styles.noBanner}`}>
       <div className={styles.side}>
         <h1>Which communities should we protect first, and which pipes within them should we inspect?</h1>
         <p className={styles.note}>

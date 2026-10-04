@@ -124,3 +124,17 @@
     overflow-y: auto;
   }
 }
+
+/* The sticky nav sits below a banner-height offset even when the synthetic banner is not shown. */
+.noBanner {
+  box-sizing: border-box;
+  padding-top: var(--banner-height);
+}
+
+.rank {
+  white-space: nowrap;
+}
+.assetId {
+  overflow-wrap: anywhere;
+  font-size: var(--text-sm);
+}
