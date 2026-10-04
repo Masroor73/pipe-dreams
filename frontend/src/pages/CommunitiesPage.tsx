@@ -8,7 +8,6 @@ import { usePipeLayers } from '../hooks/usePipeLayers';
 import { useAllAssets, useCommunities, useCommunitiesGeoJson } from '../hooks';
 import { useAssetLink } from '../hooks/useAssetLink';
 import { formatNumber } from '../lib/format';
-import { useIsSynthetic } from '../lib/synthetic';
 import type { Resource } from '../hooks';
 import type { AssetList, CommunityFeatureCollection, CommunityProperties } from '../types/api';
 import styles from '../components/Communities/Communities.module.css';
@@ -120,7 +119,6 @@ export default function CommunitiesPage() {
   const assetId = params.get('asset');
   const list = useCommunities();
   const geo = useCommunitiesGeoJson();
-  const synthetic = useIsSynthetic();
 
   const items = list.data?.items ?? [];
   const selected = communityId ? items.find((c) => c.community_id === communityId) : undefined;
@@ -180,7 +178,7 @@ export default function CommunitiesPage() {
   );
 
   return (
-    <div className={`${styles.page} ${synthetic ? '' : styles.noBanner}`}>
+    <div className={styles.page}>
       <div className={styles.side}>
         <h1>Which communities should we protect first, and which pipes within them should we inspect?</h1>
         <p className={styles.note}>

@@ -5,7 +5,6 @@ import { MapLegend } from '../components/Map/MapLegend';
 import { PlanToggle } from '../components/Map/PlanToggle';
 import { usePipeLayers } from '../hooks/usePipeLayers';
 import { useAssetLink } from '../hooks/useAssetLink';
-import { useIsSynthetic } from '../lib/synthetic';
 import type { CommunityFeatureCollection, PlanId } from '../types/api';
 import styles from '../components/Map/Map.module.css';
 
@@ -17,7 +16,6 @@ export default function MapPage() {
   const plan: PlanId = params.get('plan') === 'v1' ? 'v1' : 'v2';
   const selectedId = params.get('asset');
   const openAsset = useAssetLink();
-  const synthetic = useIsSynthetic();
   const list = usePipeLayers({ plan, selected_only: true }, { plan, selected_only: true, sort: 'rank' });
 
   const setPlan = (next: PlanId) =>
@@ -31,8 +29,6 @@ export default function MapPage() {
   return (
     <div
       className={styles.stage}
-      // Without the synthetic banner the sticky nav still leaves a banner-height gap at the top.
-      style={synthetic ? undefined : { marginTop: 'var(--banner-height)', height: 'calc(100% - var(--banner-height))' }}
     >
       <h1 className={styles.srOnly}>Map</h1>
       {/* Mount the map straight away so style, basemap tiles and the worker load while the pipes are fetched. */}

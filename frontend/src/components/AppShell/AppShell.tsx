@@ -6,6 +6,7 @@ import { AssetPanel } from '../AssetPanel/AssetPanel';
 import { useAssetClose } from '../../hooks/useAssetLink';
 import { HealthGate } from './HealthGate';
 import { SyntheticBanner } from './SyntheticBanner';
+import { useIsSynthetic } from '../../lib/synthetic';
 import { APP_ROUTES } from './routes';
 import styles from './AppShell.module.css';
 
@@ -31,6 +32,16 @@ export function AppShell() {
   const [params] = useSearchParams();
   const closeAsset = useAssetClose();
   const navigate = useNavigate();
+  const synthetic = useIsSynthetic();
+  // The banner slot only takes space while the synthetic banner is shown; otherwise the nav sits at the top.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (synthetic) root.style.removeProperty('--banner-height');
+    else root.style.setProperty('--banner-height', '0px');
+    return () => {
+      root.style.removeProperty('--banner-height');
+    };
+  }, [synthetic]);
   // Marks the document so the CSS route-in animation yields to the cross-fade.
   useEffect(() => {
     if (canViewTransition()) document.documentElement.dataset.vt = '';
