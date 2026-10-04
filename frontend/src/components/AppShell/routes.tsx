@@ -4,6 +4,7 @@ import MapPage from '../../pages/MapPage';
 import AuditPage from '../../pages/AuditPage';
 import EscalationPage from '../../pages/EscalationPage';
 import LimitsPage from '../../pages/LimitsPage';
+import GlossaryPage from '../../pages/GlossaryPage';
 
 export interface AppRoute {
   path: string;
@@ -20,4 +21,5 @@ export const APP_ROUTES: AppRoute[] = [
   { path: '/audit', label: 'Agent audit', element: <AuditPage /> },
   { path: '/escalation', label: 'Escalation', element: <EscalationPage /> },
   { path: '/limits', label: 'Limits', element: <LimitsPage /> },
+  { path: '/glossary', label: 'Glossary', element: <GlossaryPage /> },
 ];
