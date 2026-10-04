@@ -78,7 +78,9 @@ export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTi
           sameCandidate(e, next);
         const detailEntries = Object.entries(e.details ?? {});
         const rank = rankOf.get(e.seq) ?? -1;
-        const replayCls = !replaying ? '' : rank > step ? styles.future : e.seq === activeSeq ? styles.active : '';
+        // A step the replay has not reached yet must not reveal its outcome (no ACCEPT/REJECT, no gate numbers).
+        const isFuture = replaying && rank > step;
+        const replayCls = !replaying ? '' : isFuture ? styles.future : e.seq === activeSeq ? styles.active : '';
         const cls = [
           styles.item,
           replayCls,
@@ -102,17 +104,17 @@ export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTi
             <div className={styles.card}>
               <div className={styles.cardHead}>
                 <span className={styles.type}>
-                  {icon}
-                  <span className={styles.typeLabel}>{e.event_type}</span>
+                  {isFuture ? null : icon}
+                  <span className={styles.typeLabel}>{isFuture ? 'PENDING' : e.event_type}</span>
                 </span>
                 <time className={styles.time} dateTime={e.timestamp}>
                   {formatDate(e.timestamp, true)}
                 </time>
               </div>
-              <p className={styles.summary}>{e.summary}</p>
+              <p className={styles.summary}>{isFuture ? 'Not reached yet in this replay.' : e.summary}</p>
               {/* The full gate table appears once per candidate, on its ACCEPT/REJECT event. */}
-              {e.candidate && !joinsNext && <CandidateGate candidate={e.candidate} />}
-              {detailEntries.length > 0 && (
+              {!isFuture && e.candidate && !joinsNext && <CandidateGate candidate={e.candidate} />}
+              {!isFuture && detailEntries.length > 0 && (
                 <details className={styles.details}>
                   <summary>Details</summary>
                   <dl>
