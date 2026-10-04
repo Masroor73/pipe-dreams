@@ -46,7 +46,7 @@ describe('MapPage (dots from /api/assets)', () => {
     const dots = await screen.findByTestId('dots');
     expect(dots.dataset.count).toBe(String(selectedCount));
     expect(screen.getByText(`${selectedCount} selected segments · plan V2`)).toBeInTheDocument();
-    expect(screen.getByText(/≠ failure probability/)).toBeInTheDocument();
+    expect(screen.getByText(/not failure probability/)).toBeInTheDocument();
   });
 
   it('sets ?asset= when a dot is clicked', async () => {

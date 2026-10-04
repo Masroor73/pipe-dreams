@@ -7,7 +7,12 @@ import {
   BASEMAP_OFFLINE_NOTE,
   STREET_BASEMAP_STYLE,
   CASING_COLOR,
+  COMMUNITY_COLOR,
+  COMMUNITY_OUTLINE_COLOR,
+  COMMUNITY_SELECTED_FILL_OPACITY,
   CONFIDENCE_COLORS,
+  MUTED_COLOR,
+  OPEN_PIPE_COLOR,
   INITIAL_VIEW,
   MAPLIBRE_WORKER_PATH,
 } from '../../config/map';
@@ -61,7 +66,7 @@ const CONF_COLOR = [
   CONFIDENCE_COLORS.HIGH,
 ] as unknown as never;
 
-const MUTED = '#8795a5';
+const MUTED = MUTED_COLOR;
 const colorBySelected = ['case', ['get', 'selected'], CONF_COLOR, MUTED] as never;
 const LINE_LAYOUT = { 'line-cap': 'round' as const, 'line-join': 'round' as const };
 
@@ -157,19 +162,19 @@ export function CommunityMap({
         }}
       >
         <Source id="communities" type="geojson" data={communities as never}>
-          <Layer id="community-fill" type="fill" paint={{ 'fill-color': '#0b6e99', 'fill-opacity': 0.04 }} />
+          <Layer id="community-fill" type="fill" paint={{ 'fill-color': COMMUNITY_COLOR, 'fill-opacity': 0.04 }} />
           <Layer
             id="community-selected-fill"
             type="fill"
             filter={idFilter}
-            paint={{ 'fill-color': '#0b6e99', 'fill-opacity': 0.15 }}
+            paint={{ 'fill-color': COMMUNITY_COLOR, 'fill-opacity': COMMUNITY_SELECTED_FILL_OPACITY }}
           />
-          <Layer id="community-outline" type="line" paint={{ 'line-color': '#4a5b6d', 'line-width': 1 }} />
+          <Layer id="community-outline" type="line" paint={{ 'line-color': COMMUNITY_OUTLINE_COLOR, 'line-width': 1 }} />
           <Layer
             id="community-selected-outline"
             type="line"
             filter={idFilter}
-            paint={{ 'line-color': '#0b6e99', 'line-width': 3 }}
+            paint={{ 'line-color': COMMUNITY_COLOR, 'line-width': 3 }}
           />
         </Source>
         {lines && (
@@ -191,7 +196,7 @@ export function CommunityMap({
               type="line"
               filter={openFilter}
               layout={LINE_LAYOUT}
-              paint={{ 'line-color': '#14202e', 'line-width': lineWidth(3) }}
+              paint={{ 'line-color': OPEN_PIPE_COLOR, 'line-width': lineWidth(3) }}
             />
           </Source>
         )}
@@ -220,7 +225,7 @@ export function CommunityMap({
             type="circle"
             filter={openFilter}
             paint={{
-              'circle-color': '#14202e',
+              'circle-color': OPEN_PIPE_COLOR,
               'circle-radius': 7,
               'circle-stroke-color': '#ffffff',
               'circle-stroke-width': 2,

@@ -14,10 +14,25 @@ export const CONFIDENCE_LABELS: Record<EvidenceConfidence, string> = {
   LOW_VERIFY: 'LOW_VERIFY (verify before acting)',
 };
 
+/** Plain-language meaning of each confidence level, shown in the legend. */
+export const CONFIDENCE_MEANINGS: Record<EvidenceConfidence, string> = {
+  HIGH: 'strong evidence',
+  MEDIUM: 'some gaps',
+  LOW_VERIFY: 'weak evidence — verify before acting',
+};
+
 export const CONFIDENCE_ORDER: EvidenceConfidence[] = ['HIGH', 'MEDIUM', 'LOW_VERIFY'];
 
 export const MAP_BACKGROUND = '#f7f9fb'; // --color-bg
 export const SELECTED_OUTLINE = '#14202e'; // --color-text
+/** Pipes in the community that were not selected for inspection. */
+export const MUTED_COLOR = '#8795a5';
+/** The pipe open in the detail panel. */
+export const OPEN_PIPE_COLOR = SELECTED_OUTLINE;
+/** Community polygons: selected community fill/outline, and the faint outline of the others. */
+export const COMMUNITY_COLOR = '#0b6e99'; // --color-accent
+export const COMMUNITY_OUTLINE_COLOR = '#4a5b6d';
+export const COMMUNITY_SELECTED_FILL_OPACITY = 0.15;
 
 /** Calgary, used before data arrives and when there are no features. */
 export const INITIAL_VIEW = { longitude: -114.0719, latitude: 51.0447, zoom: 10 };

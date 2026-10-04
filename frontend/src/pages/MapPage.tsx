@@ -67,7 +67,7 @@ export default function MapPage() {
         </div>
       ) : null}
       <PlanToggle plan={plan} onChange={setPlan} />
-      {list.status === 'success' && <MapLegend count={count} plan={plan} />}
+      {list.status === 'success' && <MapLegend count={count} plan={plan} showOpen={!!selectedId} />}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
+import { MapLegend } from '../components/Map/MapLegend';
 import { CommunityMap } from '../components/Communities/CommunityMap';
 import { DataState } from '../components/DataState/DataState';
 import { ConfidencePill, Pill } from '../components/Pill/Pill';
@@ -171,6 +172,9 @@ export default function CommunitiesPage() {
           onRetry={geo.reload}
           loadingLabel="Loading map"
         />
+      )}
+      {geo.status === 'success' && (
+        <MapLegend plan="v2" showMuted={!!selected && !selectedOnly} showOpen={!!assetId} showCommunity={!!selected} />
       )}
     </div>
   );

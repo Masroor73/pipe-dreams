@@ -130,7 +130,7 @@
 .legend {
   left: var(--space-4);
   bottom: var(--space-4);
-  max-width: min(340px, calc(100% - 2 * var(--space-4)));
+  max-width: min(400px, calc(100% - 2 * var(--space-4)));
 }
 
 /* Desktop: the heading looks like a plain title; the toggle only works on small screens. */
@@ -200,11 +200,63 @@
   gap: var(--space-2);
 }
 
+.legendTitle {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+}
+
 .swatch {
   flex: none;
-  width: 28px;
-  height: 5px;
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 14px;
+}
+
+/* A line (pipes zoomed in) with a dot on it (pipes at city zoom). */
+.swatch::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
   border-radius: var(--radius-pill);
+  background: var(--sw);
+}
+
+.swatch::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--sw);
+  border: 1.5px solid #fff;
+  box-sizing: border-box;
+}
+
+.swatchOpen::after {
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-width: 2px;
+}
+
+.swatchPoly {
+  border: 3px solid var(--sw);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--sw) 22%, transparent);
+  box-sizing: border-box;
+}
+
+.swatchPoly::before,
+.swatchPoly::after {
+  display: none;
 }
 
 .legendCount {
