@@ -215,13 +215,15 @@ Resolved:
 - organizer rounded-cell baseline: event-capture comparison only;
 - 2026 YTD: directional relative-lift confirmation only.
 
-Still required before the corrected final test:
+Corrected final-test status:
 
-1. derive evidence-confidence thresholds from validation data only;
-2. remove all remaining placeholders from the frozen config;
-3. hash the config;
-4. commit and tag the frozen configuration;
-5. then run the corrected final evaluation once with no post-result tuning.
+1. evidence-confidence thresholds were derived from validation data only;
+2. the analytical configuration was frozen;
+3. the frozen config was hashed;
+4. the pre-final state was committed and tagged;
+5. the corrected 2022 → 2023–2025 final evaluation was run once with no post-result tuning.
+
+The selected revision is C3. Final evaluation results are reported for audit/demo purposes only and must not be used for further tuning.
 
 ---
 

@@ -14,6 +14,7 @@ from app.schemas import (
     Envelope,
 )
 
+
 COMMUNITY_VALIDATION_COLUMNS = [
     "origin_cutoff",
     "outcome_start_year",
@@ -238,7 +239,11 @@ def _community_client(
                         "equity_geography_status": (
                             "NOT_ASSESSED"
                         ),
-                        "data_quality_flags": [],
+                        "data_quality_flags": (
+                            row[
+                                "data_quality_flags"
+                            ]
+                        ),
                     },
                 }
             )
@@ -512,6 +517,30 @@ def test_community_geojson_specific_cutoff(
     data = response.json()[
         "data"
     ]
+
+    flags_by_id = {
+        feature["properties"][
+            "community_id"
+        ]: feature[
+            "properties"
+        ][
+            "data_quality_flags"
+        ]
+        for feature in data[
+            "features"
+        ]
+    }
+
+    assert (
+        flags_by_id["C1"]
+        == []
+    )
+    assert (
+        flags_by_id["C2"]
+        == [
+            "SMALL_DENOMINATOR"
+        ]
+    )
 
     assert (
         len(

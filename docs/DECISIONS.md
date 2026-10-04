@@ -257,14 +257,18 @@ Individual developers may use local editor-specific configuration, but it must n
 
 ---
 
-## 23. Remaining Freeze Items
+## 23. Freeze Status
 
-Before corrected final testing:
+The experiment freeze is complete.
 
-1. derive evidence-confidence thresholds from validation data only;
-2. remove placeholders from frozen config;
-3. hash config;
-4. commit and tag;
-5. run corrected final evaluation once.
+Completed before the corrected final evaluation:
 
-Architecture and tech stack are otherwise frozen unless a concrete bug, official-rule conflict, or strong domain correction requires change.
+1. derived evidence-confidence thresholds from validation data only;
+2. removed analytical placeholders from the frozen config;
+3. hashed the frozen config;
+4. committed and tagged the pre-final state;
+5. ran the corrected 2022 → 2023–2025 final evaluation once.
+
+No model, policy, threshold, or validation-gate tuning is permitted from the corrected final result.
+
+Architecture and tech stack remain frozen unless a concrete bug, official-rule conflict, or strong domain correction requires change.

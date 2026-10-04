@@ -474,6 +474,45 @@ class CommunityArtifactService:
                 )
                 continue
 
+            try:
+                for feature in features:
+                    if not isinstance(
+                        feature,
+                        dict,
+                    ):
+                        raise ValueError(
+                            "feature must be an object"
+                        )
+
+                    properties = (
+                        feature.get(
+                            "properties"
+                        )
+                    )
+
+                    if not isinstance(
+                        properties,
+                        dict,
+                    ):
+                        raise ValueError(
+                            "feature properties must be an object"
+                        )
+
+                    properties[
+                        "data_quality_flags"
+                    ] = _decode_flags(
+                        properties.get(
+                            "data_quality_flags"
+                        )
+                    )
+
+            except Exception as exc:
+                self.errors.append(
+                    f"{path.name}: "
+                    f"invalid data_quality_flags ({exc})"
+                )
+                continue
+
             geojson_by_cutoff[
                 int(
                     cutoff_year
