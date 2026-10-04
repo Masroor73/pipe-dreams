@@ -239,27 +239,55 @@ The API selects the appropriate frozen file using the
 
 ### `community_validation.csv`
 
-One row per historical validation origin.
+One row per historical validation origin per requested network-length
+budget.
 
 Required columns:
 - `origin_cutoff`
 - `outcome_start_year`
 - `outcome_end_year`
+- `budget_pct`
 - `communities_evaluated`
+- `selected_community_count`
+- `selected_pipe_length_km`
+- `eligible_pipe_length_km`
+- `actual_network_share`
 - `future_break_events`
 - `future_break_events_assigned`
-- `top_community_count`
-- `top_community_event_capture`
+- `future_break_events_unassigned`
+- `future_break_events_ambiguous`
+- `future_break_events_in_eligible_network`
+- `future_break_events_outside_eligible_network`
+- `selected_future_break_events`
+- `event_capture`
+- `lift_vs_network_share`
 - `notes`
 
 Rules:
-- Rank communities using only historical information
-  available at the origin cutoff.
-- Count future events independently in the corresponding
-  evaluation period.
-- Report assignment coverage.
-- Do not use this artifact in the pipe-level V1/V2
-  acceptance gate.
+- Rank communities using only historical information available at the
+  origin cutoff.
+- Historical ranking uses `historical_breaks_per_km`, with deterministic
+  tie-breaking by historical break count and community ID.
+- Evaluate the fixed network-length budgets defined in the experiment
+  protocol: 5%, 10%, and 20%.
+- Select whole communities in rank order until the requested share of
+  eligible pipe-network length is reached.
+- Because communities are atomic decision units, the realized network
+  share may exceed the requested budget. `actual_network_share` records
+  the realized fraction.
+- Future break events are evaluated only in the declared future outcome
+  period.
+- `event_capture` uses uniquely assigned future events occurring in
+  communities that had eligible pipe network at the historical cutoff
+  as its denominator.
+- Future events outside the eligible historical network are reported
+  separately and are not silently discarded.
+- Geographic assignment coverage, including unassigned and ambiguous
+  events, must be reported separately.
+- `lift_vs_network_share` equals `event_capture` divided by
+  `actual_network_share`.
+- This artifact does not participate in the pipe-level V1/V2 acceptance
+  gate.
 
 ### Community Data Integrity
 
