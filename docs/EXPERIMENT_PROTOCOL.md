@@ -246,3 +246,67 @@ Not allowed:
 - automatic repair recommendation;
 - invented savings;
 - Bearspaw prediction/prevention claim.
+
+
+---
+
+## 18. Community-Level Historical Evaluation
+
+Community analysis is evaluated independently of the pipe-level
+V1/C1-C4 experiment.
+
+### Purpose
+
+Determine whether historical community infrastructure burden is useful
+for identifying geographic areas with future water-main breaks.
+
+This is an infrastructure-planning indicator, not a calibrated
+community failure probability or a measure of actual service disruption.
+
+### Historical Evaluation
+
+Reuse the existing rolling validation periods:
+
+| Cutoff | Future evaluation period |
+|---|---|
+| 2013 | 2014-2016 |
+| 2016 | 2017-2019 |
+| 2019 | 2020-2022 |
+
+At each cutoff:
+
+1. Use only breaks recorded on or before the cutoff.
+2. Exclude pipes installed after the cutoff from the eligible
+   historical pipe-length denominator.
+3. Calculate historical breaks per kilometre for each community.
+4. Rank communities by that historical infrastructure-burden metric.
+5. Evaluate how many future break events occur within the
+   highest-ranked communities.
+
+Report geographic coverage, unmatched events, and the fraction
+of eligible pipe length represented.
+
+### Important Limitations
+
+- Present-day water-main geometry is not a complete historical
+  network reconstruction.
+- Community boundaries may have changed over time.
+- Geographic proximity does not establish hydraulic connectivity.
+- Community population and current equity information are
+  contextual dimensions, not historical predictive features.
+- A high historical break rate does not establish that residents
+  experienced greater service disruption.
+- Communities with very little eligible pipe length require
+  explicit small-denominator warnings.
+
+### Evaluation Separation
+
+The community evaluation is descriptive and exploratory.
+It does not participate in the autonomous V1-to-V2 revision gate.
+
+The original four pipe-level challenger policies, validation
+origins, inspection budgets, and acceptance thresholds remain
+unchanged.
+
+Community analysis must not be adjusted using the previously
+viewed final 2023-2025 outcomes.

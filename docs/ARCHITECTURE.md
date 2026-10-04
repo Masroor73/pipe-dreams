@@ -71,6 +71,60 @@ FastAPI provides:
 
 ---
 
+
+## 3A. Community-First Decision Architecture
+
+Pipe Dreams uses a two-stage decision process.
+
+### Stage 1: Community Intelligence
+
+The offline Python engine combines:
+- Calgary historical water-main break locations;
+- public water-main geometry;
+- community boundaries;
+- population and Calgary Equity Index data, where geographic alignment is reliable.
+
+The new `engine/pipe_dreams_engine/community.py` module owns:
+- assigning historical break locations to geographic areas;
+- calculating water-main length within each area using clipped line geometry;
+- calculating cutoff-safe historical breaks per kilometre;
+- reporting geographic coverage and data-quality limitations;
+- producing community-level artifacts.
+
+Historical infrastructure burden and current community needs are separate
+dimensions. Current equity information must not enter historical predictions
+or retrospective model-selection experiments.
+
+Community boundaries and Equity Index census tracts are different geographic
+units. Any geographic conversion must use an explicitly documented method.
+
+Community break burden is not an estimate of the number of residents who
+would lose service after an individual pipe failure.
+
+### Stage 2: Pipe Intelligence
+
+The existing pipe-level engine remains responsible for:
+- time-safe historical break-to-pipe association;
+- asset-level evidence and optional spatial-neighbourhood features;
+- logistic regression and the frozen V1/C1-C4 policies;
+- historical validation and autonomous V2 selection;
+- inspection recommendations within available capacity.
+
+Spatial proximity must not be described as verified hydraulic connectivity.
+A graph neural network is a potential future extension, not an MVP dependency.
+
+### Decision Presentation
+
+The React application presents communities first and allows users to inspect
+the underlying pipe recommendations.
+
+Community analysis and pipe-level model evaluation have independent
+validation results. The frontend must not invent a combined risk score.
+
+All heavy computation runs offline. FastAPI serves frozen community and
+asset artifacts through separate read-only endpoints.
+
+---
 ## 4. System Boundaries
 
 ### Frontend owns
