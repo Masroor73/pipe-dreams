@@ -20,7 +20,6 @@ from pipe_dreams_engine.community_validation import (
     evaluate_rolling_community_origins,
 )
 
-
 COMMUNITY_CSV_COLUMNS = [
     "community_id",
     "community_name",
@@ -160,9 +159,16 @@ def write_community_artifacts(
             / f"communities_{cutoff_year}.geojson"
         )
 
-        geo.to_file(
-            geojson_path,
-            driver="GeoJSON",
+        geo_for_output = geo.set_index(
+            "community_id",
+            drop=False,
+        )
+
+        geojson_path.write_text(
+            geo_for_output.to_json(
+                drop_id=False,
+            ),
+            encoding="utf-8",
         )
 
         written[

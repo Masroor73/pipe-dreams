@@ -5,8 +5,6 @@ from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
-from shapely.geometry import LineString, Point, Polygon
-
 from pipe_dreams_engine.community_artifacts import (
     COMMUNITY_CSV_COLUMNS,
     COMMUNITY_VALIDATION_COLUMNS,
@@ -15,7 +13,7 @@ from pipe_dreams_engine.community_artifacts import (
 from pipe_dreams_engine.community_validation import (
     CommunityValidationOrigin,
 )
-
+from shapely.geometry import LineString, Point, Polygon
 
 CRS = "EPSG:3776"
 
@@ -260,9 +258,13 @@ class CommunityArtifactTests(
                 validation_budgets_pct=(10,),
             )
 
-            result = gpd.read_file(
+            geojson_path = (
                 Path(tmp)
                 / "communities_2013.geojson"
+            )
+
+            result = gpd.read_file(
+                geojson_path
             )
 
             self.assertEqual(
@@ -279,6 +281,46 @@ class CommunityArtifactTests(
                 "pipe_length_km",
                 result.columns,
             )
+
+            payload = json.loads(
+                geojson_path.read_text(
+                    encoding="utf-8"
+                )
+            )
+
+            self.assertEqual(
+                payload["type"],
+                "FeatureCollection",
+            )
+
+            self.assertGreater(
+                len(
+                    payload["features"]
+                ),
+                0,
+            )
+
+            for feature in payload[
+                "features"
+            ]:
+                self.assertIn(
+                    "id",
+                    feature,
+                )
+
+                self.assertIn(
+                    "properties",
+                    feature,
+                )
+
+                self.assertEqual(
+                    feature["id"],
+                    feature[
+                        "properties"
+                    ][
+                        "community_id"
+                    ],
+                )
 
     def test_validation_csv_matches_frozen_schema(self):
         communities, pipes, breaks = (
