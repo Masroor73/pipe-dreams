@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ARTIFACTS = ROOT / "data" / "artifacts" / "real"
-DEFAULT_VOICE = "21m00Tcm4TXrEUJWWWm"
+DEFAULT_VOICE = "JBFqnCBsd6RMkjVDRZzb"  # "George", a current premade voice; older ids 404 on new accounts
 MODEL_ID = "eleven_multilingual_v2"
 API_URL = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
 OUT_DIR = ROOT / "frontend" / "public"

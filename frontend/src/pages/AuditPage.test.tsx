@@ -59,7 +59,7 @@ describe('AuditPage', () => {
     const items = screen.getAllByRole('listitem').filter((li) => li.hasAttribute('data-event-type'));
     expect(items.map((li) => li.getAttribute('data-event-type'))).toEqual(['PLAN_V1', 'TEST_CANDIDATE', 'ESCALATE']);
     const table = screen.getByRole('table', { name: /revision gate result for C2/i });
-    expect(within(table).getByText('ACCEPT')).toBeInTheDocument();
+    expect(within(table).getByText(/^PASSED/)).toBeInTheDocument();
     expect(within(table).getByText('0.205')).toBeInTheDocument();
     expect(screen.getByText('won all origins')).toBeInTheDocument();
   });
@@ -207,10 +207,10 @@ describe('AuditPage agent-run cinema', () => {
     expect(gateRow().getAttribute('data-stage')).toBe('pending');
     fireEvent.keyDown(region(), { key: 'ArrowRight' });
     expect(gateRow().getAttribute('data-stage')).toBe('testing');
-    expect(within(gateRow()).queryByText('ACCEPT')).not.toBeInTheDocument();
+    expect(within(gateRow()).queryByText('PASSED')).not.toBeInTheDocument();
     fireEvent.keyDown(region(), { key: 'ArrowRight' });
     expect(gateRow().getAttribute('data-stage')).toBe('resolved');
-    expect(within(gateRow()).getByText('ACCEPT')).toBeInTheDocument();
+    expect(within(gateRow()).getByText(/^PASSED/)).toBeInTheDocument();
   });
 });
 

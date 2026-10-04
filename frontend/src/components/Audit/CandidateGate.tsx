@@ -5,7 +5,7 @@ import { formatNumber } from '../../lib/format';
 import styles from './Audit.module.css';
 
 /** Gate numbers exactly as supplied by the artifact. */
-export function CandidateGate({ candidate }: { candidate: CandidateResult }) {
+export function CandidateGate({ candidate, selectedId = null }: { candidate: CandidateResult; selectedId?: string | null }) {
   const c = candidate;
   return (
     <div className={styles.gateWrap}>
@@ -37,7 +37,7 @@ export function CandidateGate({ candidate }: { candidate: CandidateResult }) {
             <td className={styles.num}>{formatNumber(c.bootstrap_se, 3)}</td>
             <td className={styles.num}>{formatNumber(c.required_delta, 3)}</td>
             <td>
-              <DecisionPill decision={c.decision} />
+              <DecisionPill decision={c.decision} selected={c.candidate_id === selectedId} selectedId={selectedId} />
             </td>
           </tr>
         </tbody>

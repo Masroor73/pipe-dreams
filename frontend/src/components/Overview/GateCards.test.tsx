@@ -35,8 +35,8 @@ describe('GateCards', () => {
     expect(await screen.findByText('Selected as V2')).toBeInTheDocument();
     const cards = document.querySelectorAll('[data-candidate]');
     expect(cards).toHaveLength(4);
-    expect(within(cards[1] as HTMLElement).getByText('ACCEPT')).toBeInTheDocument();
-    expect(within(cards[0] as HTMLElement).getByText('REJECT')).toBeInTheDocument();
+    expect(within(cards[1] as HTMLElement).getByText('PASSED · SELECTED AS V2')).toBeInTheDocument();
+    expect(within(cards[0] as HTMLElement).getByText('FAILED')).toBeInTheDocument();
     expect(screen.getByText(/wins ≥2 of 3 validation origins/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /full audit trail/ })).toHaveAttribute('href', '/audit');
   });
@@ -50,7 +50,7 @@ describe('GateCards', () => {
     renderCards();
     await screen.findByText('Selected as V2');
     const c3 = document.querySelector('[data-candidate="C3"]') as HTMLElement;
-    expect(within(c3).getByText('ACCEPT')).toBeInTheDocument();
-    expect(within(c3).queryByText('REJECT')).not.toBeInTheDocument();
+    expect(within(c3).getByText(/^PASSED/)).toBeInTheDocument();
+    expect(within(c3).queryByText('FAILED')).not.toBeInTheDocument();
   });
 });

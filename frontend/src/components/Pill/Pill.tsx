@@ -21,16 +21,34 @@ export function Pill({ tone = 'neutral', icon, children }: PillProps) {
   );
 }
 
-/** ACCEPT / REJECT. Colour mapping only. */
-export function DecisionPill({ decision }: { decision: CandidateDecision }) {
-  return decision === 'ACCEPT' ? (
-    <Pill tone="accept" icon={<CheckCircle size={16} weight="fill" aria-hidden="true" />}>
-      {decision}
-    </Pill>
-  ) : (
-    <Pill tone="reject" icon={<XCircle size={16} weight="fill" aria-hidden="true" />}>
-      {decision}
-    </Pill>
+/**
+ * ACCEPT -> "PASSED", REJECT -> "FAILED" (the raw API value stays in the title).
+ * `selected` marks the passing candidate adopted as V2; `selectedId` (the adopted candidate)
+ * adds a hint on other passing candidates.
+ */
+export function DecisionPill({
+  decision,
+  selected = false,
+  selectedId = null,
+}: {
+  decision: CandidateDecision;
+  selected?: boolean;
+  selectedId?: string | null;
+}) {
+  if (decision !== 'ACCEPT') {
+    return (
+      <Pill tone="reject" icon={<XCircle size={16} weight="fill" aria-hidden="true" />}>
+        <span title={decision}>FAILED</span>
+      </Pill>
+    );
+  }
+  return (
+    <span className={styles.decision}>
+      <Pill tone={selected ? 'accent' : 'accept'} icon={<CheckCircle size={16} weight="fill" aria-hidden="true" />}>
+        <span title={decision}>{selected ? 'PASSED · SELECTED AS V2' : 'PASSED'}</span>
+      </Pill>
+      {!selected && selectedId && <span className={styles.hint}>passed, but {selectedId} scored higher</span>}
+    </span>
   );
 }
 

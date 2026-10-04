@@ -108,7 +108,7 @@ describe('GateCards motion', () => {
     renderCards();
     expect(await screen.findByText('Selected as V2')).toBeInTheDocument();
     expect(document.querySelectorAll('[data-candidate]')).toHaveLength(4);
-    expect(screen.getAllByText(/^(ACCEPT|REJECT)$/).length).toBe(4);
+    expect(screen.getAllByText(/^(PASSED|FAILED)/).length).toBe(4);
   });
 
   it('plays a from-only sequence in card order with motion enabled, and Escape finishes it', async () => {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
-import { useAudit } from '../hooks';
+import { useAudit, useOverview } from '../hooks';
 import { Term } from '../components/Term/Term';
 import { AgentCinema } from '../components/Audit/AgentCinema';
 import { replayOrder } from '../components/Audit/replayFrames';
@@ -11,6 +11,8 @@ import styles from './AuditPage.module.css';
 
 export default function AuditPage() {
   const { status, data, error, reload } = useAudit();
+  const overview = useOverview();
+  const selectedId = overview.data && !overview.data.v2_equals_v1 ? overview.data.selected_policy_id : null;
   const events = useMemo(() => data?.events ?? [], [data]);
   const sorted = useMemo(() => replayOrder(events), [events]);
   const order = useMemo(() => sorted.map((e) => e.seq), [sorted]);
@@ -51,9 +53,9 @@ export default function AuditPage() {
         loadingLabel="Loading audit trail"
         minHeight={320}
       >
-        <AgentCinema sorted={sorted} cinema={cinema} />
+        <AgentCinema sorted={sorted} cinema={cinema} selectedId={selectedId} />
         <h2 className={styles.trailTitle}>Full audit trail</h2>
-        <AuditTimeline events={events} step={cinema.engaged ? cinema.step : null} replayOrder={order} />
+        <AuditTimeline events={events} step={cinema.engaged ? cinema.step : null} replayOrder={order} selectedId={selectedId} />
       </DataState>
     </div>
   );
