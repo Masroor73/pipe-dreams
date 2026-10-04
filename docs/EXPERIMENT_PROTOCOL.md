@@ -21,6 +21,34 @@ install_year < break_year
 
 ---
 
+## 1A. Time-safe model training
+
+For every evaluation cutoff `T`, the fitted pipe model uses one fully
+observed three-year lagged training snapshot:
+
+| Evaluation cutoff | Training cutoff | Training outcomes |
+| --- | --- | --- |
+| 2013 | 2010 | 2011–2013 |
+| 2016 | 2013 | 2014–2016 |
+| 2019 | 2016 | 2017–2019 |
+| 2022 final | 2019 | 2020–2022 |
+
+At evaluation cutoff `T`:
+
+1. build policy-specific features at `T - 3`;
+2. attach only the following three completed outcome years;
+3. fit the model;
+4. build policy-specific features at `T`;
+5. score assets eligible at `T`;
+6. evaluate only `T + 1` through `T + 3`.
+
+The same history-window and recency settings are used in both the
+training and scoring snapshots for a policy.
+
+No outcome after the evaluation cutoff may enter fitting.
+
+---
+
 ## 2. Rolling Validation
 
 | Cutoff | Outcomes |

@@ -38,6 +38,12 @@ candidate_revisions:
     recency_decay: "hl10"
     ranking_normalization: "per_asset"
 
+training:
+  lag_years: 3
+  horizon_years: 3
+  design: "single_lagged_snapshot"
+  rule: "train at T-3 on outcomes T-2 through T; score at T"
+
 validation:
   origins:
     - cutoff_year: 2013
