@@ -16,31 +16,69 @@ from app.services.artifact_service import (
     ArtifactsUnavailableError,
     AssetNotFoundError,
 )
+from app.services.community_artifact_service import (
+    CommunityArtifactService,
+    CommunityArtifactsUnavailableError,
+    CommunityCutoffNotFoundError,
+)
 
 logger = logging.getLogger(__name__)
 
 
 def _error(status: int, code: str, message: str) -> JSONResponse:
-    return JSONResponse(status_code=status, content={"error": {"code": code, "message": message}})
+    return JSONResponse(
+        status_code=status,
+        content={
+            "error": {
+                "code": code,
+                "message": message,
+            }
+        },
+    )
 
 
 def _summarize_validation(exc: RequestValidationError) -> str:
     parts = []
+
     for err in exc.errors():
-        loc = ".".join(str(p) for p in err.get("loc", ()) if p != "query")
-        parts.append(f"{loc}: {err.get('msg', 'invalid value')}")
+        loc = ".".join(
+            str(p)
+            for p in err.get("loc", ())
+            if p != "query"
+        )
+        parts.append(
+            f"{loc}: {err.get('msg', 'invalid value')}"
+        )
+
     return "; ".join(parts) or "Invalid query parameters."
 
 
 def create_app(artifact_dir: Path | None = None) -> FastAPI:
     settings = get_settings()
-    chosen = artifact_dir if artifact_dir is not None else settings.artifact_dir
-    service = ArtifactService(resolve_artifact_dir(chosen))
+    chosen = (
+        artifact_dir
+        if artifact_dir is not None
+        else settings.artifact_dir
+    )
+    resolved_artifact_dir = resolve_artifact_dir(chosen)
+
+    service = ArtifactService(resolved_artifact_dir)
     for message in service.errors:
         logger.error("artifact load error: %s", message)
 
+    community_service = CommunityArtifactService(
+        resolved_artifact_dir
+    )
+    for message in community_service.errors:
+        logger.warning(
+            "community artifact load error: %s",
+            message,
+        )
+
     app = FastAPI(title="Pipe Dreams API")
     app.state.artifacts = service
+    app.state.community_artifacts = community_service
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -49,22 +87,86 @@ def create_app(artifact_dir: Path | None = None) -> FastAPI:
     )
 
     @app.exception_handler(RequestValidationError)
-    async def _invalid_query(_: Request, exc: RequestValidationError):
-        return _error(422, "invalid_query", _summarize_validation(exc))
+    async def _invalid_query(
+        _: Request,
+        exc: RequestValidationError,
+    ):
+        return _error(
+            422,
+            "invalid_query",
+            _summarize_validation(exc),
+        )
 
     @app.exception_handler(ArtifactsUnavailableError)
-    async def _unavailable(_: Request, exc: ArtifactsUnavailableError):
-        return _error(503, "artifacts_unavailable", str(exc))
+    async def _unavailable(
+        _: Request,
+        exc: ArtifactsUnavailableError,
+    ):
+        return _error(
+            503,
+            "artifacts_unavailable",
+            str(exc),
+        )
+
+    @app.exception_handler(
+        CommunityArtifactsUnavailableError
+    )
+    async def _community_unavailable(
+        _: Request,
+        exc: CommunityArtifactsUnavailableError,
+    ):
+        return _error(
+            503,
+            "community_artifacts_unavailable",
+            str(exc),
+        )
+
+    @app.exception_handler(
+        CommunityCutoffNotFoundError
+    )
+    async def _community_cutoff_not_found(
+        _: Request,
+        exc: CommunityCutoffNotFoundError,
+    ):
+        return _error(
+            404,
+            "community_cutoff_not_found",
+            (
+                "No community artifacts are available for "
+                f"cutoff year {exc.cutoff_year}."
+            ),
+        )
 
     @app.exception_handler(AssetNotFoundError)
-    async def _asset_not_found(_: Request, exc: AssetNotFoundError):
-        return _error(404, "asset_not_found", f"No asset with id '{exc.asset_id}' in plan v2.")
+    async def _asset_not_found(
+        _: Request,
+        exc: AssetNotFoundError,
+    ):
+        return _error(
+            404,
+            "asset_not_found",
+            (
+                f"No asset with id '{exc.asset_id}' "
+                "in plan v2."
+            ),
+        )
 
     @app.exception_handler(StarletteHTTPException)
-    async def _http_error(_: Request, exc: StarletteHTTPException):
+    async def _http_error(
+        _: Request,
+        exc: StarletteHTTPException,
+    ):
         if exc.status_code == 404:
-            return _error(404, "not_found", "Resource not found.")
-        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+            return _error(
+                404,
+                "not_found",
+                "Resource not found.",
+            )
+
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"detail": exc.detail},
+        )
 
     app.include_router(api_router)
     return app
