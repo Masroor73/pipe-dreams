@@ -7,7 +7,7 @@ import { usePrefersReducedMotion } from '../../hooks/motion';
 import { useFlip } from '../../hooks/useFlip';
 import { useAssetLink } from '../../hooks/useAssetLink';
 import { api } from '../../lib/api';
-import { formatSigned } from '../../lib/format';
+import { GATE_EXPLAINER, formatPts } from '../../lib/format';
 import type { AssetListItem, AuditEvent } from '../../types/api';
 import { DecisionPill } from '../Pill/Pill';
 import { Term } from '../Term/Term';
@@ -159,7 +159,7 @@ function Transport({ sorted, frame, cinema }: { sorted: AuditEvent[]; frame: Fra
   );
 }
 
-function GateRow({ c }: { c: CandidateFrame }) {
+function GateRow({ c, selectedId }: { c: CandidateFrame; selectedId: string | null }) {
   const ref = useRef<HTMLLIElement>(null);
   const reduced = usePrefersReducedMotion();
   const prevStage = useRef(c.stage);
@@ -186,7 +186,7 @@ function GateRow({ c }: { c: CandidateFrame }) {
       <span className={styles.gateDesc}>{CANDIDATE_DESCRIPTIONS[c.id] ?? ''}</span>
       <span className={styles.gateState} data-stamp>
         {decision ? (
-          <DecisionPill decision={decision} />
+          <DecisionPill decision={decision} selected={c.id === selectedId} selectedId={selectedId} />
         ) : c.stage === 'testing' ? (
           <span className={styles.testing}>Testing</span>
         ) : (
@@ -197,7 +197,11 @@ function GateRow({ c }: { c: CandidateFrame }) {
         {c.stage === 'testing' && r && `On ${r.n_origins} validation origins…`}
         {c.stage === 'resolved' && r && (
           <>
-            {r.origin_wins}/{r.n_origins} won · gain {formatSigned(r.difference)} · needs {formatSigned(r.required_delta)}
+            <span
+              title={`origin wins ${r.origin_wins}/${r.n_origins}; difference ${r.difference}; required delta ${r.required_delta}`}
+            >
+              won {r.origin_wins}/{r.n_origins} years · {formatPts(r.difference)} vs V1 (pass bar {formatPts(r.required_delta)})
+            </span>
           </>
         )}
       </span>
@@ -312,6 +316,8 @@ function MiniMap({
 export interface AgentCinemaProps {
   sorted: AuditEvent[];
   cinema: Cinema;
+  /** Candidate adopted as V2 (overview.selected_policy_id), or null when V2 equals V1. */
+  selectedId?: string | null;
 }
 
 /**
@@ -319,7 +325,7 @@ export interface AgentCinemaProps {
  * the Top 25 reorders (V1 -> V2) and the mini-map lights the assets each step touched.
  * Every value comes from the API; this component only chooses what is on stage.
  */
-export function AgentCinema({ sorted, cinema }: AgentCinemaProps) {
+export function AgentCinema({ sorted, cinema, selectedId = null }: AgentCinemaProps) {
   const reduced = usePrefersReducedMotion();
   const openAsset = useAssetLink();
   const topN = AUDIT_CINEMA.topN;
@@ -426,9 +432,10 @@ export function AgentCinema({ sorted, cinema }: AgentCinemaProps) {
             <h2 className={styles.panelTitle}>
               <Term id="revision_gate">Revision gate</Term>
             </h2>
+            <p className={styles.gateExplainer}>{GATE_EXPLAINER}</p>
             <ol className={styles.gates}>
               {frame.candidates.map((c) => (
-                <GateRow key={c.id} c={c} />
+                <GateRow key={c.id} c={c} selectedId={selectedId} />
               ))}
             </ol>
           </div>

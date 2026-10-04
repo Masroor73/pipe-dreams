@@ -50,13 +50,15 @@ export interface AuditTimelineProps {
   step?: number | null;
   /** seq values in replay order. */
   replayOrder?: number[];
+  /** Candidate adopted as V2 (from the overview), or null. */
+  selectedId?: string | null;
 }
 
 const sameCandidate = (a?: AuditEvent, b?: AuditEvent) =>
   !!a?.candidate && !!b?.candidate && a.candidate.candidate_id === b.candidate.candidate_id;
 
 /** Events render in the order supplied. Bracketing / compact grouping is presentation only. */
-export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTimelineProps) {
+export function AuditTimeline({ events, step = null, replayOrder = [], selectedId = null }: AuditTimelineProps) {
   const replaying = step !== null;
   const activeSeq = replaying ? replayOrder[step] : undefined;
   const rankOf = new Map(replayOrder.map((seq, i) => [seq, i]));
@@ -114,7 +116,7 @@ export function AuditTimeline({ events, step = null, replayOrder = [] }: AuditTi
               </div>
               <p className={styles.summary}>{isFuture ? 'Not reached yet in this replay.' : e.summary}</p>
               {/* The full gate table appears once per candidate, on its ACCEPT/REJECT event. */}
-              {!isFuture && e.candidate && !joinsNext && <CandidateGate candidate={e.candidate} />}
+              {!isFuture && e.candidate && !joinsNext && <CandidateGate candidate={e.candidate} selectedId={selectedId} />}
               {!isFuture && detailEntries.length > 0 && (
                 <details className={styles.details}>
                   <summary>Details</summary>

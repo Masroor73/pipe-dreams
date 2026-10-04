@@ -9,7 +9,7 @@ import { Section } from '../Section/Section';
 import { CANDIDATE_DESCRIPTIONS, CANDIDATE_IDS } from '../../config/display';
 import { useAudit } from '../../hooks';
 import type { Resource } from '../../hooks';
-import { formatSigned } from '../../lib/format';
+import { GATE_EXPLAINER, formatPts } from '../../lib/format';
 import type { Audit, CandidateResult, Overview, PolicyId } from '../../types/api';
 import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
 import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
@@ -36,7 +36,17 @@ function describe(text: string, withTerm: boolean): ReactNode {
   );
 }
 
-function CandidateCard({ c, selected, termHl10 }: { c: CandidateResult; selected: boolean; termHl10: boolean }) {
+function CandidateCard({
+  c,
+  selected,
+  selectedId,
+  termHl10,
+}: {
+  c: CandidateResult;
+  selected: boolean;
+  selectedId: string | null;
+  termHl10: boolean;
+}) {
   // Visual scaling of the two given numbers only.
   const scale = Math.max(Math.abs(c.difference), Math.abs(c.required_delta), 1e-9);
   const gainPct = (Math.max(c.difference, 0) / scale) * 100;
@@ -54,7 +64,7 @@ function CandidateCard({ c, selected, termHl10 }: { c: CandidateResult; selected
               testing…
             </span>
             <span className={styles.stamp} data-anim="stamp">
-              <DecisionPill decision={c.decision} />
+              <DecisionPill decision={c.decision} selected={selected} selectedId={selectedId} />
             </span>
           </span>
         </header>
@@ -87,8 +97,10 @@ function CandidateCard({ c, selected, termHl10 }: { c: CandidateResult; selected
 
       <div className={styles.gain}>
         <div className={styles.gainRow}>
-          <span className={styles.label}>Pooled gain</span>
-          <strong className={negative ? styles.neg : undefined}>{formatSigned(c.difference)}</strong>
+          <span className={styles.label}>Improvement vs V1</span>
+          <strong className={negative ? styles.neg : undefined} title={`difference ${c.difference}`}>
+            {formatPts(c.difference)}
+          </strong>
         </div>
         <div className={styles.track} aria-hidden="true">
           <span
@@ -98,8 +110,8 @@ function CandidateCard({ c, selected, termHl10 }: { c: CandidateResult; selected
           />
         </div>
         <div className={styles.gainRow}>
-          <span className={styles.label}>Required</span>
-          <strong>{formatSigned(c.required_delta)}</strong>
+          <span className={styles.label}>Pass bar</span>
+          <strong title={`required delta ${c.required_delta}`}>{formatPts(c.required_delta)}</strong>
         </div>
         <div className={styles.track} aria-hidden="true">
           <span className={`${styles.bar} ${styles.barReq}`} style={{ width: `${reqPct}%` }} />
@@ -214,13 +226,14 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
       description={
         gate ? (
           <>
-            Accept only if a candidate wins ≥{gate.min_origin_wins} of {gate.n_origins} validation origins and improves
+            A candidate passes only if it wins ≥{gate.min_origin_wins} of {gate.n_origins} validation origins and improves
             the pooled score by ≥{gate.min_improvement_in_se} <Term id="bootstrap_se">bootstrap SE</Term>.
           </>
         ) : undefined
       }
     >
       <div ref={wrapRef} onClickCapture={skip}>
+      <p className={styles.explainer}>{GATE_EXPLAINER}</p>
       <DataState
         status={status}
         errorMessage={audit.error?.message ?? overview.error?.message}
@@ -239,6 +252,7 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
               key={c.candidate_id}
               c={c}
               selected={c.candidate_id === selectedId}
+              selectedId={selectedId}
               termHl10={c.candidate_id === firstHl10Id}
             />
           ))}
