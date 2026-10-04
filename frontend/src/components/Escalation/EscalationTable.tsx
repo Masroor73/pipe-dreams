@@ -13,6 +13,7 @@ interface Column {
   key: SortKey;
   label: string;
   numeric?: boolean;
+  className?: 'lastReviewed';
 }
 
 const COLUMNS: Column[] = [
@@ -20,13 +21,37 @@ const COLUMNS: Column[] = [
   { key: 'asset_id', label: 'Asset' },
   { key: 'consequence_tier', label: 'Consequence tier' },
   { key: 'evidence_confidence', label: 'Evidence confidence' },
-  { key: 'escalation_reason', label: 'Escalation reason' },
-  { key: 'owner', label: 'Owner' },
-  { key: 'required_action', label: 'Required action' },
   { key: 'response_deadline', label: 'Response deadline' },
   { key: 'status', label: 'Status' },
-  { key: 'last_reviewed', label: 'Last reviewed' },
+  { key: 'last_reviewed', label: 'Last reviewed', className: 'lastReviewed' },
 ];
+
+interface Group {
+  id: string;
+  reason: string;
+  owner: string;
+  action: string;
+  rows: Escalation[];
+}
+
+/** Presentation only: group API rows by string equality, in order of each group's first row. */
+function groupRows(items: Escalation[]): Group[] {
+  const map = new Map<string, Group>();
+  for (const r of items) {
+    const key = JSON.stringify([r.escalation_reason, r.owner, r.required_action]);
+    const g = map.get(key);
+    if (g) g.rows.push(r);
+    else
+      map.set(key, {
+        id: `esc-group-${map.size}`,
+        reason: r.escalation_reason,
+        owner: r.owner,
+        action: r.required_action,
+        rows: [r],
+      });
+  }
+  return [...map.values()];
+}
 
 const DATE_KEYS: SortKey[] = ['response_deadline', 'last_reviewed'];
 
@@ -51,11 +76,17 @@ function StatusPill({ status }: { status: string }) {
 
 export function EscalationTable({ items }: { items: Escalation[] }) {
   const openAsset = useAssetLink();
-  const [sort, setSort] = useState<{ key: SortKey; dir: Dir }>({ key: 'priority_rank', dir: 'asc' });
+  const [sort, setSort] = useState<{ key: SortKey; dir: Dir }>({
+    key: 'priority_rank',
+    dir: 'asc',
+  });
 
-  const rows = useMemo(() => {
+  const groups = useMemo(() => {
     const sign = sort.dir === 'asc' ? 1 : -1;
-    return [...items].sort((a, b) => sign * compare(a, b, sort.key));
+    return groupRows(items).map((g) => ({
+      ...g,
+      rows: [...g.rows].sort((a, b) => sign * compare(a, b, sort.key)),
+    }));
   }, [items, sort]);
 
   const toggle = (key: SortKey) =>
@@ -71,7 +102,15 @@ export function EscalationTable({ items }: { items: Escalation[] }) {
               const ariaSort = active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none';
               const Icon = !active ? CaretUpDown : sort.dir === 'asc' ? CaretUp : CaretDown;
               return (
-                <th key={c.key} scope="col" aria-sort={ariaSort} className={c.numeric ? styles.numCol : undefined}>
+                <th
+                  key={c.key}
+                  scope="col"
+                  aria-sort={ariaSort}
+                  className={
+                    [c.numeric && styles.numCol, c.className && styles[c.className]].filter(Boolean).join(' ') ||
+                    undefined
+                  }
+                >
                   <button type="button" className={styles.sortBtn} onClick={() => toggle(c.key)}>
                     {c.label}
                     <Icon size={16} weight={active ? 'bold' : 'regular'} aria-hidden="true" />
@@ -81,35 +120,52 @@ export function EscalationTable({ items }: { items: Escalation[] }) {
             })}
           </tr>
         </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={`${r.asset_id}-${r.priority_rank}`}>
-              <td className={styles.numCol}>{r.priority_rank}</td>
-              <td className={styles.nowrap}>
-                <button
-                  type="button"
-                  className={styles.assetBtn}
-                  onClick={() => openAsset(r.asset_id)}
-                  aria-label={`Open asset ${r.asset_id}`}
-                >
-                  {r.asset_id}
-                </button>
-              </td>
-              <td className={styles.nowrap}>{r.consequence_tier}</td>
-              <td className={styles.nowrap}>
-                <ConfidencePill confidence={r.evidence_confidence} />
-              </td>
-              <td className={styles.wide}>{r.escalation_reason}</td>
-              <td className={styles.owner}>{r.owner}</td>
-              <td className={styles.wide}>{r.required_action}</td>
-              <td className={styles.date}>{formatDate(r.response_deadline)}</td>
-              <td className={styles.nowrap}>
-                <StatusPill status={r.status} />
-              </td>
-              <td className={styles.date}>{formatDate(r.last_reviewed)}</td>
+        {groups.map((g) => (
+          <tbody key={g.id} className={styles.group}>
+            <tr className={styles.groupRow}>
+              <th scope="rowgroup" colSpan={COLUMNS.length} id={g.id} className={styles.groupHead}>
+                <div className={styles.groupInner}>
+                  <span className={styles.groupReason}>{g.reason}</span>
+                  <span className={styles.groupMeta}>
+                    <span>
+                      <span className={styles.metaLabel}>Owner</span> {g.owner}
+                    </span>
+                    <span>
+                      <span className={styles.metaLabel}>Action</span> {g.action}
+                    </span>
+                  </span>
+                  <span className={styles.groupCount}>
+                    {g.rows.length} {g.rows.length === 1 ? 'asset' : 'assets'}
+                  </span>
+                </div>
+              </th>
             </tr>
-          ))}
-        </tbody>
+            {g.rows.map((r) => (
+              <tr key={`${r.asset_id}-${r.priority_rank}`}>
+                <td className={styles.numCol}>{r.priority_rank}</td>
+                <td className={styles.nowrap}>
+                  <button
+                    type="button"
+                    className={styles.assetBtn}
+                    onClick={() => openAsset(r.asset_id)}
+                    aria-label={`Open asset ${r.asset_id}`}
+                  >
+                    {r.asset_id}
+                  </button>
+                </td>
+                <td className={styles.nowrap}>{r.consequence_tier}</td>
+                <td className={styles.nowrap}>
+                  <ConfidencePill confidence={r.evidence_confidence} />
+                </td>
+                <td className={styles.date}>{formatDate(r.response_deadline)}</td>
+                <td className={styles.nowrap}>
+                  <StatusPill status={r.status} />
+                </td>
+                <td className={`${styles.date} ${styles.lastReviewed}`}>{formatDate(r.last_reviewed)}</td>
+              </tr>
+            ))}
+          </tbody>
+        ))}
       </table>
     </div>
   );
