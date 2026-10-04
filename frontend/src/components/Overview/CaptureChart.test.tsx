@@ -46,6 +46,25 @@ describe('CaptureChart', () => {
     expect(svgText).toContain('5% budget (headline)');
     expect(container.querySelector('ul[aria-label="Series"]')).toBeNull();
   });
+
+  it('accepts numeric validation cutoff years from real artifacts', () => {
+    const data = overviewFixture.data as unknown as Overview;
+    const numeric: Resource<Overview> = {
+      ...overview,
+      data: {
+        ...data,
+        series: data.series.map((r) =>
+          r.origin_cutoff ? { ...r, origin_cutoff: Number(String(r.origin_cutoff).slice(0, 4)) } : r,
+        ),
+      },
+    };
+    const { getByText } = render(
+      <MemoryRouter>
+        <CaptureChart overview={numeric} />
+      </MemoryRouter>,
+    );
+    expect(getByText('Validation · origin 2013')).toBeTruthy();
+  });
 });
 
 describe('nudgeLabels', () => {

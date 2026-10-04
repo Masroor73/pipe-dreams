@@ -60,7 +60,8 @@ export interface RevisionGate {
 
 export interface SeriesRow {
   split: Split;
-  origin_cutoff: string | null;
+  // Real artifacts serve the cutoff year as a number; fixtures use a date string.
+  origin_cutoff: string | number | null;
   policy_id: PolicyId | BaselineId;
   policy_type: 'policy' | 'baseline';
   budget_pct: number;
