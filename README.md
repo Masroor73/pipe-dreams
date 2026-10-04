@@ -1,20 +1,52 @@
 # Pipe Dreams
 
-**Autonomous water-main inspection planning and audit agent**
+**Which communities should we protect first, and which pipes within them should we inspect?**
 
-Pipe Dreams helps municipal water-utility teams decide which water-main assets deserve attention first when inspection capacity is limited and the available evidence is incomplete.
+Pipe Dreams is an autonomous water-main inspection planning and audit agent. It helps municipal water-utility teams decide where to focus limited inspection capacity when the available evidence is incomplete: first at community level, then pipe by pipe within those communities.
 
 It does not claim to predict every failure or automatically authorize repair. It:
 
 1. associates historical break events with physical pipe assets;
 2. generates an initial inspection-priority plan (**Plan V1**);
 3. evaluates that plan against historical outcomes;
-4. tests a bounded set of predeclared candidate revisions;
+4. tests a bounded set of predeclared candidate revisions (C1 to C4);
 5. accepts only revisions that pass a frozen validation gate;
-6. produces **Plan V2** — or retains V1 if no candidate earns adoption;
+6. produces **Plan V2** (candidate C3 was selected) or retains V1 if no candidate earns adoption;
 7. exposes weak evidence, unresolved risk, and escalation needs for human review.
 
 > **Differentiator:** Other tools rank pipes; Pipe Dreams audits its own ranking against history and shows which recommendations it cannot responsibly resolve from the available evidence.
+
+![Pipe Dreams architecture](./docs/diagrams/architecture-simple.svg)
+
+- Run the demo: [`docs/DEMO_RUNBOOK.md`](./docs/DEMO_RUNBOOK.md)
+- Architecture diagram: [`docs/diagrams/architecture-simple.svg`](./docs/diagrams/architecture-simple.svg)
+
+---
+
+## Results
+
+All figures are pooled capture of historical breaks, measured under the frozen protocol in [`docs/EXPERIMENT_PROTOCOL.md`](./docs/EXPERIMENT_PROTOCOL.md).
+
+**Validation (rolling origins 2013, 2016, 2019; pooled):**
+
+| Plan / candidate | Pooled capture (%) | Gate outcome |
+|---|---|---|
+| V1 | 17.46 | baseline |
+| Count-only baseline | 18.25 | baseline |
+| C1 | 17.23 | reject |
+| C2 | 18.64 | pass |
+| **C3** | **24.18** | **pass, selected** |
+| C4 | 17.37 | reject |
+
+**Final test (cutoff 2022, unseen outcomes 2023 to 2025, run once, no post-result tuning):**
+
+| Plan | Capture (%) |
+|---|---|
+| **V2 (C3)** | **24.31** |
+| V1 | 18.25 |
+| Count-only baseline | 19.99 |
+
+V2 improves on V1 by +33.24% (relative) on the unseen 2023 to 2025 period. These numbers are reported for audit and demo only and are not used for further tuning. See the Claims Policy below for what may and may not be claimed.
 
 ---
 
