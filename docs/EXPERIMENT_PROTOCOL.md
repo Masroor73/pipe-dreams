@@ -258,7 +258,8 @@ V1/C1-C4 experiment.
 ### Purpose
 
 Determine whether historical community infrastructure burden is useful
-for identifying geographic areas with future water-main breaks.
+for concentrating future water-main break events within a constrained
+share of the eligible pipe network.
 
 This is an infrastructure-planning indicator, not a calibrated
 community failure probability or a measure of actual service disruption.
@@ -273,40 +274,77 @@ Reuse the existing rolling validation periods:
 | 2016 | 2017-2019 |
 | 2019 | 2020-2022 |
 
+Evaluate each origin at fixed requested network-length budgets of:
+
+- 5%
+- 10%
+- 20%
+
 At each cutoff:
 
-1. Use only breaks recorded on or before the cutoff.
+1. Use only breaks recorded on or before the cutoff when constructing
+   the historical community burden ranking.
 2. Exclude pipes installed after the cutoff from the eligible
    historical pipe-length denominator.
 3. Calculate historical breaks per kilometre for each community.
-4. Rank communities by that historical infrastructure-burden metric.
-5. Evaluate how many future break events occur within the
-   highest-ranked communities.
+4. Rank communities by historical breaks per kilometre, breaking ties
+   deterministically by historical break count and community ID.
+5. Select whole communities in rank order until the requested fraction
+   of eligible pipe-network length is reached.
+6. Record the realized network share because whole-community selection
+   can overshoot the requested budget.
+7. Count future break events independently in the corresponding
+   evaluation period.
+8. Measure event capture among uniquely assigned future events occurring
+   in communities that had eligible network at the historical cutoff.
+9. Report future events outside the eligible historical network,
+   geographic assignment coverage, unassigned events, and ambiguous
+   events separately.
+10. Calculate lift versus proportional network coverage as:
 
-Report geographic coverage, unmatched events, and the fraction
-of eligible pipe length represented.
+   `event_capture / actual_network_share`
+
+The principal validation question is:
+
+> At a given share of historically eligible pipe-network length, how
+> much subsequent break activity is captured by the historical
+> community-burden ranking?
+
+### Interpretation
+
+A lift greater than 1.0 means the prioritized communities contain a
+larger share of subsequent break events than their share of eligible
+pipe-network length.
+
+This metric is event-capture lift. It must not be described as model
+accuracy, failure probability, or a guarantee of future failures.
+
+Requested network budgets and realized network shares must not be
+treated as identical when whole-community selection causes overshoot.
 
 ### Important Limitations
 
-- Present-day water-main geometry is not a complete historical
-  network reconstruction.
+- Present-day water-main geometry is not a complete historical network
+  reconstruction.
 - Community boundaries may have changed over time.
+- Historical break counts currently include all uniquely assigned
+  recorded events through the cutoff rather than a reconstructed
+  pipe-year exposure measure.
 - Geographic proximity does not establish hydraulic connectivity.
-- Community population and current equity information are
-  contextual dimensions, not historical predictive features.
+- Community population and current equity information are contextual
+  dimensions, not historical predictive features.
 - A high historical break rate does not establish that residents
   experienced greater service disruption.
-- Communities with very little eligible pipe length require
-  explicit small-denominator warnings.
+- Communities with very little eligible pipe length require explicit
+  small-denominator warnings.
 
 ### Evaluation Separation
 
-The community evaluation is descriptive and exploratory.
-It does not participate in the autonomous V1-to-V2 revision gate.
+The community evaluation is descriptive and historical. It does not
+participate in the autonomous V1-to-V2 revision gate.
 
-The original four pipe-level challenger policies, validation
-origins, inspection budgets, and acceptance thresholds remain
-unchanged.
+The original four pipe-level challenger policies, validation origins,
+inspection budgets, and acceptance thresholds remain unchanged.
 
-Community analysis must not be adjusted using the previously
-viewed final 2023-2025 outcomes.
+Community analysis must not be adjusted using the previously viewed
+final 2023-2025 outcomes.

@@ -14,6 +14,13 @@ from app.schemas.assets import (
 )
 from app.schemas.audit import AuditData, AuditEvent, Candidate
 from app.schemas.common import Envelope, ErrorDetail, ErrorResponse, Meta
+from app.schemas.communities import (
+    CommunitiesData,
+    CommunityFeature,
+    CommunityFeatureCollection,
+    CommunityFeatureProperties,
+    CommunityItem,
+)
 from app.schemas.governance import (
     DataQualityData,
     EscalationItem,
@@ -32,6 +39,11 @@ __all__ = [
     "AuditData",
     "AuditEvent",
     "Candidate",
+    "CommunitiesData",
+    "CommunityFeature",
+    "CommunityFeatureCollection",
+    "CommunityFeatureProperties",
+    "CommunityItem",
     "DataQualityData",
     "Envelope",
     "ErrorDetail",

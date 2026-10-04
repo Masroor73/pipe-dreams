@@ -483,25 +483,28 @@ The values above are synthetic contract examples, not measured Calgary
 results.
 
 Field rules:
-- `historical_break_count` includes only eligible historical events
-  through the specified cutoff.
-- `pipe_length_km` is based on the length of water-main geometry
-  intersecting each community polygon, not entire pipes assigned
-  by centroid.
-- `historical_breaks_per_km` equals historical break count divided
-  by eligible pipe length in kilometres.
-- The metric is null when the denominator is zero or unavailable.
-- `population` and `equity_index` are optional contextual values.
-  They remain null until the relevant source and geographic alignment
-  have been verified.
+- `historical_break_count` contains break events uniquely assigned to
+  the community and recorded on or before the specified cutoff.
+- `pipe_length_km` is the length of cutoff-eligible water-main geometry
+  intersecting the community polygon, not the length of whole pipes
+  assigned by centroid.
+- Pipes installed after the cutoff are excluded from the historical
+  pipe-length denominator.
+- `historical_breaks_per_km` equals historical break count divided by
+  eligible pipe length in kilometres.
+- The metric is null when eligible pipe length is zero.
+- `population` and `equity_index` are optional contextual values. They
+  remain null until the relevant source and geographic alignment have
+  been verified.
 - `equity_geography_status` is one of:
   `NOT_ASSESSED`, `DIRECT`, `AREA_WEIGHTED`, `UNAVAILABLE`.
-- `data_quality_flags` contains explicit limitations such as
-  `LOW_PIPE_COVERAGE`, `SMALL_DENOMINATOR`, or
-  `BOUNDARY_ASSIGNMENT_UNCERTAIN` when applicable.
-- Historical burden is not a calibrated failure probability.
-- Current equity context must not be used as a historical
-  prediction feature.
+- `data_quality_flags` is an array of explicit community-level data
+  limitations. The current engine may emit:
+  `ZERO_ELIGIBLE_PIPE_LENGTH` and `SMALL_DENOMINATOR`.
+- Historical burden is an infrastructure-planning indicator, not a
+  calibrated failure probability.
+- Current population or equity context must not enter historical
+  predictive evaluation.
 
 ### GET /api/communities/geojson
 
