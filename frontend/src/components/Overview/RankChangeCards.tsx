@@ -77,7 +77,7 @@ export function RankChangeCards() {
   return (
     <Section
       id="rank-changes"
-      eyebrow="What changed"
+      variant="supporting"
       title="How V2 moved the ranking"
       description="Assets whose priority rank changed most between V1 and V2. Select one to see why."
     >

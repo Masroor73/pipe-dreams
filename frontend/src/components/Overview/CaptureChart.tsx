@@ -1,15 +1,28 @@
 import { useMemo, useState } from 'react';
-import { CartesianGrid, ErrorBar, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, ErrorBar, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DataState } from '../DataState/DataState';
 import { Section } from '../Section/Section';
+import { Term } from '../Term/Term';
 import {
   CHART_FONT_PX,
   CHART_HEIGHT,
+  CHART_LABEL_LINE_PX,
+  CHART_MARGIN_NARROW,
+  CHART_MARGIN_WIDE,
+  CHART_NARROW_PX,
+  CHART_XAXIS_HEIGHT,
   COUNT_ONLY_LABEL,
+  COUNT_ONLY_LINE_LABEL,
+  HEADLINE_BUDGET_LABEL,
+  HEADLINE_BUDGET_PCT,
   ORGANIZER_LABEL,
+  ORGANIZER_LINE_LABEL,
+  SERIES_LABEL_COLOR,
   SERIES_STYLE,
+  WHISKER_SERIES,
   type ChartSeriesKey,
 } from '../../config/display';
+import { nudgeLabels, type LabelSlot } from './chartLabels';
 import { prefersReducedMotion, useInViewOnce } from '../../hooks/motion';
 import { EASE_OUT_CSS, MOTION } from '../../hooks/overviewMotion';
 import { formatPct } from '../../lib/format';
@@ -92,6 +105,49 @@ function ChartTooltip({
   );
 }
 
+/** Direct label at the right end of a line; sits in the chart's right margin. */
+function LineEndLabel({
+  x,
+  y,
+  index,
+  lastIndex,
+  lineKey,
+  dy,
+  narrow,
+  text,
+}: {
+  text: string;
+  x: number;
+  y: number;
+  index: number;
+  lastIndex: number;
+  lineKey: ChartSeriesKey;
+  dy: number;
+  narrow: boolean;
+}) {
+  if (index !== lastIndex || !Number.isFinite(x) || !Number.isFinite(y)) return null;
+  const fill = SERIES_LABEL_COLOR[lineKey];
+  const weight = lineKey === 'v2' ? 700 : 600;
+  const common = { x: x + 10, y: y + dy, fill, fontSize: CHART_FONT_PX, fontWeight: weight, dominantBaseline: 'central' as const };
+  if (lineKey === 'organizer_cell' && narrow) {
+    return (
+      <text {...common} y={y + dy - CHART_LABEL_LINE_PX / 2}>
+        <tspan x={x + 10}>Organizer cell</tspan>
+        <tspan x={x + 10} dy={CHART_LABEL_LINE_PX}>
+          (event capture)
+        </tspan>
+      </text>
+    );
+  }
+  const shown =
+    lineKey === 'organizer_cell'
+      ? ORGANIZER_LINE_LABEL
+      : lineKey === 'count_only'
+        ? COUNT_ONLY_LINE_LABEL
+        : text;
+  return <text {...common}>{shown}</text>;
+}
+
 export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
   const data = overview.data;
   const options = useMemo(() => (data ? buildOptions(data.series) : []), [data]);
@@ -100,6 +156,7 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
   // Draw-in plays on first view and on split switch; disabled for reduced motion (lines render complete).
   const animate = !prefersReducedMotion();
   const [switched, setSwitched] = useState(false);
+  const [narrow, setNarrow] = useState(false);
   const drawMs = switched ? MOTION.chart.switchDrawMs : MOTION.chart.firstDrawMs;
   const active = options.find((o) => o.key === chosen) ?? options[0];
 
@@ -154,10 +211,33 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
     return Math.max(0.1, Math.ceil(max * 10 - 1e-9) / 10);
   }, [points, visibleLines]);
 
+  // Direct labels: last non-null point per line, nudged apart in pixel space (deterministic).
+  const headlineBudget = `${HEADLINE_BUDGET_PCT}%`;
+  const margin = narrow ? CHART_MARGIN_NARROW : CHART_MARGIN_WIDE;
+  const { lastIndex, nudges } = useMemo(() => {
+    const plotH = CHART_HEIGHT - margin.top - margin.bottom - CHART_XAXIS_HEIGHT;
+    const last: Record<string, number> = {};
+    const slots: LabelSlot[] = [];
+    for (const l of visibleLines) {
+      let idx = -1;
+      points.forEach((p, i) => {
+        if (p[l.key] !== null && p[l.key] !== undefined) idx = i;
+      });
+      last[l.key] = idx;
+      const v = idx >= 0 ? (points[idx]![l.key] as number) : 0;
+      slots.push({
+        key: l.key,
+        y: (1 - v / yMax) * plotH,
+        height: (narrow && l.key === 'organizer_cell' ? 2 : 1) * CHART_LABEL_LINE_PX,
+      });
+    }
+    return { lastIndex: last, nudges: nudgeLabels(slots, plotH) };
+  }, [visibleLines, points, yMax, narrow, margin.top, margin.bottom]);
+
   return (
     <Section
       id="capture"
-      eyebrow="Evidence"
+      variant="supporting"
       title="Capture by length budget"
       description="Share of future breaking assets found when inspecting only the first slice of the ranked network."
     >
@@ -190,48 +270,48 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
             </div>
           </div>
 
-          <ul className={styles.legend} aria-label="Series">
-            {visibleLines.map((l) => (
-              <li key={l.key}>
-                <svg width="28" height="10" aria-hidden="true">
-                  <line
-                    x1="0"
-                    y1="5"
-                    x2="28"
-                    y2="5"
-                    stroke={SERIES_STYLE[l.key].color}
-                    strokeWidth={SERIES_STYLE[l.key].width}
-                    strokeDasharray={SERIES_STYLE[l.key].dash}
-                  />
-                </svg>
-                {l.label}
-              </li>
-            ))}
-          </ul>
-
-          <div ref={plotRef} className={styles.plot} role="img" aria-label="Line chart of capture by length budget">
-            <ResponsiveContainer width="100%" height={CHART_HEIGHT} initialDimension={{ width: 900, height: CHART_HEIGHT }}>
-              <LineChart data={points} margin={{ top: 16, right: 24, bottom: 8, left: 8 }}>
-                <CartesianGrid stroke="#d9e0e8" vertical={false} />
+          <div
+            ref={plotRef}
+            className={styles.plot}
+            role="img"
+            aria-label={`Line chart of capture by length budget. Series: ${visibleLines.map((l) => l.label).join('; ')}.`}
+          >
+            <ResponsiveContainer
+              width="100%"
+              height={CHART_HEIGHT}
+              initialDimension={{ width: 900, height: CHART_HEIGHT }}
+              onResize={(w) => setNarrow(w < CHART_NARROW_PX)}
+            >
+              <LineChart data={points} margin={{ ...margin }}>
+                <CartesianGrid stroke="#e4e9ef" strokeOpacity={0.9} vertical={false} />
                 <XAxis
                   dataKey="budget"
                   tick={{ fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
                   tickLine={false}
-                  axisLine={{ stroke: '#b6c2cf' }}
+                  axisLine={{ stroke: '#d9e0e8' }}
                   label={{ value: 'Length budget', position: 'insideBottom', offset: -4, fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
-                  height={48}
+                  height={CHART_XAXIS_HEIGHT}
                 />
                 <YAxis
                   tickFormatter={(v: number) => formatPct(v, 0)}
                   tick={{ fontSize: CHART_FONT_PX, fill: '#4a5b6d' }}
                   tickLine={false}
                   axisLine={false}
-                  width={56}
+                  width={narrow ? 44 : 56}
                   domain={[0, yMax]}
                   tickCount={Math.round(yMax * 10) + 1}
                   allowDecimals
                 />
-                <Tooltip content={<ChartTooltip lines={visibleLines} />} cursor={{ stroke: '#b6c2cf' }} />
+                <Tooltip content={<ChartTooltip lines={visibleLines} />} cursor={{ stroke: '#d9e0e8' }} />
+                {points.some((p) => p.budget === headlineBudget) && (
+                  <ReferenceLine
+                    x={headlineBudget}
+                    stroke="#a9d2e5"
+                    strokeWidth={1.5}
+                    ifOverflow="visible"
+                    label={{ value: HEADLINE_BUDGET_LABEL, position: 'top', fontSize: CHART_FONT_PX, fontWeight: 600, fill: '#095a7e' }}
+                  />
+                )}
                 {[...visibleLines].reverse().map((l, i) => (
                   <Line
                     // Re-keyed per split (and once when first in view) so the draw-in replays; old lines unmount instantly.
@@ -246,16 +326,36 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
                     stroke={SERIES_STYLE[l.key].color}
                     strokeWidth={SERIES_STYLE[l.key].width}
                     strokeDasharray={SERIES_STYLE[l.key].dash}
-                    dot={{ r: 4, strokeWidth: 0, fill: SERIES_STYLE[l.key].color }}
-                    activeDot={{ r: 6 }}
+                    dot={{ r: 3, strokeWidth: 0, fill: SERIES_STYLE[l.key].color }}
+                    activeDot={{ r: 5 }}
                     connectNulls={false}
+                    label={(p: { x?: number | string; y?: number | string; index?: number }) => (
+                      <LineEndLabel
+                        key={`${l.key}:${p.index}`}
+                        x={Number(p.x)}
+                        y={Number(p.y)}
+                        index={p.index ?? -1}
+                        lastIndex={lastIndex[l.key] ?? -1}
+                        lineKey={l.key}
+                        dy={nudges[l.key] ?? 0}
+                        narrow={narrow}
+                        text={l.label}
+                      />
+                    )}
                   >
-                    <ErrorBar
-                      isAnimationActive={animate}
-                      animationBegin={i * MOTION.chart.seriesStaggerMs + drawMs}
-                      animationDuration={MOTION.chart.whiskerFadeMs}
-                      animationEasing={EASE_OUT_CSS}
-                      dataKey={`${l.key}_err`} width={6} strokeWidth={2} stroke={SERIES_STYLE[l.key].color} opacity={0.85} />
+                    {WHISKER_SERIES.includes(l.key) && (
+                      <ErrorBar
+                        isAnimationActive={animate}
+                        animationBegin={i * MOTION.chart.seriesStaggerMs + drawMs}
+                        animationDuration={MOTION.chart.whiskerFadeMs}
+                        animationEasing={EASE_OUT_CSS}
+                        dataKey={`${l.key}_err`}
+                        width={4}
+                        strokeWidth={1}
+                        stroke={SERIES_STYLE[l.key].color}
+                        opacity={0.5}
+                      />
+                    )}
                   </Line>
                 ))}
               </LineChart>
@@ -263,8 +363,10 @@ export function CaptureChart({ overview }: { overview: Resource<Overview> }) {
           </div>
 
           <p className={styles.note}>
-            Asset capture = share of future breaking assets inside the inspected length budget. Whiskers show the
-            confidence interval. The organizer baseline is cell-based, so it is plotted as event capture.
+            <Term id="capture">Asset capture</Term> = share of future breaking assets inside the inspected{' '}
+            <Term id="length_budget">length budget</Term>. Whiskers (V2 and count-only) show the confidence interval. The{' '}
+            <Term id="organizer_cell">organizer cell baseline</Term> is cell-based, so it is plotted as event capture
+            (dotted line).
           </p>
         </div>
       </DataState>

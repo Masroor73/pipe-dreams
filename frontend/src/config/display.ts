@@ -72,8 +72,30 @@ export const AUDIT_CINEMA = {
   manualMoveMs: 240,
   moveStaggerMs: 14,
   enterMs: 260,
+  /** Reduced motion: changed rows and the step caption cross-fade instead of moving. */
+  reducedFadeMs: 120,
   /** Map "touched" ring. */
   pulseMs: 700,
   /** Gate row resolve stamp. */
   stampMs: 180,
 } as const;
+
+/** Capture chart: direct line labels, headline-budget marker, and whisker styling (presentation only). */
+export const HEADLINE_BUDGET_LABEL = `${HEADLINE_BUDGET_PCT}% budget (headline)`;
+export const ORGANIZER_LINE_LABEL = 'Organizer cell (event capture)';
+export const COUNT_ONLY_LINE_LABEL = 'Count-only';
+/** Text colour for the direct labels (the grey line colours fail 4.5:1 as text). */
+export const SERIES_LABEL_COLOR: Record<ChartSeriesKey, string> = {
+  v2: '#0b6e99',
+  v1: '#14202e',
+  count_only: '#4a5b6d',
+  organizer_cell: '#4a5b6d',
+};
+/** Series that also draw confidence whiskers; the others stay as clean lines. */
+export const WHISKER_SERIES: ChartSeriesKey[] = ['v2', 'count_only'];
+export const CHART_MARGIN_WIDE = { top: 30, right: 232, bottom: 8, left: 8 } as const;
+export const CHART_MARGIN_NARROW = { top: 30, right: 112, bottom: 8, left: 0 } as const;
+/** Chart widths (px) below which the chart switches to the narrow layout. */
+export const CHART_NARROW_PX = 560;
+export const CHART_XAXIS_HEIGHT = 48;
+export const CHART_LABEL_LINE_PX = 18;

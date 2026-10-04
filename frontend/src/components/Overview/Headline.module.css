@@ -1,35 +1,41 @@
 .headline {
+  padding-block: var(--space-6) var(--space-5);
+}
+
+/* The focal block: tinted accent surface, generous space, result left and gate decision right. */
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: stretch;
+  padding: var(--space-8) var(--space-7);
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-lg);
+}
+
+.result {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding-block: var(--space-6) var(--space-4);
-}
-
-.kicker {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--color-text-muted);
-  font-size: var(--text-md);
+  min-width: 0;
 }
 
 .figures {
-  display: grid;
-  grid-template-columns: auto auto auto 1fr;
-  align-items: end;
-  column-gap: var(--space-6);
-  row-gap: var(--space-2);
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-6);
 }
 
 .figure {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .number {
   display: inline-block;
-  font-size: var(--text-display);
+  font-size: clamp(3.5rem, 11vw, 6rem);
   font-weight: var(--weight-bold);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -42,7 +48,13 @@
 }
 
 .baseline .number {
+  /* Quieter than the headline number but still above 4.5:1 on the tint. */
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
   color: var(--color-text-muted);
+}
+
+.baseline {
+  padding-top: var(--space-5);
 }
 
 .figureLabel {
@@ -56,35 +68,18 @@
 }
 
 .versus {
-  align-self: start;
-  padding-top: var(--space-5);
+  align-self: flex-start;
+  padding-top: var(--space-6);
   font-size: var(--text-lg);
   font-weight: var(--weight-medium);
-  color: var(--color-text-faint);
-}
-
-.figureCaption {
-  grid-column: 4;
-  align-self: end;
-  max-width: 30ch;
-  padding-bottom: var(--space-1);
-  font-size: var(--text-md);
   color: var(--color-text-muted);
 }
 
-.copy {
-  max-width: 60ch;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-snug);
+.figureCaption {
+  max-width: 44ch;
+  font-size: var(--text-md);
   color: var(--color-text);
   text-wrap: pretty;
-}
-
-.copy strong {
-  color: var(--color-accent);
-  font-weight: var(--weight-bold);
-  font-variant-numeric: tabular-nums;
 }
 
 .meta {
@@ -94,23 +89,58 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Gate decision: a lighter surface on the tint, no border. */
+.decision {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+
+.decisionTitle {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.decisionDesc {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+@media (max-width: 1000px) {
+  .panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding: var(--space-7) var(--space-6);
+  }
+}
 
 @media (max-width: 640px) {
-  .figures {
-    grid-template-columns: auto auto auto;
-    column-gap: var(--space-4);
+  .panel {
+    padding: var(--space-6) var(--space-4);
   }
 
-  .figureCaption {
-    grid-column: 1 / -1;
-    max-width: none;
+  .figures {
+    gap: var(--space-4);
   }
 
   .versus {
+    padding-top: var(--space-5);
+  }
+
+  .baseline {
     padding-top: var(--space-4);
   }
 
-  .copy {
-    font-size: var(--text-md);
+  .decisionTitle {
+    font-size: var(--text-lg);
   }
 }

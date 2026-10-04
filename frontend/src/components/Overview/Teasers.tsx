@@ -77,7 +77,7 @@ function LimitsTeaser() {
 export function Teasers() {
   return (
     <Reveal>
-      <Section id="teasers" eyebrow="Governance" title="Where a human stays in the loop">
+      <Section id="teasers" variant="supporting" title="Where a human stays in the loop">
         <div className={styles.row}>
           <EscalationTeaser />
           <LimitsTeaser />

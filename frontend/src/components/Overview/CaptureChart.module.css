@@ -6,7 +6,6 @@
   background: var(--color-surface);
   border: var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
 }
 
 .toolbar {
@@ -52,22 +51,6 @@
   background: var(--color-surface);
   color: var(--color-accent);
   box-shadow: var(--shadow-sm);
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-5);
-  list-style: none;
-  font-size: var(--text-sm);
-  color: var(--color-text);
-  font-weight: var(--weight-medium);
-}
-
-.legend li {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
 }
 
 .plot {

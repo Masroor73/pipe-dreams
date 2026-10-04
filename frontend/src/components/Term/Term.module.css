@@ -66,6 +66,20 @@
   }
 }
 
+/* Phones: show the definition as a card pinned to the bottom of the screen so it never runs off the edge.
+   z-index sits above the asset sheet but below the synthetic banner. */
+@media (max-width: 640px) {
+  .pop {
+    position: fixed;
+    left: var(--space-4);
+    right: var(--space-4);
+    top: auto;
+    bottom: var(--space-4);
+    width: auto;
+    z-index: 50;
+  }
+}
+
 .popTerm {
   font-weight: var(--weight-bold);
 }

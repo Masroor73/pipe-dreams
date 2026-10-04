@@ -34,7 +34,7 @@ describe('OverviewPage', () => {
     expect(await screen.findByRole('button', { name: 'Final test (2023–2025)' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'Validation · origin 2013' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Confirmation' })).toBeInTheDocument();
-    expect(screen.getByText('Organizer cell baseline (event capture)')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /Organizer cell baseline \(event capture\)/ })).toBeInTheDocument();
     expect(await screen.findByText(/Disclosure: the 2023–2025 final test window/)).toBeInTheDocument();
     expect(await screen.findByRole('link', { name: /Open escalation list/ })).toHaveAttribute('href', '/escalation');
   });

@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
+import { Term } from '../Term/Term';
 import { Link } from 'react-router';
 import { ArrowRight } from '@phosphor-icons/react';
 import { DataState } from '../DataState/DataState';
@@ -21,7 +23,20 @@ export function findCandidate(audit: Audit, id: PolicyId): CandidateResult | und
   return pick[pick.length - 1]?.candidate ?? undefined;
 }
 
-function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean }) {
+/** Wrap "hl10" with its glossary term when this card is the first in the section to use it. */
+function describe(text: string, withTerm: boolean): ReactNode {
+  if (!withTerm || !text.includes('hl10')) return text;
+  const [before, ...rest] = text.split('hl10');
+  return (
+    <>
+      {before}
+      <Term id="hl10">hl10</Term>
+      {rest.join('hl10')}
+    </>
+  );
+}
+
+function CandidateCard({ c, selected, termHl10 }: { c: CandidateResult; selected: boolean; termHl10: boolean }) {
   // Visual scaling of the two given numbers only.
   const scale = Math.max(Math.abs(c.difference), Math.abs(c.required_delta), 1e-9);
   const gainPct = (Math.max(c.difference, 0) / scale) * 100;
@@ -30,26 +45,29 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
 
   return (
     <article className={`${styles.card} ${selected ? styles.selected : ''}`} data-candidate={c.candidate_id}>
-      {selected && (
-        <>
-          <span className={styles.ring} data-anim="ring" aria-hidden="true" />
+      {selected && <span className={styles.ring} data-anim="ring" aria-hidden="true" />}
+      <div className={styles.headCol}>
+        <header className={styles.cardHead}>
+          <h3>{c.candidate_id}</h3>
+          <span className={styles.verdict}>
+            <span className={styles.testing} data-anim="testing" aria-hidden="true">
+              testing…
+            </span>
+            <span className={styles.stamp} data-anim="stamp">
+              <DecisionPill decision={c.decision} />
+            </span>
+          </span>
+        </header>
+        {selected && (
           <span className={styles.ribbon} data-anim="ribbon">
             <Pill tone="accent">Selected as V2</Pill>
           </span>
-        </>
-      )}
-      <header className={styles.cardHead}>
-        <h3>{c.candidate_id}</h3>
-        <span className={styles.verdict}>
-          <span className={styles.testing} data-anim="testing" aria-hidden="true">
-            testing…
-          </span>
-          <span className={styles.stamp} data-anim="stamp">
-            <DecisionPill decision={c.decision} />
-          </span>
-        </span>
-      </header>
-      <p className={styles.desc}>{CANDIDATE_DESCRIPTIONS[c.candidate_id] ?? ''}</p>
+        )}
+      </div>
+      <div className={styles.body}>
+        <p className={styles.desc}>{describe(CANDIDATE_DESCRIPTIONS[c.candidate_id] ?? '', termHl10)}</p>
+        <p className={styles.reason}>{c.reason}</p>
+      </div>
 
       <div className={styles.wins}>
         <span className={styles.label}>
@@ -87,8 +105,6 @@ function CandidateCard({ c, selected }: { c: CandidateResult; selected: boolean 
           <span className={`${styles.bar} ${styles.barReq}`} style={{ width: `${reqPct}%` }} />
         </div>
       </div>
-
-      <p className={styles.reason}>{c.reason}</p>
     </article>
   );
 }
@@ -154,6 +170,7 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
   const gate = overview.data?.revision_gate;
   const candidates = audit.data ? CANDIDATE_IDS.flatMap((id) => findCandidate(audit.data!, id) ?? []) : [];
   const selectedId = overview.data && !overview.data.v2_equals_v1 ? overview.data.selected_policy_id : null;
+  const firstHl10Id = candidates.find((c) => (CANDIDATE_DESCRIPTIONS[c.candidate_id] ?? '').includes('hl10'))?.candidate_id;
 
   // The wrapper is always mounted (DataState swaps its children), so the observer can attach immediately.
   const [wrapRef, inView] = useInViewOnce<HTMLDivElement>({ threshold: MOTION.gate.inViewThreshold });
@@ -192,12 +209,15 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
   return (
     <Section
       id="agent-decision"
-      eyebrow="Agent decision"
+      variant="supporting"
       title={`The agent tested ${candidates.length || 'four'} revisions against V1`}
       description={
-        gate
-          ? `Accept only if a candidate wins ≥${gate.min_origin_wins} of ${gate.n_origins} validation origins and improves the pooled score by ≥${gate.min_improvement_in_se} bootstrap SE.`
-          : undefined
+        gate ? (
+          <>
+            Accept only if a candidate wins ≥{gate.min_origin_wins} of {gate.n_origins} validation origins and improves
+            the pooled score by ≥{gate.min_improvement_in_se} <Term id="bootstrap_se">bootstrap SE</Term>.
+          </>
+        ) : undefined
       }
     >
       <div ref={wrapRef} onClickCapture={skip}>
@@ -215,7 +235,12 @@ export function GateCards({ overview }: { overview: Resource<Overview> }) {
       >
         <div className={styles.row} ref={rowRef}>
           {candidates.map((c) => (
-            <CandidateCard key={c.candidate_id} c={c} selected={c.candidate_id === selectedId} />
+            <CandidateCard
+              key={c.candidate_id}
+              c={c}
+              selected={c.candidate_id === selectedId}
+              termHl10={c.candidate_id === firstHl10Id}
+            />
           ))}
         </div>
         <Link to="/audit" className={styles.link}>

@@ -32,6 +32,21 @@
   font-size: var(--text-md);
 }
 
+/* Quieter supporting section: tighter rhythm, smaller title, calmer description. */
+.supporting {
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+}
+
+.supporting h2 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.supporting .description {
+  font-size: var(--text-base);
+}
+
 .actions {
   display: flex;
   align-items: center;
