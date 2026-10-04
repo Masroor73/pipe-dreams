@@ -247,3 +247,11 @@
     grid-row: auto;
   }
 }
+
+.explainer {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  max-width: 70ch;
+}

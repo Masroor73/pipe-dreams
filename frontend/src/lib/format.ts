@@ -43,6 +43,16 @@ export function formatRankMove(rankV1: number, rankV2: number): string {
 }
 
 /** Signed difference, e.g. +0.015. */
+/** Score difference (fraction) shown as percentage points: 0.067 -> "+6.7 pts". Formatting only. */
+export function formatPts(value: number, digits = 1): string {
+  const s = (value * 100).toFixed(digits);
+  return `${value > 0 ? '+' : ''}${s} pts`;
+}
+
+/** One-line gate explainer shown above candidate lists. */
+export const GATE_EXPLAINER =
+  'A change passes if it beats V1 in at least 2 of 3 past periods and by more than the noise (the pass bar). The agent then adopts the best passing change as V2. Changes are not combined; C4 is the pre-defined combination.';
+
 export function formatSigned(value: number, digits = 3): string {
   const s = value.toFixed(digits);
   return value > 0 ? `+${s}` : s;
