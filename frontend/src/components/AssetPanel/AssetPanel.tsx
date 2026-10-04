@@ -4,7 +4,7 @@ import { X } from '@phosphor-icons/react';
 import { CONSEQUENCE_TIER_LABEL } from '../../config/display';
 import { OUTSIDE_CLICK_CLOSE_DELAY_MS, OUTSIDE_CLICK_DRAG_TOLERANCE_PX } from '../../config/map';
 import { useAsset } from '../../hooks';
-import { formatDelta, formatNumber } from '../../lib/format';
+import { formatNumber, formatRankMove } from '../../lib/format';
 import type { AssetDetail, PlanFields } from '../../types/api';
 import { DataState } from '../DataState/DataState';
 import { ConfidencePill, Pill } from '../Pill/Pill';
@@ -78,7 +78,7 @@ function Detail({ asset }: { asset: AssetDetail }) {
 
       {rc && (
         <p className={styles.delta}>
-          <strong>Rank change {formatDelta(rc.delta_rank)}</strong>
+          <strong>Rank change {formatRankMove(asset.v1.rank, asset.v2.rank)}</strong>
           {[rc.reason_1, rc.reason_2].filter(Boolean).map((r) => (
             <span key={r}>{r}</span>
           ))}

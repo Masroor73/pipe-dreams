@@ -100,9 +100,12 @@ export function CommunityMap({
     return cityBounds ?? coordBounds(points.features.map((f) => f.geometry.coordinates));
   }, [communities, selectedCommunityId, cityBounds, points]);
 
+  const fittedOnce = useRef(false);
   useEffect(() => {
     if (!target || !loaded) return;
-    mapRef.current?.fitBounds(target, { padding: 80, maxZoom: 14, duration: 600 });
+    // The first fit jumps (no animation) so the map is usable as soon as the pipes arrive.
+    mapRef.current?.fitBounds(target, { padding: 80, maxZoom: 14, duration: fittedOnce.current ? 600 : 0 });
+    fittedOnce.current = true;
   }, [target, loaded]);
 
   if (!webgl) {
@@ -140,6 +143,10 @@ export function CommunityMap({
         interactiveLayerIds={hasLines ? ['lines', 'dots-muted', 'dots', 'community-fill'] : ['dots-muted', 'dots', 'community-fill']}
         attributionControl={{ compact: true }}
         onLoad={() => setLoaded(true)}
+        onIdle={() => {
+          // Timing hook for load measurements (performance.getEntriesByName('pd-map-idle')); no behaviour.
+          if (typeof performance !== 'undefined') performance.mark('pd-map-idle');
+        }}
         onStyleData={onStyleLoaded}
         onError={(e) => {
           if (mode === 'online') onMapError(e as unknown as { sourceId?: string; tile?: unknown });

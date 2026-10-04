@@ -35,7 +35,8 @@ export default function MapPage() {
       style={synthetic ? undefined : { marginTop: 'var(--banner-height)', height: 'calc(100% - var(--banner-height))' }}
     >
       <h1 className={styles.srOnly}>Map</h1>
-      {list.status === 'success' && count > 0 && (
+      {/* Mount the map straight away so style, basemap tiles and the worker load while the pipes are fetched. */}
+      {list.status !== 'error' && (
         <CommunityMap
           communities={NO_POLYGONS}
           selectedCommunityId={null}
@@ -46,7 +47,11 @@ export default function MapPage() {
           onSelectAsset={openAsset}
         />
       )}
-      {list.status !== 'success' || count === 0 ? (
+      {list.status === 'loading' ? (
+        <p className={styles.mapLoading} role="status">
+          Loading map
+        </p>
+      ) : list.status !== 'success' || count === 0 ? (
         <div className={styles.overlay}>
           <div className={styles.overlayInner}>
             <DataState
