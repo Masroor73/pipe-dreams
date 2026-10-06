@@ -16,6 +16,34 @@ It does not claim to predict every failure or automatically authorize repair. It
 
 > **Differentiator:** Other tools rank pipes; Pipe Dreams audits its own ranking against history and shows which recommendations it cannot responsibly resolve from the available evidence.
 
+> 🏆 **Winner: Best Project Built with ElevenLabs**, IEEE Southern Alberta Young Professionals Industry Hackathon 2026.
+
+## Demo video
+
+[![Pipe Dreams demo: the ElevenLabs voice copilot walking through the inspection plan (click to play)](./docs/demo/demo-thumbnail.jpg)](./docs/demo/pipe-dreams-demo.mp4)
+
+**[▶ Watch the demo (MP4, 2 min 17 s)](./docs/demo/pipe-dreams-demo.mp4)**: the *Ask Pipe Dreams* voice copilot answering questions about the plan while it drives the dashboard.
+
+## See it in action
+
+All screenshots show real Open Calgary data (37,538 historical breaks, 60,740 pipe segments, 313 communities).
+
+**Ask Pipe Dreams: ElevenLabs voice copilot.** Click *Ask Pipe Dreams* (or say "Hello copilot") and ask questions out loud. The copilot answers from the frozen audit artifacts through client tools, and it drives the UI as it talks:
+
+- "Which communities should we protect first?" ranks communities and zooms the map (`get_community_priorities`, `focus_community`)
+- "What are the top pipes in the plan?" reads the inspection plan (`get_priority_plan`)
+- "Why is this pipe ranked here?" explains one asset's evidence and rank change (`explain_asset`)
+- "Did V2 beat V1?" compares the plans and the gate result (`compare_v1_v2`)
+- "Show me how the agent decided" replays the autonomous V1 → C1–C4 → gate → V2 run (`replay_agent_run`)
+
+The voice agent never scores or ranks anything itself. All numbers come from the deterministic engine. A separate ElevenLabs text-to-speech briefing (`scripts/make_briefing_audio.py`) narrates a fixed template filled from the same artifacts.
+
+| | |
+|---|---|
+| ![Communities view with the voice copilot](./docs/screenshots/communities-copilot.png) **Communities → pipes**, with the *Ask Pipe Dreams* voice copilot | ![Overview](./docs/screenshots/overview.png) **Overview:** baseline vs V1 vs V2 under the frozen protocol |
+| ![Agent audit](./docs/screenshots/agent-audit.png) **Agent audit:** every candidate test and the accept/reject decision | ![Inspection map](./docs/screenshots/map.png) **Map:** selected pipes, coloured by evidence confidence |
+| ![Escalation](./docs/screenshots/escalation.png) **Escalation:** assets that need human review | |
+
 ![Pipe Dreams architecture](./docs/diagrams/architecture-simple.svg)
 
 - Run the demo: [`docs/DEMO_RUNBOOK.md`](./docs/DEMO_RUNBOOK.md)
