@@ -18,6 +18,12 @@ It does not claim to predict every failure or automatically authorize repair. It
 
 > 🏆 **Winner: Best Project Built with ElevenLabs**, IEEE Southern Alberta Young Professionals Industry Hackathon 2026.
 
+## Demo video
+
+[![Pipe Dreams demo: the ElevenLabs voice copilot walking through the inspection plan (click to play)](./docs/demo/demo-thumbnail.jpg)](./docs/demo/pipe-dreams-demo.mp4)
+
+**[▶ Watch the demo (MP4, 2 min 17 s)](./docs/demo/pipe-dreams-demo.mp4)**: the *Ask Pipe Dreams* voice copilot answering questions about the plan while it drives the dashboard.
+
 ## See it in action
 
 All screenshots show real Open Calgary data (37,538 historical breaks, 60,740 pipe segments, 313 communities).
